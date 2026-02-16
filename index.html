@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REFLECT — A quiet space for your thoughts</title>
+    <script src="config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Iowan Old Style', 'Apple Garamond', serif;
+            background: #FAFAF8;
+            color: #4A5568;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at top, rgba(139, 125, 107, 0.04), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            font-weight: normal;
+            color: #4A5568;
+            text-transform: uppercase;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .hero {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 6rem 1.5rem 4rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #718096;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .visual-accent {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 3rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.2s ease-out 0.3s forwards;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+        }
+
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(168, 162, 148, 0.15), rgba(168, 162, 148, 0.05));
+            top: 0;
+            left: 20px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .circle-2 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(139, 156, 145, 0.12), rgba(139, 156, 145, 0.04));
+            bottom: 0;
+            right: 0;
+            animation: float 6s ease-in-out infinite 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #D4CCBF;
+            color: #2D3748;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(113, 128, 150, 0.08);
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover {
+            background: #C4B9A8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(113, 128, 150, 0.12);
+        }
+
+        .how-it-works {
+            max-width: 800px;
+            margin: 8rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            color: #8B7D6B;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .steps {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(139, 125, 107, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #8B7D6B;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .step h3 {
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            font-size: 1.05rem;
+            color: #718096;
+            line-height: 1.7;
+        }
+
+        .features {
+            max-width: 1000px;
+            margin: 8rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 1.25rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(139, 125, 107, 0.06), rgba(139, 125, 107, 0.02));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #8B7D6B;
+            font-weight: 300;
+        }
+
+        .feature h4 {
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 0.98rem;
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .closing {
+            max-width: 600px;
+            margin: 8rem auto 6rem;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+
+        .closing-text {
+            font-size: 1.3rem;
+            color: #4A5568;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        .closing-attribution {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 2.5rem;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        footer {
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(113, 128, 150, 0.1);
+            margin-top: 6rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #A0AEC0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(250, 250, 248, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal.active.closing {
+            opacity: 0;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(74, 85, 104, 0.12);
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal.active.closing .modal-content {
+            transform: translateY(-8px) scale(0.98);
+            opacity: 0;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            color: #A0AEC0;
+            cursor: pointer;
+            border: none;
+            background: none;
+            line-height: 1;
+            padding: 0;
+            margin: -0.5rem -0.5rem 0 0;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #718096;
+        }
+
+        .modal h2 {
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal p {
+            color: #718096;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-input {
+            padding: 1rem 1.25rem;
+            border: 1.5px solid rgba(160, 174, 192, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #2D3748;
+            background: #FAFAF8;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #C4B9A8;
+            background: #FFFFFF;
+        }
+
+        .form-input::placeholder {
+            color: #A0AEC0;
+        }
+
+        .submit-button {
+            padding: 1rem 2rem;
+            background: #D4CCBF;
+            color: #2D3748;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .submit-button:hover {
+            background: #C4B9A8;
+            transform: translateY(-1px);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: #4A5568;
+            animation: successFade 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes successFade {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .waitlist-error {
+            color: #C53030;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .success-message h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1.15rem; }
+            .hero { padding: 4rem 1.5rem 3rem; }
+            .how-it-works, .features, .closing { margin-top: 5rem; margin-bottom: 4rem; }
+            .visual-accent { width: 120px; height: 120px; }
+            .circle-1 { width: 90px; height: 90px; }
+            .circle-2 { width: 75px; height: 75px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">REFLECT</div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="visual-accent">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                </div>
+                <h1>A quiet space for your thoughts</h1>
+                <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts reflected back.</p>
+                <button class="cta-button" onclick="openModal()">Try REFLECT</button>
+            </section>
+
+            <section class="how-it-works">
+                <div class="section-label">How it works</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h3>Notice what's on your mind</h3>
+                            <p>Start with a thought, a feeling, or something that happened. There's no wrong way to begin.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h3>Answer a few questions</h3>
+                            <p>Gentle prompts help you look at your thought from different angles. Take your time.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h3>Receive a reflection</h3>
+                            <p>A short mirror of what you shared—not advice, just your thoughts seen clearly.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h3>Name how you feel, if you'd like</h3>
+                            <p>Optionally note your mood. Then carry something forward, or simply let it be.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="section-label">What makes it different</div>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">◆</div>
+                        <h4>Completely private</h4>
+                        <p>Your reflections stay yours. No sharing, no social features, no accounts to manage.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">○</div>
+                        <h4>No pressure</h4>
+                        <p>No streaks, no scores, no goals. Just a space to pause when you need it.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">⌾</div>
+                        <h4>Return when ready</h4>
+                        <p>Set a gentle reminder to reflect again, or come back whenever feels right.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="closing">
+                <p class="closing-text">The best way out is always through.</p>
+                <p class="closing-attribution">— Robert Frost</p>
+                <button class="cta-button" onclick="openModal()">Try REFLECT</button>
+            </section>
+        </main>
+
+        <div id="waitlistModal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <div id="formContainer">
+                    <h2>Try REFLECT</h2>
+                    <p>Be among the first to experience REFLECT when we launch.</p>
+                    <form class="waitlist-form" id="waitlistForm">
+                        <input type="text" class="form-input" placeholder="Name (optional)" id="nameInput">
+                        <input type="email" class="form-input" placeholder="Your email address" required id="emailInput">
+                        <button type="submit" class="submit-button">Join waitlist</button>
+                    </form>
+                    <p id="waitlistError" class="waitlist-error" style="display:none;"></p>
+                </div>
+                <div id="successMessage" class="success-message">
+                    <h3>You're on the list</h3>
+                    <p>We'll let you know when REFLECT is ready.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>REFLECT — 2024</p>
+        </footer>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('waitlistModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            const modal = document.getElementById('waitlistModal');
+            modal.classList.add('closing');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                modal.classList.remove('active', 'closing');
+                document.getElementById('formContainer').style.display = 'block';
+                document.getElementById('successMessage').classList.remove('show');
+                const emailEl = document.getElementById('emailInput');
+                const nameEl = document.getElementById('nameInput');
+                const errEl = document.getElementById('waitlistError');
+                if (emailEl) emailEl.value = '';
+                if (nameEl) nameEl.value = '';
+                if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+            }, 420);
+        }
+        document.getElementById('waitlistModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        async function submitWaitlist(event) {
+            event.preventDefault();
+            const form = document.getElementById('waitlistForm');
+            const emailInput = document.getElementById('emailInput');
+            const nameInput = document.getElementById('nameInput');
+            const errorEl = document.getElementById('waitlistError');
+
+            const email = emailInput.value.trim();
+            const name = nameInput ? nameInput.value.trim() || null : null;
+            errorEl.style.display = 'none';
+            errorEl.textContent = '';
+
+            if (!window.supabase) {
+              errorEl.textContent = 'Configuration missing. Add config.js with Supabase URL and anon key.';
+              errorEl.style.display = 'block';
+              return;
+            }
+
+            try {
+              const { data, error } = await window.supabase.rpc('join_waitlist', {
+                p_email: email,
+                p_name: name || null
+              });
+
+              if (error) {
+                console.error('REFLECT waitlist insert error:', error.code, error.message, error);
+                errorEl.textContent = error.message || 'Something went wrong. Try again.';
+                errorEl.style.display = 'block';
+                return;
+              }
+
+              if (data && data.ok === false && data.error === 'already_registered') {
+                errorEl.textContent = "You're already on the list.";
+                errorEl.style.display = 'block';
+                return;
+              }
+
+              console.log('REFLECT waitlist: Signed up');
+              document.getElementById('formContainer').style.display = 'none';
+              document.getElementById('successMessage').classList.add('show');
+              setTimeout(closeModal, 2200);
+            } catch (err) {
+              console.error('REFLECT waitlist error:', err);
+              errorEl.textContent = err.message || 'Something went wrong. Try again.';
+              errorEl.style.display = 'block';
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', async () => {
+            const form = document.getElementById('waitlistForm');
+            if (form) form.onsubmit = submitWaitlist;
+
+            if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+              console.warn('REFLECT waitlist: Missing SUPABASE_URL or SUPABASE_ANON_KEY in config.js');
+              return;
+            }
+            try {
+              const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+              window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+              console.log('REFLECT waitlist: Supabase connected');
+            } catch (e) {
+              console.error('REFLECT waitlist: Supabase init failed', e);
+            }
+          });
+        window.addEventListener('scroll', () => {
+            const accent = document.querySelector('.visual-accent');
+            if (accent) accent.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
+        });
+    </script>
+</body>
+</html>
