@@ -123,6 +123,63 @@
             to { opacity: 1; }
         }
 
+        /* Testimonials */
+        .testimonials {
+            max-width: 900px;
+            margin: 4rem auto 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .testimonials-heading {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #8B7D6B;
+            margin-bottom: 1.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .testimonial-card {
+            background: #FFFFFF;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(113, 128, 150, 0.12);
+            padding: 1.5rem 1.6rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-bubble {
+            font-size: 0.97rem;
+            color: #4A5568;
+            line-height: 1.7;
+        }
+
+        .testimonial-name {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #A0AEC0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .testimonial-pill {
+            position: absolute;
+            inset: auto 1.2rem 1.2rem auto;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(139, 125, 107, 0.05);
+            color: #A0AEC0;
+        }
+
         .cta-button {
             display: inline-block;
             padding: 1rem 2.5rem;
@@ -452,6 +509,40 @@
                 <h1>A quiet space for your thoughts</h1>
                 <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts reflected back.</p>
                 <button class="cta-button" onclick="openModal()">Try REFLECT</button>
+            </section>
+
+            <section class="testimonials">
+                <div class="testimonials-heading">What people are saying</div>
+                <div class="testimonials-grid">
+                    <article class="testimonial-card">
+                        <div class="testimonial-bubble">
+                            “Hey, it’s nice and it works. It made me feel understood.”
+                        </div>
+                        <div class="testimonial-name">— Khushi</div>
+                        <div class="testimonial-pill">early tester</div>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-bubble">
+                            “The questions actually made me pause and think. The mirror concept is a game changer.”
+                        </div>
+                        <div class="testimonial-name">— Amal</div>
+                        <div class="testimonial-pill">early tester</div>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-bubble">
+                            “I love the simplicity and ease of use. It feels comfortable and unhurried.”
+                        </div>
+                        <div class="testimonial-name">— Zain</div>
+                        <div class="testimonial-pill">early tester</div>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-bubble">
+                            “Dude this is amazing… hats off to you.”
+                        </div>
+                        <div class="testimonial-name">— Kyro</div>
+                        <div class="testimonial-pill">early tester</div>
+                    </article>
+                </div>
             </section>
 
             <section class="how-it-works">
