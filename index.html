@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REFLECT — A quiet space for your thoughts</title>
-    <script src="config.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -299,6 +298,106 @@
             line-height: 1.6;
         }
 
+        /* Pricing */
+        .pricing {
+            max-width: 1000px;
+            margin: 6rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-header h2 {
+            font-size: 1.7rem;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-header p {
+            font-size: 1rem;
+            color: #718096;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2.1rem;
+        }
+
+        .pricing-card {
+            background: radial-gradient(circle at top, rgba(212, 204, 191, 0.14), #ffffff);
+            border-radius: 22px;
+            box-shadow: 0 18px 55px rgba(113, 128, 150, 0.18);
+            padding: 2rem 1.9rem 1.8rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .pricing-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #A0AEC0;
+            margin-bottom: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .pricing-price {
+            font-size: 1.7rem;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: 1.9rem;
+            right: 1.9rem;
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(212, 204, 191, 0.8);
+            color: #4A5568;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 1.1rem 0 1.6rem;
+            padding: 0;
+            flex: 1;
+        }
+
+        .pricing-features li {
+            font-size: 0.96rem;
+            color: #4A5568;
+            margin-bottom: 0.45rem;
+        }
+
+        .pricing-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.4rem;
+            padding: 0.7rem 1.6rem;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 14px rgba(113, 128, 150, 0.12);
+        }
+
+        .pricing-note {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #A0AEC0;
+            text-align: center;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .closing {
             max-width: 600px;
             margin: 8rem auto 6rem;
@@ -332,6 +431,24 @@
             font-size: 0.9rem;
             color: #A0AEC0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: #A0AEC0;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
         }
 
         .modal {
@@ -508,7 +625,7 @@
                 </div>
                 <h1>A quiet space for your thoughts</h1>
                 <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts reflected back.</p>
-                <button class="cta-button" onclick="openModal()">Try REFLECT</button>
+                <a class="cta-button" href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Start Reflecting — it's free</a>
             </section>
 
             <section class="testimonials">
@@ -600,126 +717,75 @@
                 </div>
             </section>
 
+            <section class="pricing">
+                <div class="pricing-header">
+                    <h2>Simple, honest pricing</h2>
+                    <p>Start free. No card required.</p>
+                </div>
+                <div class="pricing-grid">
+                    <article class="pricing-card">
+                        <div class="pricing-label">7 days free</div>
+                        <div class="pricing-price">$0</div>
+                        <ul class="pricing-features">
+                            <li>Unlimited reflections for 7 days</li>
+                            <li>Full mirror responses</li>
+                            <li>Mood check-ins</li>
+                            <li>Revisit reminders</li>
+                            <li>Weekly insight letter</li>
+                        </ul>
+                        <a class="cta-button pricing-cta" href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Start free</a>
+                    </article>
+                    <article class="pricing-card">
+                        <div class="pricing-label">Monthly</div>
+                        <div class="pricing-price">$7.99 / month</div>
+                        <ul class="pricing-features">
+                            <li>Unlimited reflections</li>
+                            <li>Full mirror responses</li>
+                            <li>Mood check-ins</li>
+                            <li>Revisit reminders</li>
+                            <li>Weekly insight letter</li>
+                        </ul>
+                        <a class="cta-button pricing-cta" href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Get started</a>
+                    </article>
+                    <article class="pricing-card">
+                        <div class="pricing-label">Yearly</div>
+                        <div class="pricing-price">$71.99 / year</div>
+                        <span class="pricing-badge">Save $24</span>
+                        <ul class="pricing-features">
+                            <li>Unlimited reflections</li>
+                            <li>Full mirror responses</li>
+                            <li>Mood check-ins</li>
+                            <li>Revisit reminders</li>
+                            <li>Weekly insight letter</li>
+                            <li>Best value</li>
+                        </ul>
+                        <a class="cta-button pricing-cta" href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Get started</a>
+                    </article>
+                </div>
+                <p class="pricing-note">
+                    After your free trial, continue with a monthly or yearly plan. Cancel anytime. Subscriptions managed securely.
+                </p>
+            </section>
+
             <section class="closing">
                 <p class="closing-text">The best way out is always through.</p>
                 <p class="closing-attribution">— Robert Frost</p>
-                <button class="cta-button" onclick="openModal()">Try REFLECT</button>
+                <a class="cta-button" href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Start reflecting — it's free</a>
             </section>
         </main>
 
-        <div id="waitlistModal" class="modal">
-            <div class="modal-content">
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-                <div id="formContainer">
-                    <h2>Try REFLECT</h2>
-                    <p>Be among the first to experience REFLECT when we launch.</p>
-                    <form class="waitlist-form" id="waitlistForm">
-                        <input type="text" class="form-input" placeholder="Name (optional)" id="nameInput">
-                        <input type="email" class="form-input" placeholder="Your email address" required id="emailInput">
-                        <button type="submit" class="submit-button">Join waitlist</button>
-                    </form>
-                    <p id="waitlistError" class="waitlist-error" style="display:none;"></p>
-                </div>
-                <div id="successMessage" class="success-message">
-                    <h3>You're on the list</h3>
-                    <p>We'll let you know when REFLECT is ready.</p>
-                </div>
-            </div>
-        </div>
-
         <footer>
-            <p>REFLECT — 2024</p>
+            <p>REFLECT — 2026</p>
+            <div class="footer-links">
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="mailto:hello@reflect.studio">Contact</a>
+                <a href="https://reflect-app-two.vercel.app" target="_blank" rel="noopener">Open app</a>
+            </div>
         </footer>
     </div>
 
     <script>
-        function openModal() {
-            document.getElementById('waitlistModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal() {
-            const modal = document.getElementById('waitlistModal');
-            modal.classList.add('closing');
-            document.body.style.overflow = 'auto';
-            setTimeout(() => {
-                modal.classList.remove('active', 'closing');
-                document.getElementById('formContainer').style.display = 'block';
-                document.getElementById('successMessage').classList.remove('show');
-                const emailEl = document.getElementById('emailInput');
-                const nameEl = document.getElementById('nameInput');
-                const errEl = document.getElementById('waitlistError');
-                if (emailEl) emailEl.value = '';
-                if (nameEl) nameEl.value = '';
-                if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
-            }, 420);
-        }
-        document.getElementById('waitlistModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-        async function submitWaitlist(event) {
-            event.preventDefault();
-            const form = document.getElementById('waitlistForm');
-            const emailInput = document.getElementById('emailInput');
-            const nameInput = document.getElementById('nameInput');
-            const errorEl = document.getElementById('waitlistError');
-
-            const email = emailInput.value.trim();
-            const name = nameInput ? nameInput.value.trim() || null : null;
-            errorEl.style.display = 'none';
-            errorEl.textContent = '';
-
-            if (!window.supabase) {
-              errorEl.textContent = 'Configuration missing. Add config.js with Supabase URL and anon key.';
-              errorEl.style.display = 'block';
-              return;
-            }
-
-            try {
-              const { data, error } = await window.supabase.rpc('join_waitlist', {
-                p_email: email,
-                p_name: name || null
-              });
-
-              if (error) {
-                console.error('REFLECT waitlist insert error:', error.code, error.message, error);
-                errorEl.textContent = error.message || 'Something went wrong. Try again.';
-                errorEl.style.display = 'block';
-                return;
-              }
-
-              if (data && data.ok === false && data.error === 'already_registered') {
-                errorEl.textContent = "You're already on the list.";
-                errorEl.style.display = 'block';
-                return;
-              }
-
-              console.log('REFLECT waitlist: Signed up');
-              document.getElementById('formContainer').style.display = 'none';
-              document.getElementById('successMessage').classList.add('show');
-              setTimeout(closeModal, 2200);
-            } catch (err) {
-              console.error('REFLECT waitlist error:', err);
-              errorEl.textContent = err.message || 'Something went wrong. Try again.';
-              errorEl.style.display = 'block';
-            }
-          }
-
-          document.addEventListener('DOMContentLoaded', async () => {
-            const form = document.getElementById('waitlistForm');
-            if (form) form.onsubmit = submitWaitlist;
-
-            if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
-              console.warn('REFLECT waitlist: Missing SUPABASE_URL or SUPABASE_ANON_KEY in config.js');
-              return;
-            }
-            try {
-              const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
-              window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-              console.log('REFLECT waitlist: Supabase connected');
-            } catch (e) {
-              console.error('REFLECT waitlist: Supabase init failed', e);
-            }
-          });
         window.addEventListener('scroll', () => {
             const accent = document.querySelector('.visual-accent');
             if (accent) accent.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
