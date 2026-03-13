@@ -1044,6 +1044,13 @@
                     
                     <form class="waitlist-form" onsubmit="submitWaitlist(event)">
                         <input 
+                            type="text" 
+                            id="waitlistName" 
+                            class="waitlist-input" 
+                            placeholder="Your name" 
+                        >
+                        
+                        <input 
                             type="email" 
                             id="waitlistEmail" 
                             class="waitlist-input" 
@@ -1102,6 +1109,7 @@
                 document.getElementById('waitlistForm').style.display = 'block';
                 document.getElementById('waitlistSuccess').classList.remove('show');
                 document.getElementById('waitlistError').classList.remove('show');
+                document.getElementById('waitlistName').value = '';
                 document.getElementById('waitlistEmail').value = '';
                 document.getElementById('waitlistResponse').value = '';
             }, 400);
@@ -1125,6 +1133,7 @@
         async function submitWaitlist(e) {
             e.preventDefault();
             
+            const name = document.getElementById('waitlistName').value.trim();
             const email = document.getElementById('waitlistEmail').value.trim();
             const response = document.getElementById('waitlistResponse').value.trim();
             const submitBtn = document.getElementById('waitlistSubmitBtn');
@@ -1150,6 +1159,7 @@
                         'Prefer': 'return=minimal'
                     },
                     body: JSON.stringify({
+                        name: name || null,
                         email: email,
                         response: response || null,
                         source: 'landing'
