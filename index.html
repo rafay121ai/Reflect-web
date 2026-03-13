@@ -740,12 +740,20 @@
             min-height: 120px;
             resize: vertical;
             line-height: 1.6;
+            width: 100%;
+        }
+
+        .waitlist-question-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
         }
 
         .waitlist-question-label {
+            display: block;
             font-size: 0.95rem;
             color: #4A5568;
-            margin-bottom: 0.5rem;
             font-family: 'Georgia', serif;
             line-height: 1.5;
         }
@@ -1043,8 +1051,8 @@
                             required
                         >
                         
-                        <div>
-                            <label class="waitlist-question-label">
+                        <div class="waitlist-question-group">
+                            <label class="waitlist-question-label" for="waitlistResponse">
                                 What's the biggest thing you wish you understood about yourself?
                             </label>
                             <textarea 
