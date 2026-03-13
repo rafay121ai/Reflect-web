@@ -51,6 +51,7 @@
             display: block;
             height: 3.25rem;
             width: auto;
+            mix-blend-mode: multiply;
         }
 
         .hero {
@@ -608,12 +609,249 @@
             .circle-1 { width: 90px; height: 90px; }
             .circle-2 { width: 75px; height: 75px; }
         }
+
+        /* Waitlist Modal */
+        .waitlist-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(250, 250, 248, 0.97);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .waitlist-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .waitlist-modal.closing {
+            opacity: 0;
+        }
+
+        .waitlist-card {
+            background: linear-gradient(180deg, #FFFFFF 0%, #FDFCFA 100%);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 92%;
+            box-shadow: 0 24px 80px rgba(74, 85, 104, 0.14), 0 8px 24px rgba(74, 85, 104, 0.08);
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            animation: waitlistFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes waitlistFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .waitlist-modal.active .waitlist-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .waitlist-modal.closing .waitlist-card {
+            transform: translateY(-10px) scale(0.97);
+            opacity: 0;
+        }
+
+        .waitlist-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 1.5rem;
+            color: #A0AEC0;
+            cursor: pointer;
+            border: none;
+            background: none;
+            line-height: 1;
+            padding: 0.5rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+            border-radius: 50%;
+        }
+
+        .waitlist-close:hover {
+            color: #718096;
+            transform: scale(1.1);
+        }
+
+        .waitlist-card-inner {
+            position: relative;
+        }
+
+        .waitlist-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .waitlist-header h2 {
+            font-size: 1.65rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .waitlist-header p {
+            color: #718096;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .waitlist-input {
+            padding: 1rem 1.25rem;
+            border: 1.5px solid rgba(160, 174, 192, 0.25);
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            color: #2D3748;
+            background: #FAFAF8;
+            transition: all 0.25s ease;
+        }
+
+        .waitlist-input:focus {
+            outline: none;
+            border-color: #C4B9A8;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(196, 185, 168, 0.12);
+        }
+
+        .waitlist-input::placeholder {
+            color: #A0AEC0;
+        }
+
+        .waitlist-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .waitlist-question-label {
+            font-size: 0.95rem;
+            color: #4A5568;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+            line-height: 1.5;
+        }
+
+        .waitlist-submit {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #D4CCBF 0%, #C9C0B1 100%);
+            color: #2D3748;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 16px rgba(196, 185, 168, 0.3);
+        }
+
+        .waitlist-submit:hover {
+            background: linear-gradient(135deg, #C9C0B1 0%, #BEB4A5 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(196, 185, 168, 0.4);
+        }
+
+        .waitlist-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .waitlist-success {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .waitlist-success.show {
+            display: block;
+            animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes successPop {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .waitlist-success-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(139, 156, 145, 0.15), rgba(139, 156, 145, 0.05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+
+        .waitlist-success h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #2D3748;
+            margin-bottom: 0.75rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .waitlist-success p {
+            color: #718096;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .waitlist-error {
+            color: #C53030;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        .waitlist-error.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .waitlist-card {
+                padding: 2.5rem 1.75rem;
+                margin: 1rem;
+            }
+            .waitlist-header h2 {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <img src="Reflect-logo-jpg.jpg" alt="REFLECT" class="logo">
+            <img src="Untitled-1-01.png" alt="REFLECT" class="logo">
         </header>
 
         <main>
@@ -624,7 +862,7 @@
                 </div>
                 <h1>A quiet space for your thoughts</h1>
                 <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts reflected back.</p>
-                <a class="cta-button" href="https://app.ireflect.app?signup=1" target="_blank" rel="noopener">Start Reflecting — it's free</a>
+                <button class="cta-button" onclick="openWaitlistModal()">Start Reflecting — it's free</button>
             </section>
 
             <section class="testimonials">
@@ -732,7 +970,7 @@
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
                         </ul>
-                        <a class="cta-button pricing-cta" href="https://app.ireflect.app?signup=1" target="_blank" rel="noopener">Start free</a>
+                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Start free</button>
                     </article>
                     <article class="pricing-card">
                         <div class="pricing-label">Monthly</div>
@@ -744,7 +982,7 @@
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
                         </ul>
-                        <a class="cta-button pricing-cta" href="https://ireflect.lemonsqueezy.com/checkout/buy/9aeee1d0-bc43-42a5-8fa3-cb134611c414?variant=1363745" target="_blank" rel="noopener">Pay monthly</a>
+                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Pay monthly</button>
                     </article>
                     <article class="pricing-card">
                         <div class="pricing-label">Yearly</div>
@@ -758,7 +996,7 @@
                             <li>Weekly insight letter</li>
                             <li>Best value</li>
                         </ul>
-                        <a class="cta-button pricing-cta" href="https://ireflect.lemonsqueezy.com/checkout/buy/9aeee1d0-bc43-42a5-8fa3-cb134611c414?variant=1363508" target="_blank" rel="noopener">Pay yearly</a>
+                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Pay yearly</button>
                     </article>
                 </div>
                 <p class="pricing-note">
@@ -769,7 +1007,7 @@
             <section class="closing">
                 <p class="closing-text">The best way out is always through.</p>
                 <p class="closing-attribution">— Robert Frost</p>
-                <a class="cta-button" href="https://app.ireflect.app?signup=1" target="_blank" rel="noopener">Start reflecting — it's free</a>
+                <button class="cta-button" onclick="openWaitlistModal()">Start reflecting — it's free</button>
             </section>
         </main>
 
@@ -779,16 +1017,155 @@
                 <a href="/privacy.html">Privacy Policy</a>
                 <a href="/terms.html">Terms of Service</a>
                 <a href="mailto:hello@reflect.studio">Contact</a>
-                <a href="https://app.ireflect.app?signup=1" target="_blank" rel="noopener">Open app</a>
+                <a href="javascript:void(0)" onclick="openWaitlistModal()">Join waitlist</a>
             </div>
         </footer>
     </div>
 
+    <!-- Waitlist Modal -->
+    <div id="waitlistModal" class="waitlist-modal">
+        <div class="waitlist-card">
+            <div class="waitlist-card-inner">
+                <button class="waitlist-close" onclick="closeWaitlistModal()" aria-label="Close">&times;</button>
+                
+                <div id="waitlistForm">
+                    <div class="waitlist-header">
+                        <h2>Join the waitlist</h2>
+                        <p>Be among the first to experience a quieter way to reflect.</p>
+                    </div>
+                    
+                    <form class="waitlist-form" onsubmit="submitWaitlist(event)">
+                        <input 
+                            type="email" 
+                            id="waitlistEmail" 
+                            class="waitlist-input" 
+                            placeholder="Your email" 
+                            required
+                        >
+                        
+                        <div>
+                            <label class="waitlist-question-label">
+                                What's the biggest thing you wish you understood about yourself?
+                            </label>
+                            <textarea 
+                                id="waitlistResponse" 
+                                class="waitlist-input waitlist-textarea" 
+                                placeholder="Take your time with this one..."
+                            ></textarea>
+                        </div>
+                        
+                        <button type="submit" id="waitlistSubmitBtn" class="waitlist-submit">
+                            Join the waitlist
+                        </button>
+                        
+                        <div id="waitlistError" class="waitlist-error"></div>
+                    </form>
+                </div>
+                
+                <div id="waitlistSuccess" class="waitlist-success">
+                    <div class="waitlist-success-icon">✦</div>
+                    <h3>You're on the list</h3>
+                    <p>We'll be in touch soon. Thank you for your openness.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
     <script>
         window.addEventListener('scroll', () => {
             const accent = document.querySelector('.visual-accent');
             if (accent) accent.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
         });
+
+        function openWaitlistModal() {
+            const modal = document.getElementById('waitlistModal');
+            modal.classList.add('active');
+            modal.classList.remove('closing');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWaitlistModal() {
+            const modal = document.getElementById('waitlistModal');
+            modal.classList.add('closing');
+            setTimeout(() => {
+                modal.classList.remove('active', 'closing');
+                document.body.style.overflow = '';
+                document.getElementById('waitlistForm').style.display = 'block';
+                document.getElementById('waitlistSuccess').classList.remove('show');
+                document.getElementById('waitlistError').classList.remove('show');
+                document.getElementById('waitlistEmail').value = '';
+                document.getElementById('waitlistResponse').value = '';
+            }, 400);
+        }
+
+        document.getElementById('waitlistModal').addEventListener('click', (e) => {
+            if (e.target.id === 'waitlistModal') {
+                closeWaitlistModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('waitlistModal');
+                if (modal.classList.contains('active')) {
+                    closeWaitlistModal();
+                }
+            }
+        });
+
+        async function submitWaitlist(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('waitlistEmail').value.trim();
+            const response = document.getElementById('waitlistResponse').value.trim();
+            const submitBtn = document.getElementById('waitlistSubmitBtn');
+            const errorEl = document.getElementById('waitlistError');
+            
+            if (!email) {
+                errorEl.textContent = 'Please enter your email.';
+                errorEl.classList.add('show');
+                return;
+            }
+            
+            errorEl.classList.remove('show');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Joining...';
+            
+            try {
+                const res = await fetch(`${window.SUPABASE_URL}/rest/v1/waitlist`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': window.SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        response: response || null,
+                        source: 'landing'
+                    })
+                });
+                
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({}));
+                    if (errorData.code === '23505') {
+                        throw new Error('This email is already on the waitlist.');
+                    }
+                    throw new Error('Something went wrong. Please try again.');
+                }
+                
+                document.getElementById('waitlistForm').style.display = 'none';
+                document.getElementById('waitlistSuccess').classList.add('show');
+                
+            } catch (err) {
+                errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+                errorEl.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join the waitlist';
+            }
+        }
     </script>
 </body>
 </html>
