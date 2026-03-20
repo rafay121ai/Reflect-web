@@ -35,8 +35,8 @@
 
     <!-- PostHog Analytics — replace YOUR_POSTHOG_KEY with your real key -->
     <script>
-        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.people.toString()+"(stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-        posthog.init('YOUR_POSTHOG_KEY', { api_host: 'https://us.i.posthog.com', person_profiles: 'identified_only' });
+        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.crossOrigin = "anonymous", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.people.toString() + "(stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+        posthog.init('phc_5ocPLOSlqoswH5Ws1DNza33Tay9Gynt7UpBhdJBxqWp', { api_host: 'https://us.i.posthog.com', person_profiles: 'identified_only' });
     </script>
     <style>
         * {
@@ -1027,7 +1027,8 @@
                 <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts
                     reflected back.</p>
                 <button class="cta-button" onclick="openWaitlistModal()">Start Reflecting — it's free</button>
-                <p class="social-proof">Join <span class="social-proof-count" id="socialProofCount">1,000</span>+ people already on the list</p>
+                <p class="social-proof">Join <span class="social-proof-count" id="socialProofCount">1,000</span>+ people
+                    already on the list</p>
             </section>
 
             <section class="testimonials">
@@ -1129,7 +1130,9 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-answer" id="faq-a1" role="region">
-                        <p>Yes, completely. Your reflections are stored securely and are never shared, sold, or used to train AI. They exist only for you. We use Supabase for encrypted data storage, and you can request deletion at any time by emailing us.</p>
+                        <p>Yes, completely. Your reflections are stored securely and are never shared, sold, or used to
+                            train AI. They exist only for you. We use Supabase for encrypted data storage, and you can
+                            request deletion at any time by emailing us.</p>
                     </div>
                 </div>
 
@@ -1139,7 +1142,9 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-answer" id="faq-a2" role="region">
-                        <p>After you answer a few gentle questions, Reflect offers a short reflection back — a calm, clear restatement of what you've shared. Not advice. Not analysis. Just your own thoughts, seen from a slight distance. Like reading your own words in a quieter voice.</p>
+                        <p>After you answer a few gentle questions, Reflect offers a short reflection back — a calm,
+                            clear restatement of what you've shared. Not advice. Not analysis. Just your own thoughts,
+                            seen from a slight distance. Like reading your own words in a quieter voice.</p>
                     </div>
                 </div>
 
@@ -1149,7 +1154,9 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-answer" id="faq-a3" role="region">
-                        <p>After 14 days you can choose to continue with a monthly or yearly plan. If you don't, your reflections remain accessible but you won't be able to add new ones. There are no automatic charges — we'll remind you before anything happens.</p>
+                        <p>After 14 days you can choose to continue with a monthly or yearly plan. If you don't, your
+                            reflections remain accessible but you won't be able to add new ones. There are no automatic
+                            charges — we'll remind you before anything happens.</p>
                     </div>
                 </div>
 
@@ -1159,7 +1166,8 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-answer" id="faq-a4" role="region">
-                        <p>Yes. No lock-ins, no penalties, no complicated cancellation flows. Cancel directly within the app whenever you'd like. Your data is yours to keep or delete.</p>
+                        <p>Yes. No lock-ins, no penalties, no complicated cancellation flows. Cancel directly within the
+                            app whenever you'd like. Your data is yours to keep or delete.</p>
                     </div>
                 </div>
             </section>
@@ -1285,7 +1293,8 @@
     <!-- Cookie consent banner -->
     <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent" aria-live="polite">
         <p class="cookie-text">
-            We use cookies and similar technologies to understand how you use this site. See our <a href="privacy.html">Privacy Policy</a>.
+            We use cookies and similar technologies to understand how you use this site. See our <a
+                href="privacy.html">Privacy Policy</a>.
         </p>
         <div class="cookie-actions">
             <button class="cookie-btn cookie-btn-decline" onclick="cookieConsent('decline')">Decline</button>
@@ -1310,8 +1319,8 @@
             const el = document.getElementById('socialProofCount');
             if (!el) return;
             const target = 1000;
-            const duration = 1800; // ms
-            const start = 820;
+            const duration = 3000; // ms
+            const start = 0;
             let startTime = null;
 
             function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -1467,7 +1476,7 @@
                     const total = parseInt(range.split('/')[1], 10);
                     if (!isNaN(total)) return total + 1300;
                 }
-            } catch (_) {}
+            } catch (_) { }
             return null;
         }
 
