@@ -649,6 +649,7 @@
             transform: translateY(20px) scale(0.97);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
             animation: waitlistFadeIn 0.5s ease forwards;
+            position: relative;
         }
 
         @keyframes waitlistFadeIn {
@@ -697,9 +698,6 @@
             transform: scale(1.1);
         }
 
-        .waitlist-card-inner {
-            position: relative;
-        }
 
         .waitlist-header {
             text-align: center;
@@ -1576,24 +1574,6 @@
             }
         });
 
-        async function fetchWaitlistPosition() {
-            try {
-                const res = await fetch(`${window.SUPABASE_URL}/rest/v1/waitlist?select=id`, {
-                    headers: {
-                        'apikey': window.SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
-                        'Prefer': 'count=exact',
-                        'Range': '0-0'
-                    }
-                });
-                const range = res.headers.get('Content-Range'); // e.g. "0-0/42"
-                if (range) {
-                    const total = parseInt(range.split('/')[1], 10);
-                    if (!isNaN(total)) return total + 1300;
-                }
-            } catch (_) { }
-            return null;
-        }
 
         async function submitWaitlist(e) {
             e.preventDefault();
@@ -1632,7 +1612,7 @@
                         'Content-Type': 'application/json',
                         'apikey': window.SUPABASE_ANON_KEY,
                         'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
-                        'Prefer': 'return=minimal'
+                        'Prefer': 'return=representation'
                     },
                     body: JSON.stringify({
                         name: name || null,
@@ -1655,10 +1635,11 @@
                     throw new Error(serverMessage || 'Something went wrong. Please try again.');
                 }
 
+                const [inserted] = await res.json().catch(() => [null]);
                 phCapture('waitlist_signup_success');
 
-                // Fetch position and show success
-                const position = await fetchWaitlistPosition();
+                // Show position using the inserted row's id + offset
+                const position = inserted?.id ? inserted.id + 1300 : null;
                 document.getElementById('waitlistForm').style.display = 'none';
                 document.getElementById('waitlistSuccess').classList.add('show');
                 if (position !== null) {
