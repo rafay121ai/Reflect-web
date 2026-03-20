@@ -1,51 +1,35 @@
-# Task: Resend confirmation email integration
+# Task: Image asset update
+_2026-03-21_
 
-## Status: Complete
+## What was done
 
-## What was built
-- `supabase/functions/send-welcome-email/index.ts` — Supabase Edge Function
-- `supabase/functions/send-welcome-email/defs.ts` — Webhook payload types
+### index.html changes
+| Change | Detail |
+|--------|--------|
+| Favicons | Replaced `Reflect-logo-jpg.jpg` (39 KB JPEG) with `favicon.ico` + `favicon-32.png` (32×32 PNG) + `apple-touch-icon.png` |
+| OG image | Updated `og:image` to `https://ireflect.app/og-image.png` (1200×630) |
+| OG dimensions | Added `og:image:width = 1200` and `og:image:height = 630` |
+| Twitter image | Updated `twitter:image` to `https://ireflect.app/og-image.png` |
+| Twitter card | Restored to `summary_large_image` (now have a proper landscape image) |
+| Header logo | Replaced `<picture>` element (reflect-logo.webp/png) with `<img src="/website-logo.png" alt="iReflect" height="40">` |
+| LCP preload | Updated preload href from `reflect-logo.webp` to `/website-logo.png` |
 
-## How it works
-1. A Supabase Database Webhook fires on every INSERT into the `waitlist` table
-2. The webhook POSTs the new row's data to the Edge Function URL
-3. The function fetches the total waitlist count (service role key → Supabase JS client)
-4. Position = count + 1300 (matches the frontend's offset, avoids showing low numbers to early signups)
-5. Calls Resend HTTP API to send the welcome email
-6. Returns 200 regardless of email outcome — signup flow is never blocked
+### Old filenames — no longer referenced in index.html
+- `reflect-logo.webp` — not referenced
+- `reflect-logo.png` — not referenced
+- `Reflect-logo-jpg.jpg` — not referenced
+- `Untitled-1-01.png` — not referenced
 
-## Deploy checklist
+### Files committed (5794ba3)
+- `og-image.png` ✅
+- `website-logo.png` ✅
+- `favicon.ico` ✅
+- `favicon-32.png` ✅
+- `index.html` ✅
 
-### Supabase secrets (run once in your project)
-```bash
-supabase secrets set RESEND_API_KEY=re_xxxx
-```
-SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are injected automatically by the runtime.
-
-### Deploy the function
-```bash
-supabase functions deploy send-welcome-email --no-verify-jwt
-```
-`--no-verify-jwt` is required because the caller is Supabase's own webhook infrastructure (not a user JWT).
-
-### Create the Database Webhook
-In the Supabase Dashboard → Database → Webhooks → Create a new webhook:
-- **Name:** send-welcome-email
-- **Table:** public.waitlist
-- **Events:** Insert
-- **Type:** HTTP Request
-- **URL:** `https://<your-project-ref>.supabase.co/functions/v1/send-welcome-email`
-- **HTTP Headers:**
-  - `Content-Type: application/json`
-  - `Authorization: Bearer <your-service-role-key>` *(or leave empty if --no-verify-jwt)*
-
-### Verify domain in Resend ⚠️
-Before emails can send, `ireflect.app` must be verified in your Resend dashboard
-(Dashboard → Domains → Add domain → add the DNS records shown).
-The `from` address is set to `hello@ireflect.app`.
-
-## What to test
-- [ ] Submit a new waitlist entry via the landing page
-- [ ] Check Supabase Edge Function logs for "email sent to …"
-- [ ] Confirm the email arrives with correct name, position, and styling
-- [ ] Submit with a duplicate email — confirm error in UI, no second email sent
+## Pending manual action
+- **`apple-touch-icon.png` was not found in the repo root** — the file was not present when the commit was made. Add it to the root and run:
+  ```bash
+  git add apple-touch-icon.png && git commit -m "Add apple-touch-icon" && git push origin main
+  ```
+  The `<link rel="apple-touch-icon" href="/apple-touch-icon.png">` tag is already in index.html waiting for it.
