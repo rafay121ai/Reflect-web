@@ -1409,6 +1409,32 @@
             modal.classList.add('active');
             modal.classList.remove('closing');
             document.body.style.overflow = 'hidden';
+
+            // Reset state so previous success/error doesn't carry over.
+            const waitlistForm = document.getElementById('waitlistForm');
+            const waitlistSuccess = document.getElementById('waitlistSuccess');
+            const waitlistError = document.getElementById('waitlistError');
+            const submitBtn = document.getElementById('waitlistSubmitBtn');
+            const posEl = document.getElementById('waitlistPosition');
+            const nameEl = document.getElementById('waitlistName');
+            const emailEl = document.getElementById('waitlistEmail');
+            const responseEl = document.getElementById('waitlistResponse');
+
+            if (waitlistForm) waitlistForm.style.display = 'block';
+            if (waitlistSuccess) waitlistSuccess.classList.remove('show');
+            if (waitlistError) {
+                waitlistError.textContent = '';
+                waitlistError.classList.remove('show');
+            }
+            if (posEl) posEl.style.display = 'none';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join the waitlist';
+            }
+            if (nameEl) nameEl.value = '';
+            if (emailEl) emailEl.value = '';
+            if (responseEl) responseEl.value = '';
+
             const firstFocusable = modal.querySelector('button, input, textarea');
             if (firstFocusable) firstFocusable.focus();
             phCapture('waitlist_modal_opened');
@@ -1484,7 +1510,8 @@
             e.preventDefault();
 
             const name = document.getElementById('waitlistName').value.trim();
-            const email = document.getElementById('waitlistEmail').value.trim();
+            const emailInput = document.getElementById('waitlistEmail');
+            const email = emailInput.value.trim();
             const response = document.getElementById('waitlistResponse').value.trim();
             const submitBtn = document.getElementById('waitlistSubmitBtn');
             const errorEl = document.getElementById('waitlistError');
@@ -1495,7 +1522,17 @@
                 return;
             }
 
+            // Extra client-side validation to avoid inserting bad emails.
+            if (!emailInput.checkValidity()) {
+                errorEl.textContent = 'Please enter a valid email address.';
+                errorEl.classList.add('show');
+                emailInput.focus();
+                return;
+            }
+
             errorEl.classList.remove('show');
+            const waitlistSuccess = document.getElementById('waitlistSuccess');
+            if (waitlistSuccess) waitlistSuccess.classList.remove('show');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Joining...';
 
@@ -1504,6 +1541,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Content-Profile': 'public',
                         'apikey': window.SUPABASE_ANON_KEY,
                         'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
                         'Prefer': 'return=minimal'
@@ -1511,7 +1549,6 @@
                     body: JSON.stringify({
                         name: name || null,
                         email: email,
-                        response: response || null,
                         source: 'landing'
                     })
                 });
@@ -1521,7 +1558,12 @@
                     if (errorData.code === '23505') {
                         throw new Error('This email is already on the waitlist.');
                     }
-                    throw new Error('Something went wrong. Please try again.');
+                    const serverMessage =
+                        errorData?.message ||
+                        errorData?.details ||
+                        errorData?.hint ||
+                        null;
+                    throw new Error(serverMessage || 'Something went wrong. Please try again.');
                 }
 
                 phCapture('waitlist_signup_success');
