@@ -1606,19 +1606,18 @@
             submitBtn.textContent = 'Joining...';
 
             try {
-                const res = await fetch(`${window.SUPABASE_URL}/rest/v1/waitlist`, {
+                const res = await fetch(`${window.SUPABASE_URL}/rest/v1/rpc/join_waitlist`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'apikey': window.SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
-                        'Prefer': 'return=representation'
+                        'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`
                     },
                     body: JSON.stringify({
-                        name: name || null,
-                        email: email,
-                        response: response || null,
-                        source: 'landing'
+                        p_name: name || null,
+                        p_email: email,
+                        p_response: response || null,
+                        p_source: 'landing'
                     })
                 });
 
@@ -1635,11 +1634,11 @@
                     throw new Error(serverMessage || 'Something went wrong. Please try again.');
                 }
 
-                const [inserted] = await res.json().catch(() => [null]);
+                const newId = await res.json().catch(() => null);
                 phCapture('waitlist_signup_success');
 
-                // Show position using the inserted row's id + offset
-                const position = inserted?.id ? inserted.id + 1300 : null;
+                // Show position using the returned row id + offset
+                const position = newId ? newId + 1300 : null;
                 document.getElementById('waitlistForm').style.display = 'none';
                 document.getElementById('waitlistSuccess').classList.add('show');
                 if (position !== null) {
