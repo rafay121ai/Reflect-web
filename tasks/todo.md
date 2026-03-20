@@ -1,35 +1,50 @@
-# Task: Image asset update
-_2026-03-21_
+# Cleanup Log
+_2026-03-21 — commit 468f7c6_
 
-## What was done
+## Title tags updated
+| Tag | Before | After | Chars |
+|-----|--------|-------|-------|
+| `<title>` | REFLECT — A quiet space for your thoughts | iReflect — A Quiet Space to Reflect and Know Yourself | 56 ✅ |
+| `og:title` | REFLECT — A quiet space for your thoughts | iReflect — A Quiet Space to Reflect and Know Yourself | 56 ✅ |
+| `twitter:title` | REFLECT — A quiet space for your thoughts | iReflect — A Quiet Space to Reflect and Know Yourself | 56 ✅ |
 
-### index.html changes
-| Change | Detail |
-|--------|--------|
-| Favicons | Replaced `Reflect-logo-jpg.jpg` (39 KB JPEG) with `favicon.ico` + `favicon-32.png` (32×32 PNG) + `apple-touch-icon.png` |
-| OG image | Updated `og:image` to `https://ireflect.app/og-image.png` (1200×630) |
-| OG dimensions | Added `og:image:width = 1200` and `og:image:height = 630` |
-| Twitter image | Updated `twitter:image` to `https://ireflect.app/og-image.png` |
-| Twitter card | Restored to `summary_large_image` (now have a proper landscape image) |
-| Header logo | Replaced `<picture>` element (reflect-logo.webp/png) with `<img src="/website-logo.png" alt="iReflect" height="40">` |
-| LCP preload | Updated preload href from `reflect-logo.webp` to `/website-logo.png` |
+## Files deleted
+| File | Reason |
+|------|--------|
+| `Reflect-logo-jpg.jpg` | Not referenced anywhere; replaced by `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` |
+| `Untitled-1-01.png` | Original raw logo file; not referenced anywhere |
 
-### Old filenames — no longer referenced in index.html
-- `reflect-logo.webp` — not referenced
-- `reflect-logo.png` — not referenced
-- `Reflect-logo-jpg.jpg` — not referenced
-- `Untitled-1-01.png` — not referenced
+## CSS removed
+| Rule | Location | Reason |
+|------|----------|--------|
+| `.waitlist-form { display:flex; flex-direction:column; gap:1rem }` | First of two duplicate definitions | Shadowed by second definition with `gap: 1.25rem`; dead code |
 
-### Files committed (5794ba3)
-- `og-image.png` ✅
-- `website-logo.png` ✅
-- `favicon.ico` ✅
-- `favicon-32.png` ✅
-- `index.html` ✅
+## CSS fixed
+| Rule | Before | After | Reason |
+|------|--------|-------|--------|
+| `.logo { height }` | `3.25rem` (~52px) | `40px` | CSS was overriding the `height="40"` HTML attribute on the logo img |
 
-## Pending manual action
-- **`apple-touch-icon.png` was not found in the repo root** — the file was not present when the commit was made. Add it to the root and run:
-  ```bash
-  git add apple-touch-icon.png && git commit -m "Add apple-touch-icon" && git push origin main
-  ```
-  The `<link rel="apple-touch-icon" href="/apple-touch-icon.png">` tag is already in index.html waiting for it.
+## Image asset audit — final state
+| File | Referenced in index.html | Protected | Status |
+|------|--------------------------|-----------|--------|
+| `og-image.png` | ✅ yes | ✅ yes | Keep |
+| `website-logo.png` | ✅ yes | ✅ yes | Keep |
+| `favicon.ico` | ✅ yes | ✅ yes | Keep |
+| `favicon-32.png` | ✅ yes | ✅ yes | Keep |
+| `apple-touch-icon.png` | ✅ yes | ✅ yes | Keep |
+| `reflect-logo.png` | ❌ no | ✅ yes | Keep (protected) |
+| `reflect-logo.webp` | ❌ no | ✅ yes | Keep (protected) |
+| `Reflect-logo-jpg.jpg` | ❌ no | ❌ no | **Deleted** |
+| `Untitled-1-01.png` | ❌ no | ❌ no | **Deleted** |
+
+## JS audit — no unused functions found
+All functions are called: `openWaitlistModal`, `closeWaitlistModal`, `submitWaitlist`, `fetchWaitlistPosition`, `cookieConsent`, `enableAnalytics`, `phCapture`, `trackPricingCta`
+
+## Script/link tag audit — no dead tags found
+- `config.js` — exists ✅
+- Google Fonts — external CDN ✅
+- PostHog snippet — external async ✅
+- JSON-LD structured data — valid ✅
+
+## Commented-out code audit — nothing to remove
+No commented-out HTML or JS blocks exist. All `<!-- -->` markers are structural section labels.
