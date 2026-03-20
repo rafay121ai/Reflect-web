@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REFLECT — A quiet space for your thoughts</title>
+    <meta name="description"
+        content="Reflect is a private, pressure-free journaling app. Sit with what's on your mind, answer gentle questions, and see your thoughts reflected back — no streaks, no social features, no judgment.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://reflect.studio/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://reflect.studio/">
+    <meta property="og:title" content="REFLECT — A quiet space for your thoughts">
+    <meta property="og:description"
+        content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
+    <meta property="og:image" content="https://reflect.studio/Untitled-1-01.png">
+    <meta property="og:site_name" content="REFLECT">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="REFLECT — A quiet space for your thoughts">
+    <meta name="twitter:description"
+        content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
+    <meta name="twitter:image" content="https://reflect.studio/Untitled-1-01.png">
+
     <link rel="icon" type="image/jpeg" href="Reflect-logo-jpg.jpg">
     <link rel="apple-touch-icon" href="Reflect-logo-jpg.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,12 +136,21 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         @keyframes fadeIn {
-            to { opacity: 1; }
+            to {
+                opacity: 1;
+            }
         }
 
         /* Testimonials */
@@ -451,79 +482,19 @@
             text-decoration: underline;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(250, 250, 248, 0.95);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal.active.closing {
-            opacity: 0;
-        }
-
-        .modal-content {
-            background: #FFFFFF;
-            padding: 3rem 2.5rem;
-            border-radius: 16px;
-            max-width: 480px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(74, 85, 104, 0.12);
-            transform: translateY(20px) scale(0.98);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .modal.active .modal-content {
-            transform: translateY(0) scale(1);
-        }
-
-        .modal.active.closing .modal-content {
-            transform: translateY(-8px) scale(0.98);
-            opacity: 0;
-        }
-
-        .modal-close {
-            float: right;
-            font-size: 1.5rem;
-            color: #A0AEC0;
-            cursor: pointer;
-            border: none;
+        .footer-waitlist-btn {
             background: none;
-            line-height: 1;
+            border: none;
             padding: 0;
-            margin: -0.5rem -0.5rem 0 0;
-            transition: color 0.2s ease;
+            color: #A0AEC0;
+            font-size: 0.9rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .modal-close:hover {
-            color: #718096;
-        }
-
-        .modal h2 {
-            font-size: 1.75rem;
-            font-weight: 400;
-            color: #2D3748;
-            margin-bottom: 0.75rem;
-        }
-
-        .modal p {
-            color: #718096;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+        .footer-waitlist-btn:hover {
+            text-decoration: underline;
         }
 
         .waitlist-form {
@@ -532,82 +503,40 @@
             gap: 1rem;
         }
 
-        .form-input {
-            padding: 1rem 1.25rem;
-            border: 1.5px solid rgba(160, 174, 192, 0.2);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: #2D3748;
-            background: #FAFAF8;
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #C4B9A8;
-            background: #FFFFFF;
-        }
-
-        .form-input::placeholder {
-            color: #A0AEC0;
-        }
-
-        .submit-button {
-            padding: 1rem 2rem;
-            background: #D4CCBF;
-            color: #2D3748;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.02em;
-        }
-
-        .submit-button:hover {
-            background: #C4B9A8;
-            transform: translateY(-1px);
-        }
-
-        .success-message {
-            display: none;
-            text-align: center;
-            color: #4A5568;
-            animation: successFade 0.5s ease;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        @keyframes successFade {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .waitlist-error {
-            color: #C53030;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        .success-message h3 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: #2D3748;
-            margin-bottom: 0.75rem;
-        }
-
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .subtitle { font-size: 1.15rem; }
-            .hero { padding: 4rem 1.5rem 3rem; }
-            .how-it-works, .features, .closing { margin-top: 5rem; margin-bottom: 4rem; }
-            .visual-accent { width: 120px; height: 120px; }
-            .circle-1 { width: 90px; height: 90px; }
-            .circle-2 { width: 75px; height: 75px; }
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.15rem;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+
+            .how-it-works,
+            .features,
+            .closing {
+                margin-top: 5rem;
+                margin-bottom: 4rem;
+            }
+
+            .visual-accent {
+                width: 120px;
+                height: 120px;
+            }
+
+            .circle-1 {
+                width: 90px;
+                height: 90px;
+            }
+
+            .circle-2 {
+                width: 75px;
+                height: 75px;
+            }
         }
 
         /* Waitlist Modal */
@@ -650,6 +579,7 @@
                 opacity: 0;
                 transform: translateY(30px) scale(0.96);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -750,6 +680,18 @@
             width: 100%;
         }
 
+        .waitlist-sr-label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .waitlist-question-label {
             display: block;
             font-size: 0.95rem;
@@ -801,6 +743,7 @@
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -850,16 +793,18 @@
                 padding: 2.5rem 1.75rem;
                 margin: 1rem;
             }
+
             .waitlist-header h2 {
                 font-size: 1.4rem;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
-            <img src="Untitled-1-01.png" alt="REFLECT" class="logo">
+            <img src="Untitled-1-01.png" alt="REFLECT" class="logo" width="4501" height="4500" loading="eager">
         </header>
 
         <main>
@@ -869,37 +814,38 @@
                     <div class="circle circle-2"></div>
                 </div>
                 <h1>A quiet space for your thoughts</h1>
-                <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts reflected back.</p>
+                <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts
+                    reflected back.</p>
                 <button class="cta-button" onclick="openWaitlistModal()">Start Reflecting — it's free</button>
             </section>
 
             <section class="testimonials">
-                <div class="testimonials-heading">What people are saying</div>
+                <h2 class="testimonials-heading">What people are saying</h2>
                 <div class="testimonials-grid">
                     <article class="testimonial-card">
                         <div class="testimonial-bubble">
-                            “Hey, it’s nice and it works. It made me feel understood.”
+                            "Hey, it's nice and it works. It made me feel understood."
                         </div>
                         <div class="testimonial-name">— Khushi</div>
                         <div class="testimonial-pill">early tester</div>
                     </article>
                     <article class="testimonial-card">
                         <div class="testimonial-bubble">
-                            “The questions actually made me pause and think. The mirror concept is a game changer.”
+                            "The questions actually made me pause and think. The mirror concept is a game changer."
                         </div>
                         <div class="testimonial-name">— Amal</div>
                         <div class="testimonial-pill">early tester</div>
                     </article>
                     <article class="testimonial-card">
                         <div class="testimonial-bubble">
-                            “I love the simplicity and ease of use. It feels comfortable and unhurried.”
+                            "I love the simplicity and ease of use. It feels comfortable and unhurried."
                         </div>
                         <div class="testimonial-name">— Zain</div>
                         <div class="testimonial-pill">early tester</div>
                     </article>
                     <article class="testimonial-card">
                         <div class="testimonial-bubble">
-                            “Dude this is amazing… hats off to you.”
+                            "Dude this is amazing… hats off to you."
                         </div>
                         <div class="testimonial-name">— Kyro</div>
                         <div class="testimonial-pill">early tester</div>
@@ -908,31 +854,32 @@
             </section>
 
             <section class="how-it-works">
-                <div class="section-label">How it works</div>
+                <h2 class="section-label">How it works</h2>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-number">1</div>
+                        <div class="step-number" aria-hidden="true">1</div>
                         <div>
                             <h3>Notice what's on your mind</h3>
-                            <p>Start with a thought, a feeling, or something that happened. There's no wrong way to begin.</p>
+                            <p>Start with a thought, a feeling, or something that happened. There's no wrong way to
+                                begin.</p>
                         </div>
                     </div>
                     <div class="step">
-                        <div class="step-number">2</div>
+                        <div class="step-number" aria-hidden="true">2</div>
                         <div>
                             <h3>Answer a few questions</h3>
                             <p>Gentle prompts help you look at your thought from different angles. Take your time.</p>
                         </div>
                     </div>
                     <div class="step">
-                        <div class="step-number">3</div>
+                        <div class="step-number" aria-hidden="true">3</div>
                         <div>
                             <h3>Receive a reflection</h3>
                             <p>A short mirror of what you shared—not advice, just your thoughts seen clearly.</p>
                         </div>
                     </div>
                     <div class="step">
-                        <div class="step-number">4</div>
+                        <div class="step-number" aria-hidden="true">4</div>
                         <div>
                             <h3>Name how you feel, if you'd like</h3>
                             <p>Optionally note your mood. Then carry something forward, or simply let it be.</p>
@@ -942,20 +889,20 @@
             </section>
 
             <section class="features">
-                <div class="section-label">What makes it different</div>
+                <h2 class="section-label">What makes it different</h2>
                 <div class="features-grid">
                     <div class="feature">
-                        <div class="feature-icon">◆</div>
+                        <div class="feature-icon" aria-hidden="true">◆</div>
                         <h4>Completely private</h4>
                         <p>Your reflections stay yours. No sharing, no social features, no accounts to manage.</p>
                     </div>
                     <div class="feature">
-                        <div class="feature-icon">○</div>
+                        <div class="feature-icon" aria-hidden="true">○</div>
                         <h4>No pressure</h4>
                         <p>No streaks, no scores, no goals. Just a space to pause when you need it.</p>
                     </div>
                     <div class="feature">
-                        <div class="feature-icon">⌾</div>
+                        <div class="feature-icon" aria-hidden="true">⌾</div>
                         <h4>Return when ready</h4>
                         <p>Set a gentle reminder to reflect again, or come back whenever feels right.</p>
                     </div>
@@ -990,7 +937,8 @@
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
                         </ul>
-                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Pay monthly</button>
+                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Reserve monthly
+                            plan</button>
                     </article>
                     <article class="pricing-card">
                         <div class="pricing-label">Yearly</div>
@@ -1002,13 +950,14 @@
                             <li>Mood check-ins</li>
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
-                            <li>Best value</li>
                         </ul>
-                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Pay yearly</button>
+                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Reserve yearly
+                            plan</button>
                     </article>
                 </div>
                 <p class="pricing-note">
-                    After your free trial, continue with a monthly or yearly plan. Cancel anytime. Subscriptions managed securely.
+                    After your free trial, continue with a monthly or yearly plan. Cancel anytime. Subscriptions managed
+                    securely.
                 </p>
             </section>
 
@@ -1020,65 +969,56 @@
         </main>
 
         <footer>
-            <p>REFLECT — 2026</p>
+            <p>REFLECT — <span id="footer-year">2026</span></p>
             <div class="footer-links">
-                <a href="/privacy.html">Privacy Policy</a>
-                <a href="/terms.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
                 <a href="mailto:hello@reflect.studio">Contact</a>
-                <a href="javascript:void(0)" onclick="openWaitlistModal()">Join waitlist</a>
+                <button class="footer-waitlist-btn" onclick="openWaitlistModal()">Join waitlist</button>
             </div>
         </footer>
     </div>
 
     <!-- Waitlist Modal -->
-    <div id="waitlistModal" class="waitlist-modal">
+    <div id="waitlistModal" class="waitlist-modal" role="dialog" aria-modal="true" aria-labelledby="waitlistModalTitle">
         <div class="waitlist-card">
             <div class="waitlist-card-inner">
-                <button class="waitlist-close" onclick="closeWaitlistModal()" aria-label="Close">&times;</button>
-                
+                <button class="waitlist-close" onclick="closeWaitlistModal()"
+                    aria-label="Close waitlist modal">&times;</button>
+
                 <div id="waitlistForm">
                     <div class="waitlist-header">
-                        <h2>Join the waitlist</h2>
+                        <h2 id="waitlistModalTitle">Join the waitlist</h2>
                         <p>Be among the first to experience a quieter way to reflect.</p>
                     </div>
-                    
+
                     <form class="waitlist-form" onsubmit="submitWaitlist(event)">
-                        <input 
-                            type="text" 
-                            id="waitlistName" 
-                            class="waitlist-input" 
-                            placeholder="Your name" 
-                        >
-                        
-                        <input 
-                            type="email" 
-                            id="waitlistEmail" 
-                            class="waitlist-input" 
-                            placeholder="Your email" 
-                            required
-                        >
-                        
+                        <label for="waitlistName" class="waitlist-sr-label">Your name</label>
+                        <input type="text" id="waitlistName" class="waitlist-input" placeholder="Your name"
+                            autocomplete="given-name">
+
+                        <label for="waitlistEmail" class="waitlist-sr-label">Your email (required)</label>
+                        <input type="email" id="waitlistEmail" class="waitlist-input" placeholder="Your email" required
+                            autocomplete="email">
+
                         <div class="waitlist-question-group">
                             <label class="waitlist-question-label" for="waitlistResponse">
                                 What's the biggest thing you wish you understood about yourself?
                             </label>
-                            <textarea 
-                                id="waitlistResponse" 
-                                class="waitlist-input waitlist-textarea" 
-                                placeholder="Take your time with this one..."
-                            ></textarea>
+                            <textarea id="waitlistResponse" class="waitlist-input waitlist-textarea"
+                                placeholder="Take your time with this one..."></textarea>
                         </div>
-                        
+
                         <button type="submit" id="waitlistSubmitBtn" class="waitlist-submit">
                             Join the waitlist
                         </button>
-                        
+
                         <div id="waitlistError" class="waitlist-error"></div>
                     </form>
                 </div>
-                
+
                 <div id="waitlistSuccess" class="waitlist-success">
-                    <div class="waitlist-success-icon">✦</div>
+                    <div class="waitlist-success-icon" aria-hidden="true">✦</div>
                     <h3>You're on the list</h3>
                     <p>We'll be in touch soon. Thank you for your openness.</p>
                 </div>
@@ -1088,16 +1028,25 @@
 
     <script src="config.js"></script>
     <script>
+        // Dynamic footer year
+        const yearEl = document.getElementById('footer-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
         window.addEventListener('scroll', () => {
             const accent = document.querySelector('.visual-accent');
             if (accent) accent.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
         });
 
+        let _waitlistOpener = null;
+
         function openWaitlistModal() {
             const modal = document.getElementById('waitlistModal');
+            _waitlistOpener = document.activeElement;
             modal.classList.add('active');
             modal.classList.remove('closing');
             document.body.style.overflow = 'hidden';
+            const firstFocusable = modal.querySelector('button, input, textarea');
+            if (firstFocusable) firstFocusable.focus();
         }
 
         function closeWaitlistModal() {
@@ -1112,6 +1061,10 @@
                 document.getElementById('waitlistName').value = '';
                 document.getElementById('waitlistEmail').value = '';
                 document.getElementById('waitlistResponse').value = '';
+                const submitBtn = document.getElementById('waitlistSubmitBtn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join the waitlist';
+                if (_waitlistOpener) _waitlistOpener.focus();
             }, 400);
         }
 
@@ -1122,33 +1075,46 @@
         });
 
         document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('waitlistModal');
+            if (!modal.classList.contains('active')) return;
+
             if (e.key === 'Escape') {
-                const modal = document.getElementById('waitlistModal');
-                if (modal.classList.contains('active')) {
-                    closeWaitlistModal();
+                closeWaitlistModal();
+            }
+
+            if (e.key === 'Tab') {
+                const focusable = Array.from(modal.querySelectorAll('button, input, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled);
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
                 }
             }
         });
 
         async function submitWaitlist(e) {
             e.preventDefault();
-            
+
             const name = document.getElementById('waitlistName').value.trim();
             const email = document.getElementById('waitlistEmail').value.trim();
             const response = document.getElementById('waitlistResponse').value.trim();
             const submitBtn = document.getElementById('waitlistSubmitBtn');
             const errorEl = document.getElementById('waitlistError');
-            
+
             if (!email) {
                 errorEl.textContent = 'Please enter your email.';
                 errorEl.classList.add('show');
                 return;
             }
-            
+
             errorEl.classList.remove('show');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Joining...';
-            
+
             try {
                 const res = await fetch(`${window.SUPABASE_URL}/rest/v1/waitlist`, {
                     method: 'POST',
@@ -1165,7 +1131,7 @@
                         source: 'landing'
                     })
                 });
-                
+
                 if (!res.ok) {
                     const errorData = await res.json().catch(() => ({}));
                     if (errorData.code === '23505') {
@@ -1173,10 +1139,10 @@
                     }
                     throw new Error('Something went wrong. Please try again.');
                 }
-                
+
                 document.getElementById('waitlistForm').style.display = 'none';
                 document.getElementById('waitlistSuccess').classList.add('show');
-                
+
             } catch (err) {
                 errorEl.textContent = err.message || 'Something went wrong. Please try again.';
                 errorEl.classList.add('show');
@@ -1186,4 +1152,5 @@
         }
     </script>
 </body>
+
 </html>
