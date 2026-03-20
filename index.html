@@ -6,26 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REFLECT — A quiet space for your thoughts</title>
     <meta name="description"
-        content="Reflect is a private, pressure-free journaling app. Sit with what's on your mind, answer gentle questions, and see your thoughts reflected back — no streaks, no social features, no judgment.">
+        content="Reflect is a private, pressure-free journaling app. Sit with what's on your mind, answer gentle questions, and see your thoughts reflected back.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://reflect.studio/">
+    <meta name="theme-color" content="#FAFAF8">
+    <link rel="canonical" href="https://ireflect.app/">
     <link rel="preload" as="image" href="reflect-logo.webp" type="image/webp">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://reflect.studio/">
+    <meta property="og:url" content="https://ireflect.app/">
     <meta property="og:title" content="REFLECT — A quiet space for your thoughts">
     <meta property="og:description"
         content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
-    <meta property="og:image" content="https://reflect.studio/reflect-logo.webp">
+    <meta property="og:image" content="https://ireflect.app/reflect-logo.webp">
     <meta property="og:site_name" content="REFLECT">
+    <meta property="og:locale" content="en_US">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="REFLECT — A quiet space for your thoughts">
     <meta name="twitter:description"
         content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
-    <meta name="twitter:image" content="https://reflect.studio/reflect-logo.webp">
+    <meta name="twitter:image" content="https://ireflect.app/reflect-logo.webp">
 
     <link rel="icon" type="image/jpeg" href="Reflect-logo-jpg.jpg">
     <link rel="apple-touch-icon" href="Reflect-logo-jpg.jpg">
@@ -33,7 +35,53 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- PostHog Analytics — replace YOUR_POSTHOG_KEY with your real key -->
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Reflect",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "url": "https://ireflect.app",
+      "description": "A private, pressure-free journaling app. Sit with what's on your mind, answer gentle questions, and see your thoughts reflected back.",
+      "offers": [
+        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "14-day free trial" },
+        { "@type": "Offer", "price": "7.99", "priceCurrency": "USD", "description": "Monthly plan" },
+        { "@type": "Offer", "price": "71.99", "priceCurrency": "USD", "description": "Yearly plan" }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely. Your reflections are stored securely and are never shared, sold, or used to train AI. They exist only for you. We use Supabase for encrypted data storage, and you can request deletion at any time by emailing us." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a mirror response actually look like?",
+          "acceptedAnswer": { "@type": "Answer", "text": "After you answer a few gentle questions, Reflect offers a short reflection back — a calm, clear restatement of what you've shared. Not advice. Not analysis. Just your own thoughts, seen from a slight distance. Like reading your own words in a quieter voice." }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens after the free trial ends?",
+          "acceptedAnswer": { "@type": "Answer", "text": "After 14 days you can choose to continue with a monthly or yearly plan. If you don't, your reflections remain accessible but you won't be able to add new ones. There are no automatic charges — we'll remind you before anything happens." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I cancel anytime?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. No lock-ins, no penalties, no complicated cancellation flows. Cancel directly within the app whenever you'd like. Your data is yours to keep or delete." }
+        }
+      ]
+    }
+    </script>
+
+    <!-- PostHog Analytics -->
     <script>
         !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.crossOrigin = "anonymous", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.people.toString() + "(stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
         posthog.init('phc_5ocPLOSlqoswH5Ws1DNza33Tay9Gynt7UpBhdJBxqWp', { api_host: 'https://us.i.posthog.com', person_profiles: 'identified_only' });
@@ -323,7 +371,7 @@
             font-weight: 300;
         }
 
-        .feature h4 {
+        .feature h3 {
             font-size: 1.15rem;
             font-weight: 400;
             color: #2D3748;
@@ -492,7 +540,7 @@
         .footer-waitlist-btn {
             background: none;
             border: none;
-            padding: 0;
+            padding: 0.75rem 0;
             color: #A0AEC0;
             font-size: 0.9rem;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -613,6 +661,11 @@
             background: none;
             line-height: 1;
             padding: 0.5rem;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: color 0.2s ease, transform 0.2s ease;
             border-radius: 50%;
         }
@@ -943,6 +996,7 @@
 
         .cookie-btn {
             padding: 0.5rem 1.1rem;
+            min-height: 44px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -1105,17 +1159,17 @@
                 <div class="features-grid">
                     <div class="feature">
                         <div class="feature-icon" aria-hidden="true">◆</div>
-                        <h4>Completely private</h4>
+                        <h3>Completely private</h3>
                         <p>Your reflections stay yours. No sharing, no social features, no accounts to manage.</p>
                     </div>
                     <div class="feature">
                         <div class="feature-icon" aria-hidden="true">○</div>
-                        <h4>No pressure</h4>
+                        <h3>No pressure</h3>
                         <p>No streaks, no scores, no goals. Just a space to pause when you need it.</p>
                     </div>
                     <div class="feature">
                         <div class="feature-icon" aria-hidden="true">⌾</div>
-                        <h4>Return when ready</h4>
+                        <h3>Return when ready</h3>
                         <p>Set a gentle reminder to reflect again, or come back whenever feels right.</p>
                     </div>
                 </div>
@@ -1294,7 +1348,7 @@
     <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent" aria-live="polite">
         <p class="cookie-text">
             We use cookies and similar technologies to understand how you use this site. See our <a
-                href="privacy.html">Privacy Policy</a>.
+                href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
         </p>
         <div class="cookie-actions">
             <button class="cookie-btn cookie-btn-decline" onclick="cookieConsent('decline')">Decline</button>
