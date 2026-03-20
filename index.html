@@ -1541,7 +1541,6 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Content-Profile': 'public',
                         'apikey': window.SUPABASE_ANON_KEY,
                         'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
                         'Prefer': 'return=minimal'
@@ -1549,6 +1548,7 @@
                     body: JSON.stringify({
                         name: name || null,
                         email: email,
+                        response: response || null,
                         source: 'landing'
                     })
                 });
