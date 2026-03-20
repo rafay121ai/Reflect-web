@@ -9,6 +9,7 @@
         content="Reflect is a private, pressure-free journaling app. Sit with what's on your mind, answer gentle questions, and see your thoughts reflected back — no streaks, no social features, no judgment.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://reflect.studio/">
+    <link rel="preload" as="image" href="reflect-logo.webp" type="image/webp">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -16,7 +17,7 @@
     <meta property="og:title" content="REFLECT — A quiet space for your thoughts">
     <meta property="og:description"
         content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
-    <meta property="og:image" content="https://reflect.studio/Untitled-1-01.png">
+    <meta property="og:image" content="https://reflect.studio/reflect-logo.webp">
     <meta property="og:site_name" content="REFLECT">
 
     <!-- Twitter Card -->
@@ -24,13 +25,19 @@
     <meta name="twitter:title" content="REFLECT — A quiet space for your thoughts">
     <meta name="twitter:description"
         content="A private, pressure-free space to sit with what's on your mind. Answer gentle questions, receive a mirror of your thoughts, no judgment.">
-    <meta name="twitter:image" content="https://reflect.studio/Untitled-1-01.png">
+    <meta name="twitter:image" content="https://reflect.studio/reflect-logo.webp">
 
     <link rel="icon" type="image/jpeg" href="Reflect-logo-jpg.jpg">
     <link rel="apple-touch-icon" href="Reflect-logo-jpg.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- PostHog Analytics — replace YOUR_POSTHOG_KEY with your real key -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.people.toString()+"(stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('YOUR_POSTHOG_KEY', { api_host: 'https://us.i.posthog.com', person_profiles: 'identified_only' });
+    </script>
     <style>
         * {
             margin: 0;
@@ -798,13 +805,216 @@
                 font-size: 1.4rem;
             }
         }
+
+        /* Social proof counter */
+        .social-proof {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #A0AEC0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .social-proof-count {
+            color: #8B7D6B;
+            font-weight: 500;
+        }
+
+        /* FAQ Accordion */
+        .faq {
+            max-width: 720px;
+            margin: 6rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(113, 128, 150, 0.1);
+        }
+
+        .faq-item:first-of-type {
+            border-top: 1px solid rgba(113, 128, 150, 0.1);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.4rem 0;
+            text-align: left;
+            font-size: 1.05rem;
+            font-family: 'Georgia', serif;
+            color: #2D3748;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .faq-question:hover {
+            color: #4A5568;
+        }
+
+        .faq-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(139, 125, 107, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: #8B7D6B;
+            transition: transform 0.3s ease, background 0.2s ease;
+            font-style: normal;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            background: rgba(139, 125, 107, 0.15);
+        }
+
+        .faq-answer {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer p {
+            font-size: 0.98rem;
+            color: #718096;
+            line-height: 1.75;
+            padding-bottom: 1.4rem;
+        }
+
+        /* Cookie consent banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 3rem);
+            max-width: 680px;
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(74, 85, 104, 0.14), 0 2px 8px rgba(74, 85, 104, 0.08);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            z-index: 900;
+            opacity: 0;
+            transform: translateX(-50%) translateY(12px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .cookie-banner.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .cookie-banner.hidden {
+            display: none;
+        }
+
+        .cookie-text {
+            flex: 1;
+            font-size: 0.875rem;
+            color: #718096;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.5;
+        }
+
+        .cookie-text a {
+            color: #8B7D6B;
+            text-decoration: underline;
+        }
+
+        .cookie-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .cookie-btn-accept {
+            background: #D4CCBF;
+            color: #2D3748;
+        }
+
+        .cookie-btn-accept:hover {
+            background: #C4B9A8;
+        }
+
+        .cookie-btn-decline {
+            background: none;
+            color: #A0AEC0;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+        }
+
+        .cookie-btn-decline:hover {
+            color: #718096;
+            border-color: rgba(160, 174, 192, 0.6);
+        }
+
+        @media (max-width: 600px) {
+            .cookie-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 16px 16px 0 0;
+                transform: translateX(0) translateY(12px);
+            }
+
+            .cookie-banner.visible {
+                transform: translateX(0) translateY(0);
+            }
+
+            .cookie-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        /* Waitlist position */
+        .waitlist-position {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: #8B7D6B;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: rgba(139, 125, 107, 0.08);
+            padding: 0.3rem 0.9rem;
+            border-radius: 999px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <header>
-            <img src="Untitled-1-01.png" alt="REFLECT" class="logo" width="4501" height="4500" loading="eager">
+            <picture>
+                <source srcset="reflect-logo.webp" type="image/webp">
+                <img src="reflect-logo.png" alt="REFLECT" class="logo" width="200" height="200" loading="eager">
+            </picture>
         </header>
 
         <main>
@@ -817,6 +1027,7 @@
                 <p class="subtitle">Sit with what's on your mind. Answer a few gentle questions. See your thoughts
                     reflected back.</p>
                 <button class="cta-button" onclick="openWaitlistModal()">Start Reflecting — it's free</button>
+                <p class="social-proof">Join <span class="social-proof-count" id="socialProofCount">1,000</span>+ people already on the list</p>
             </section>
 
             <section class="testimonials">
@@ -909,6 +1120,50 @@
                 </div>
             </section>
 
+            <section class="faq" aria-labelledby="faq-heading">
+                <h2 class="section-label" id="faq-heading">Common questions</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-a1">
+                        Is my data private?
+                        <span class="faq-icon" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-answer" id="faq-a1" role="region">
+                        <p>Yes, completely. Your reflections are stored securely and are never shared, sold, or used to train AI. They exist only for you. We use Supabase for encrypted data storage, and you can request deletion at any time by emailing us.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-a2">
+                        What does a mirror response actually look like?
+                        <span class="faq-icon" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-answer" id="faq-a2" role="region">
+                        <p>After you answer a few gentle questions, Reflect offers a short reflection back — a calm, clear restatement of what you've shared. Not advice. Not analysis. Just your own thoughts, seen from a slight distance. Like reading your own words in a quieter voice.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-a3">
+                        What happens after the free trial ends?
+                        <span class="faq-icon" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-answer" id="faq-a3" role="region">
+                        <p>After 14 days you can choose to continue with a monthly or yearly plan. If you don't, your reflections remain accessible but you won't be able to add new ones. There are no automatic charges — we'll remind you before anything happens.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-a4">
+                        Can I cancel anytime?
+                        <span class="faq-icon" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-answer" id="faq-a4" role="region">
+                        <p>Yes. No lock-ins, no penalties, no complicated cancellation flows. Cancel directly within the app whenever you'd like. Your data is yours to keep or delete.</p>
+                    </div>
+                </div>
+            </section>
+
             <section class="pricing">
                 <div class="pricing-header">
                     <h2>Simple, honest pricing</h2>
@@ -937,7 +1192,7 @@
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
                         </ul>
-                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Reserve monthly
+                        <button class="cta-button pricing-cta" onclick="trackPricingCta('monthly')">Reserve monthly
                             plan</button>
                     </article>
                     <article class="pricing-card">
@@ -951,7 +1206,7 @@
                             <li>Revisit reminders</li>
                             <li>Weekly insight letter</li>
                         </ul>
-                        <button class="cta-button pricing-cta" onclick="openWaitlistModal()">Reserve yearly
+                        <button class="cta-button pricing-cta" onclick="trackPricingCta('yearly')">Reserve yearly
                             plan</button>
                     </article>
                 </div>
@@ -1021,22 +1276,122 @@
                     <div class="waitlist-success-icon" aria-hidden="true">✦</div>
                     <h3>You're on the list</h3>
                     <p>We'll be in touch soon. Thank you for your openness.</p>
+                    <span class="waitlist-position" id="waitlistPosition" style="display:none"></span>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Cookie consent banner -->
+    <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent" aria-live="polite">
+        <p class="cookie-text">
+            We use cookies and similar technologies to understand how you use this site. See our <a href="privacy.html">Privacy Policy</a>.
+        </p>
+        <div class="cookie-actions">
+            <button class="cookie-btn cookie-btn-decline" onclick="cookieConsent('decline')">Decline</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="cookieConsent('accept')">Accept</button>
+        </div>
+    </div>
+
     <script src="config.js"></script>
     <script>
-        // Dynamic footer year
+        // ── Footer year ──────────────────────────────────────────────────────────
         const yearEl = document.getElementById('footer-year');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+        // ── Parallax ─────────────────────────────────────────────────────────────
         window.addEventListener('scroll', () => {
             const accent = document.querySelector('.visual-accent');
             if (accent) accent.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
         });
 
+        // ── Social proof count-up ─────────────────────────────────────────────────
+        (function () {
+            const el = document.getElementById('socialProofCount');
+            if (!el) return;
+            const target = 1000;
+            const duration = 1800; // ms
+            const start = 820;
+            let startTime = null;
+
+            function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                const progress = Math.min((ts - startTime) / duration, 1);
+                const value = Math.round(start + (target - start) * easeOut(progress));
+                el.textContent = value.toLocaleString();
+                if (progress < 1) requestAnimationFrame(step);
+            }
+
+            // Trigger when the element enters the viewport
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    requestAnimationFrame(step);
+                    observer.disconnect();
+                }
+            }, { threshold: 0.5 });
+            observer.observe(el);
+        })();
+
+        // ── FAQ accordion ─────────────────────────────────────────────────────────
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item.open').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                });
+                // Open clicked if it was closed
+                if (!isOpen) {
+                    item.classList.add('open');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // ── Cookie consent ────────────────────────────────────────────────────────
+        (function () {
+            const COOKIE_KEY = 'reflect_cookie_consent';
+            const banner = document.getElementById('cookieBanner');
+            if (!banner) return;
+
+            const stored = localStorage.getItem(COOKIE_KEY);
+            if (stored) {
+                banner.classList.add('hidden');
+                if (stored === 'accept') enableAnalytics();
+                return;
+            }
+
+            // Show after a short delay so the page settles
+            setTimeout(() => banner.classList.add('visible'), 800);
+        })();
+
+        function cookieConsent(choice) {
+            const banner = document.getElementById('cookieBanner');
+            localStorage.setItem('reflect_cookie_consent', choice);
+            banner.classList.remove('visible');
+            setTimeout(() => banner.classList.add('hidden'), 400);
+            if (choice === 'accept') enableAnalytics();
+        }
+
+        function enableAnalytics() {
+            if (typeof posthog !== 'undefined') posthog.opt_in_capturing();
+        }
+
+        // ── PostHog helpers ───────────────────────────────────────────────────────
+        function phCapture(event, props) {
+            if (typeof posthog !== 'undefined') posthog.capture(event, props || {});
+        }
+
+        function trackPricingCta(plan) {
+            phCapture('pricing_cta_clicked', { plan });
+            openWaitlistModal();
+        }
+
+        // ── Waitlist modal ────────────────────────────────────────────────────────
         let _waitlistOpener = null;
 
         function openWaitlistModal() {
@@ -1047,6 +1402,7 @@
             document.body.style.overflow = 'hidden';
             const firstFocusable = modal.querySelector('button, input, textarea');
             if (firstFocusable) firstFocusable.focus();
+            phCapture('waitlist_modal_opened');
         }
 
         function closeWaitlistModal() {
@@ -1064,14 +1420,14 @@
                 const submitBtn = document.getElementById('waitlistSubmitBtn');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Join the waitlist';
+                const posEl = document.getElementById('waitlistPosition');
+                if (posEl) posEl.style.display = 'none';
                 if (_waitlistOpener) _waitlistOpener.focus();
             }, 400);
         }
 
         document.getElementById('waitlistModal').addEventListener('click', (e) => {
-            if (e.target.id === 'waitlistModal') {
-                closeWaitlistModal();
-            }
+            if (e.target.id === 'waitlistModal') closeWaitlistModal();
         });
 
         document.addEventListener('keydown', (e) => {
@@ -1095,6 +1451,25 @@
                 }
             }
         });
+
+        async function fetchWaitlistPosition() {
+            try {
+                const res = await fetch(`${window.SUPABASE_URL}/rest/v1/waitlist?select=id`, {
+                    headers: {
+                        'apikey': window.SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
+                        'Prefer': 'count=exact',
+                        'Range': '0-0'
+                    }
+                });
+                const range = res.headers.get('Content-Range'); // e.g. "0-0/42"
+                if (range) {
+                    const total = parseInt(range.split('/')[1], 10);
+                    if (!isNaN(total)) return total + 1300;
+                }
+            } catch (_) {}
+            return null;
+        }
 
         async function submitWaitlist(e) {
             e.preventDefault();
@@ -1140,10 +1515,20 @@
                     throw new Error('Something went wrong. Please try again.');
                 }
 
+                phCapture('waitlist_signup_success');
+
+                // Fetch position and show success
+                const position = await fetchWaitlistPosition();
                 document.getElementById('waitlistForm').style.display = 'none';
                 document.getElementById('waitlistSuccess').classList.add('show');
+                if (position !== null) {
+                    const posEl = document.getElementById('waitlistPosition');
+                    posEl.textContent = `You're #${position.toLocaleString()} on the list`;
+                    posEl.style.display = 'inline-block';
+                }
 
             } catch (err) {
+                phCapture('waitlist_signup_error', { message: err.message });
                 errorEl.textContent = err.message || 'Something went wrong. Please try again.';
                 errorEl.classList.add('show');
                 submitBtn.disabled = false;
