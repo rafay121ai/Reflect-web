@@ -44,3 +44,156 @@ GSC property: `sc-domain:ireflect.app` (Domain property — the URL-prefix `http
 3. **Any new striking-distance (pos 8–20) queries?** If yes, that's the run to start title/on-page tuning — the lever that was NOT useful this run.
 4. Re-check redirect-error count — should trend to 0 after re-crawl.
 5. Only after indexing is healthy: consider content gaps vs competing journaling apps.
+
+---
+
+## 2026-07-13 — Run 2 (no-op — same-day trigger, no new signal)
+
+Confirmed Run 1's commit (`121872a`) is on `origin/main` — already pushed, Vercel has deployed it. This run fired the same day as Run 1, so GSC has had zero re-crawl time.
+
+### GSC check (all numbers identical to Run 1 baseline, within rounding)
+| Metric | Run 1 | Run 2 (this run) |
+|---|---|---|
+| Clicks (90d) | 41 | 40 |
+| Impressions (90d) | 1,090 | 1,090 |
+| Avg position | 19.7 | 19.8 |
+| Indexed | 7 | 7 |
+| Not indexed | 9 (6 redirect error, 2 page-with-redirect, 1 crawled-not-indexed) | 9 — identical breakdown |
+| Sitemap last read | Jul 4 | Jul 4 (unchanged) |
+
+No new data exists to diagnose against. Shipping further changes now would be a burst, not domain-warming — skipped per protocol.
+
+### Shipped this run
+None. Verification-only pass.
+
+### Run 1 loop — CLOSED 2026-07-13
+- [x] Push — `origin/main` = `121872a`, Vercel deployed (verified live: internal links + CTA render).
+- [x] Sitemap resubmitted in GSC — re-read Jul 13, Success, 59 pages.
+- [x] Requested indexing (all added to priority crawl queue): `/blog/`, `best-self-reflection-apps-2026`, `cant-figure-out-how-i-feel`, `how-to-understand-yourself-better-without-therapy`, `journaling-vs-self-reflection`, `what-is-ai-self-reflection`, `self-reflection-questions` (already indexed — re-crawl for new links/schema), `how-to-stop-overthinking-in-a-relationship` (already indexed — re-crawl).
+- Baseline for next run to beat: 7 indexed / 9 not; impression leaders at pos 77 & 86; 0 non-brand clicks (28d).
+
+### What to check NEXT run
+Same checklist as after Run 1 — nothing has had time to move yet:
+1. Did indexed count rise from 7?
+2. Did the two impression-leading posts move off pos ~77–86?
+3. Any new striking-distance (pos 8–20) queries?
+4. Redirect-error count trending toward 0?
+5. Sitemap re-read after a fresh submission?
+If the next run is still within a day or two of this one, expect another no-op — give Google's crawler real time before re-diagnosing.
+
+---
+
+## 2026-07-16 — Run 3 (indexing recrawl confirmed + inbound-link fix on 4 orphan/weak-linked posts)
+
+### GSC snapshot vs Run 1/2 baseline
+| Metric | Run 1/2 baseline | Run 3 (this run, 90d) |
+|---|---|---|
+| Clicks | 40–41 | 36 |
+| Impressions | 1,090 | 1,070 |
+| Avg position | 19.7–19.8 | ~21 (fluctuated 20.5–21.4 within the session — GSC recomputes hourly) |
+| **Indexed** | **7** | **44** |
+| Not indexed | 9 (6 redirect error, 2 page-with-redirect, 1 crawled-not-indexed) | 9 — same bucket breakdown, but see below |
+| Sitemap | 59 pages, last read Jul 4/13, Success | 59 pages, last read Jul 13, Success (unchanged) |
+| Pages earning impressions | 11 | 15 |
+| Core Web Vitals | No data | No data (still below CrUX threshold) |
+
+**Indexed count jumped 7 → 44.** This is the checklist item #1 from Run 1/2 finally resolving. Confirmed real (not a reporting artifact) by live URL Inspection: `blog/best-self-reflection-apps-2026/` — one of the 6 URLs still bucketed under "Redirect error" (last crawled May 19, validation status "Started") — returns **"URL is on Google / Page is indexed"** under Test Live URL / current inspection. The aggregate Page Indexing report is lagging the real crawl state; the 9-not-indexed figure is stale bookkeeping, not 9 live problems. No code fix needed here — just time for the report to catch up. The 2 "Page with redirect / Failed" entries are `http://ireflect.app/` and `http://www.ireflect.app/` — the non-HTTPS canonical redirect targets, which are *supposed* to not be indexed (Google correctly follows the redirect to the real HTTPS URL). Not a bug.
+
+**Impression-leading posts did NOT move**: `self-reflection-questions` 88→96 impr, pos 77→76.9 (flat); `how-to-stop-overthinking-in-a-relationship` 64→70 impr, pos 86→86.7 (flat). More raw impressions (more crawl coverage) but zero position movement in 3 days — expected, internal-link/schema effects on ranking take longer than on indexing.
+
+**No new striking-distance (pos 8–20) non-brand queries.** Checked full 90-day query list (98 rows). Closest non-brand: "40 reflection questions" pos 13 (2 impr, unchanged from Run 1) — still too low-volume to act on. Lever stays closed this run.
+
+**No high-impression page ranking 4–8 with low CTR** other than the homepage (pos 6.5, CTR 4.2%, brand-driven, already healthy) — no title/meta rewrite opportunity.
+
+### Root-cause finding this run: inbound internal links
+Since indexing progress needs no further code work and no striking-distance/CTR lever exists, I checked inbound (not outbound — Run 1 fixed outbound) internal links across all 55 posts as the next-highest lever, since Run 1's own root-cause finding was "weak internal linking → indexing problems." Result: **11 posts have zero inbound links from any other post body** (not counting the `/blog/` index listing) — these are exactly the pages most likely to stay hard for Google to crawl/value. `how-to-stop-overthinking-in-a-relationship` (impression leader, deep-ranked) had only 1 inbound link from another post.
+
+### Changes shipped this run (4 files, 1 new contextual link added to each)
+1. `why-do-i-overthink-everything-i-say` → added link to `how-to-stop-overthinking-in-a-relationship` (impression leader; raises its inbound count 1→2).
+2. `why-do-i-feel-disconnected-from-myself` → added link to `why-do-i-feel-empty-even-when-life-is-good` (0-inbound orphan; same emotional-identity cluster).
+3. `how-to-set-boundaries-without-feeling-guilty` → added link to `why-do-i-feel-guilty-for-resting` (0-inbound orphan; same guilt/boundaries topic).
+4. `how-to-journal` → added link to `types-of-journaling` (0-inbound orphan; natural hub-to-taxonomy link from the site's main journaling-101 post).
+
+All 4 edits inserted into the existing "keep exploring / related reading" sentence at the end of each post's body — no new sections, no schema changes, no title/meta changes. Validated all 4 files with `html.parser` (0 errors) and confirmed every new `/blog/...` href resolves to a real `index.html` file on disk.
+
+### Deliberately NOT done
+- No title/meta rewrites (no pos 4–8 low-CTR page exists outside the brand-driven homepage).
+- No new content (indexing not yet uniformly healthy — 44/53 non-redirect posts, real number likely higher per the live-inspection finding above — and no confirmed competitor content gap researched this run).
+- Did not touch the other 8 zero-inbound orphan posts — capped at 4 link edits to keep this a small, defensible increment, not a batch. Note: `how-to-set-boundaries-without-feeling-guilty` and `types-of-journaling` were used as *source* posts (they now link out to other orphans) but remain zero-inbound themselves — still on the list below.
+- Did not request re-indexing again on the 6 stale "Redirect error" URLs — live inspection shows they're likely already indexed; another request would be noise, not signal.
+
+### Post-deploy actions (for the user)
+- [ ] Push to `main` (commands below).
+- [ ] URL Inspection → Request Indexing on the 4 edited posts (new outbound link changes the page content) and their 4 new link targets: `how-to-stop-overthinking-in-a-relationship`, `why-do-i-feel-empty-even-when-life-is-good`, `why-do-i-feel-guilty-for-resting`, `types-of-journaling`.
+- [ ] No sitemap resubmission needed — no URLs added or removed.
+
+### What to check NEXT run
+1. Did the 6 "Redirect error" bucket URLs clear once the aggregate report catches up to the live-inspection state (expect this to resolve on its own — re-verify via URL Inspection, not just the summary report)?
+2. Did `self-reflection-questions` / `how-to-stop-overthinking-in-a-relationship` move off pos ~77/87 now that inbound links have been added?
+3. Any new striking-distance (8–20) non-brand queries?
+4. Indexed count trend — did it hold at 44+ or keep climbing toward the full 59-URL sitemap?
+5. 8 zero-inbound-link orphan posts remain (`why-do-i-feel-empty-even-when-life-is-good` and `why-do-i-feel-guilty-for-resting` were fixed this run — recount to confirm before reusing this list): `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `brain-dump-vs-journaling`, `journaling-app-vs-mood-tracker`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`, `does-journaling-really-work` — pick up 2–4 more next run, same small-batch approach.
+
+---
+
+## 2026-07-20 — Run 4 (⚠ Run 2 & Run 3 were never pushed — homepage/brand-term regression found + 3 more orphan-link fixes)
+
+### Critical finding before anything else: `origin/main` is still at Run 1's commit
+`git log origin/main` = `121872a` (Run 1 only). Run 2 shipped nothing (verification-only, correctly). **Run 3 shipped 4 file edits + a log entry that were never committed or pushed** — they've been sitting locally since 2026-07-16. This run's GSC diagnosis below is therefore comparing against a live site that has not changed since Run 1. That is the most likely reason indexed count and rankings look flat: Google has only ever crawled Run 1's changes. Nothing here is a code problem — it's an unfinished deploy loop. The commands at the bottom of this run now bundle Run 3 + Run 4 together; push them.
+
+### GSC snapshot — 90 days (vs Run 3 baseline) and 28 days (new this run)
+| Metric | Run 3 (90d) | Run 4 (90d, this run) | Run 4 (28d, this run) |
+|---|---|---|---|
+| Clicks | 36 | 35 | **0** |
+| Impressions | 1,070 | ~1,090 | 219 |
+| Avg CTR | — | 3.2% | **0%** |
+| Avg position | ~21 | 24.1 | 35.2 |
+| Indexed | 44 | 44 — unchanged | — |
+| Not indexed | 9 (6 redirect error, 2 page-with-redirect/failed, 1 crawled-not-indexed) | 9 — identical breakdown, unchanged | — |
+| Sitemap | 59 pages, last read Jul 13 | 59 pages, last read Jul 13 — unchanged (stale, but no new URLs so no action needed) | — |
+| Core Web Vitals | No data | No data — unchanged | — |
+
+**Indexed count is flat at 44/9** — expected, since nothing has shipped to production since Run 1 and Run 3's fixes are still sitting local-only.
+
+### New finding this run: homepage / brand-term regression in the last 28 days
+This is the headline number, not a repeat of the "no striking-distance keywords" story.
+- **Homepage (`https://ireflect.app/`)**: 90d avg position 7.0 (817 impr, 35 clicks, 4.3% CTR) vs **28d avg position 13.3 (115 impr, 0 clicks, 0% CTR)**. The homepage has slid from comfortably page-1 into striking-distance territory in the most recent month, and CTR has collapsed to zero.
+- **Brand query "ireflect"**: 90d position 5.9 (613 impr, 28 clicks) vs **28d position 8.7 (70 impr, 0 clicks, 0% CTR)**.
+- **Site-wide 28-day total: 0 clicks** across all 18 pages that got impressions, despite 219 impressions. On a 90-day rate of 35 clicks/90 days (~0.39/day), a 28-day window would statistically expect ~11 clicks; getting 0 is a real deviation, not just small-sample noise.
+- I did not find a code-level or indexing cause — the homepage isn't in the not-indexed bucket, sitemap is healthy, no redirect errors changed. This looks like ranking/CTR volatility rather than a technical fault, but it's the single biggest number in this dataset and needs to be watched, not shrugged off. **Flagging, not fixing** — there's no GSC number pointing at a specific on-page cause, and per protocol I don't propose changes without one. If it's still down next run, that's the trigger to look harder (e.g., check if a title/meta or schema regression shipped, check Search Appearance for lost rich-result eligibility).
+- No action taken on this finding this run beyond logging it — homepage title/meta already matches the brand exactly (verified against Run 1's audit), and there's no specific lever the data points to yet.
+
+### Priority-order check
+1. **Striking-distance keywords (pos 8–20, real impressions):** the brand term itself is now sitting here in the 28-day view (see above) but it's an already-branded query — there's no title/meta lever left to pull that isn't already in place. No other query cleared the bar: full 90-day query list checked (110 rows), closest non-brand is still `40 reflection questions` at pos 13.0 with 2 impressions — unchanged from Run 1, still too low-volume to act on. Lever stays closed for non-brand.
+2. **High-impression pos 4–8 pages with low CTR:** none outside the homepage, which is covered above.
+3. **Indexing/crawl issues:** unchanged bucket (9 not-indexed, same breakdown as Run 3). Per Run 3's live-inspection finding, the 6 "Redirect error" URLs are likely already indexed and the aggregate report is stale bookkeeping — did not re-request indexing on these again this run (would be noise).
+4. **Core Web Vitals:** still no CrUX data. Not actionable.
+5. **Content gaps:** not evaluated this run — indexing is stable but Run 3's fixes haven't even reached production yet, so it's premature to add new pages.
+
+### Changes shipped this run (3 files, 1 new contextual link added to each — same small-batch pattern as Run 3)
+Continuing Run 3's zero-inbound-link cleanup list. Re-verified the full 55-post link graph with a script rather than trusting the prior list by hand — confirmed 8 posts still have zero inbound links from other post bodies: `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `brain-dump-vs-journaling`, `journaling-app-vs-mood-tracker`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`, `does-journaling-really-work`. Fixed 3 of the 8:
+1. `types-of-journaling` → added link to `brain-dump-vs-journaling` (natural fit: journaling-method comparison).
+2. `why-journaling-alone-doesnt-help` → added link to `does-journaling-really-work` (efficacy/skepticism cluster).
+3. `how-to-choose-a-self-reflection-app` → added link to `journaling-app-vs-mood-tracker` (app-comparison cluster).
+
+All 3 edits inserted into the existing "keep exploring" sentence at the end of each source post's body — no new sections, no title/meta/schema changes. Validated all 3 files with `html.parser` (0 errors) and confirmed every new `/blog/...` href resolves to a real `index.html` file on disk.
+
+### Deliberately NOT done
+- No reaction to the homepage/brand-term position drop — no specific on-page cause identified, logged for next-run comparison instead.
+- No title/meta rewrites — no pos 4–8 high-impression/low-CTR page exists outside the homepage/brand case above.
+- No new content — indexing is stable but Run 3's changes aren't even live yet.
+- Did not touch the remaining 5 zero-inbound orphan posts (`personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`) — capped at 3 this run to stay incremental.
+- Did not re-request indexing on the 6 stale redirect-error URLs — same reasoning as Run 3.
+
+### Post-deploy actions (for the user)
+- [ ] **Push everything — Run 3 + Run 4 combined** (commands below). This is the priority: two runs of work are sitting unpublished.
+- [ ] URL Inspection → Request Indexing on the 7 edited posts (Run 3 + Run 4) and their new link targets: `how-to-journal`, `why-do-i-feel-disconnected-from-myself`, `why-do-i-overthink-everything-i-say`, `how-to-set-boundaries-without-feeling-guilty`, `types-of-journaling`, `why-journaling-alone-doesnt-help`, `how-to-choose-a-self-reflection-app`, plus targets `brain-dump-vs-journaling`, `does-journaling-really-work`, `journaling-app-vs-mood-tracker`.
+- [ ] No sitemap resubmission needed — no URLs added or removed.
+- [ ] Watch the homepage/brand-term position and CTR next run — if still down, dig into Search Appearance / rich-result eligibility for signs of a schema or SERP-feature loss.
+
+### What to check NEXT run
+1. **Did the push actually happen this time?** Check `git log origin/main` before doing anything else — if it's still `121872a`, stop and flag it again rather than re-diagnosing stale data.
+2. Homepage 28-day position/CTR — did it recover toward the 90-day baseline (pos ~7, CTR ~4%) or stay depressed?
+3. Did indexed count move past 44 once Run 3+4's changes actually reach production?
+4. Any new striking-distance (8–20) non-brand queries?
+5. 5 zero-inbound-link orphan posts remain: `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal` — pick up 2–3 more, same approach.
