@@ -197,3 +197,63 @@ All 3 edits inserted into the existing "keep exploring" sentence at the end of e
 3. Did indexed count move past 44 once Run 3+4's changes actually reach production?
 4. Any new striking-distance (8–20) non-brand queries?
 5. 5 zero-inbound-link orphan posts remain: `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal` — pick up 2–3 more, same approach.
+
+---
+
+## 2026-07-24 — Run 5 (confirmed Run 3+4 live, closed the re-index loop, 3 more orphan-link fixes)
+
+### Critical check first: did the push happen?
+`git log origin/main` = `6b4e082` ("SEO: 7 internal-link fixes across two runs (Run 3 + Run 4)") — **confirmed live**, matches local HEAD. Run 4's flagged deploy gap is closed. This run's GSC diagnosis is against a site that has actually received the Run 3+4 changes.
+
+### GSC snapshot vs Run 4 baseline
+| Metric | Run 4 (this run's baseline) | Run 5 (this run) |
+|---|---|---|
+| Clicks (90d) | 35 | 32 |
+| Impressions (90d) | ~1,090 | ~1,120 |
+| Avg position (90d) | 24.1 | 26.8 |
+| Clicks (28d) | 0 | 0 |
+| Impressions (28d) | 219 | 272 |
+| Avg position (28d) | 35.2 | 41.1 |
+| **Indexed** | **44** | **44 — unchanged, 3rd run running** |
+| Not indexed | 9 (6 redirect error, 2 page-with-redirect/failed, 1 crawled-not-indexed) | 9 — identical breakdown, unchanged |
+| Sitemap last read | Jul 13 | **Jul 13 — still unchanged, now 11 days stale** |
+| Page-indexing report "Last update" | — | **Jul 10 — 14 days stale, has not moved across Run 3/4/5** |
+| Core Web Vitals | No data | No data — unchanged |
+
+**Indexed count (44/9) and sitemap last-read (Jul 13) have now been frozen for three consecutive runs (Run 3 → 4 → 5, spanning 8+ days) despite Run 3+4's changes actually reaching production this run.** That's no longer "report lag" — it looks like Google's crawl cadence on this low-authority site has genuinely slowed. Confirmed via live URL Inspection: homepage returns "URL is on Google / Page is indexed" (healthy), and `cant-figure-out-how-i-feel` (one of the 6 stale "Redirect error" bucket URLs) *also* returns "URL is on Google / Page is indexed" live — same finding as Run 3, now re-verified 8 days later. **The 9-not-indexed figure is confirmed stale bookkeeping, not a live problem** — no code fix warranted.
+
+**Site-wide 28-day clicks are 0 for the second consecutive run**, and the 28-day average position degraded further (35.2 → 41.1). Homepage 28d: pos 13.6, 116 impr, 0 clicks, 0% CTR — statistically flat vs Run 4 (pos 13.3, 115 impr, 0 clicks). Brand query "ireflect" 28d: pos 8.7 (identical to Run 4 to one decimal), 71 impr, 0 clicks. **Two straight runs of an identical 28-day brand position with zero clicks is a real pattern, not noise** — but 90-day homepage (pos 7.2, 32 clicks, 4.1% CTR) and 90-day brand query (pos 6.0, 4.5% CTR) both remain healthy and roughly flat vs Run 4, so this reads as recent volatility sitting on top of a stable baseline rather than a structural regression. Checked Search Appearance breakdown for lost rich-result eligibility (Run 4's suggested next step) — **no data at all in that report**, so there's no rich-result signal to diagnose either way. Flagging again, still no on-page cause identified.
+
+**No new striking-distance (pos 8–20) non-brand queries.** Full 90-day list re-checked, sorted by position: `40 reflection questions` still pos 13.0, still 2 impressions — unchanged since Run 1. Lever stays closed.
+
+**No pos 4–8 high-impression/low-CTR page outside the homepage/brand case** — no title/meta rewrite opportunity this run either.
+
+### Action taken: closed the Run 4 re-index loop
+Since the Run 3+4 push is now confirmed live (previous runs' pushes were repeatedly the bottleneck), executed Run 4's outstanding post-deploy checklist item: URL Inspection → Request Indexing on the 7 edited posts from Run 3+4 and their 3 new link targets (10 URLs total): `how-to-journal`, `why-do-i-feel-disconnected-from-myself`, `why-do-i-overthink-everything-i-say`, `how-to-set-boundaries-without-feeling-guilty`, `types-of-journaling`, `why-journaling-alone-doesnt-help`, `how-to-choose-a-self-reflection-app`, `brain-dump-vs-journaling`, `does-journaling-really-work`, `journaling-app-vs-mood-tracker`. Also live-tested `cant-figure-out-how-i-feel` in the process (confirmed indexed; that one wasn't on the Run 4 list but was already being inspected for the redirect-error re-check above, so it got a re-index request too — 11 total). All confirmed "Indexing requested / added to priority crawl queue," no quota errors. Sitemap resubmission was attempted (to nudge the stale Jul 13 last-read) but the form rejected it as an invalid/duplicate address since the sitemap is already registered — skipped, not worth forcing.
+
+### Changes shipped this run (3 files, 1 new contextual link added to each — same small-batch pattern as Run 3/4)
+Re-verified the full 55-post inbound-link graph with a script (not reused Run 4's list by hand) — confirmed the same 5 zero-inbound posts Run 4 identified are still zero-inbound: `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`, `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`. Fixed 3 of the 5:
+1. `ai-journaling-privacy` → added link to `personalized-journal-prompts` (personalization + privacy is a direct topical pair).
+2. `why-am-i-so-hard-on-myself` → added link to `positive-journaling-without-toxic-positivity` (self-criticism vs. authentic-not-toxic positivity cluster).
+3. `how-to-know-what-you-want` → added link to `journal-prompts-for-feeling-lost` (feeling-lost/direction cluster).
+
+All 3 edits inserted into the existing "keep exploring" sentence at the end of each source post's body — no new sections, no title/meta/schema changes. Validated all 3 files with `html.parser` (0 errors) and confirmed every new `/blog/...` href resolves to a real `index.html` file on disk.
+
+### Deliberately NOT done
+- No title/meta rewrites — no pos 4–8 high-impression/low-CTR page exists outside the homepage/brand case, which has no identified on-page cause.
+- No new content — indexing is technically stable (live-confirmed) but the aggregate report and sitemap crawl cadence both look stalled; premature to add more URLs to a sitemap Google isn't re-reading.
+- Did not touch the remaining 2 zero-inbound orphan posts (`how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`) — capped at 3 this run, same as Run 3/4.
+- Did not re-request indexing on the homepage or the other 5 stale redirect-error URLs beyond the one already in the Run 4 target list — would be noise past the confirmed-stale-bookkeeping finding.
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 3 files (commands below).
+- [ ] URL Inspection → Request Indexing on the 3 edited posts: `ai-journaling-privacy`, `why-am-i-so-hard-on-myself`, `how-to-know-what-you-want`, and their new link targets: `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`, `journal-prompts-for-feeling-lost`.
+- [ ] No sitemap resubmission needed — attempted this run, form rejected as duplicate/invalid since it's already registered.
+- [ ] Watch the sitemap "last read" date and the indexed-page count next run — if both are still frozen at Jul 13 / 44 after another 4 days, that's worth escalating past "just wait" (e.g., check robots.txt hasn't changed, check for a crawl-rate-limiting signal in Search Console settings).
+
+### What to check NEXT run
+1. **Did indexed count or sitemap last-read finally move off 44 / Jul 13?** Three runs frozen is the headline concern — if a 4th run shows no movement, dig into why (robots.txt, crawl-rate settings, manual actions).
+2. Did the 28-day brand position (currently pos 8.7, 0 clicks, two runs running) recover toward the 90-day baseline, or is a third consecutive 0-click 28-day window forming?
+3. Any new striking-distance (8–20) non-brand queries?
+4. 2 zero-inbound-link orphan posts remain: `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal` — finish this list next run (last batch).
+5. Search Appearance report still has no data — not a usable lever until the site earns enough volume/rich-result eligibility for GSC to report on it.
