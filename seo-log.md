@@ -260,3 +260,68 @@ All 3 edits inserted into the existing "keep exploring" sentence at the end of e
 
 ### Addendum (post-push): 2 posts found genuinely uncrawled, not just "redirect error"
 After the user pushed `b2ec2c0`, ran the post-deploy re-index requests on all 6 target URLs. 4 of 6 (`why-am-i-so-hard-on-myself`, `how-to-know-what-you-want`, `personalized-journal-prompts`, `positive-journaling-without-toxic-positivity`) were already indexed and got a fresh-crawl request. **The other 2 — `ai-journaling-privacy` and `journal-prompts-for-feeling-lost` — came back "URL is not on Google: URL is unknown to Google," with no referring sitemap and no referring page detected.** This is a different failure mode from the known 6-URL "Redirect error" bucket (which live-tests fine) — these two appear to have never been crawled at all. Both are now in the priority crawl queue via Request Indexing. **Check next run: are these 2 indexed yet, and are there other posts in the same "unknown to Google" state that haven't been checked individually?** Worth spot-checking a handful of the other 53 posts via URL Inspection next run rather than assuming the aggregate 44/9 split covers everything — the aggregate report may not be surfacing every failure mode.
+
+---
+
+## 2026-07-28 — Run 6 (indexing broke out of its 3-run freeze; root cause found for the brand-CTR mystery; internal-link cleanup arc closed)
+
+### Push check first
+`git log origin/main` = `0701226` ("SEO log: note 2 posts found unknown-to-Google during re-index pass") — matches local HEAD, confirmed live. Run 5's changes reached production.
+
+### GSC snapshot vs Run 5 baseline
+| Metric | Run 5 (90d) | Run 6 (90d, this run) | Run 5 (28d) | Run 6 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 32 | 28 | 0 | 1 |
+| Impressions | ~1,120 | 1,160 | 272 | 356 |
+| Avg CTR | — | 2.4% | — | 0.3% |
+| Avg position | 26.8 | 30.1 | 41.1 | 45.5 |
+| **Indexed** | **44** | **49** | — | — |
+| Not indexed | 9 (6 redirect error, 2 page-with-redirect/failed, 1 crawled-not-indexed) | **5** (3 page-with-redirect, 1 alternate-canonical, 1 crawled-not-indexed, 0 redirect error) | — | — |
+| Sitemap last read | Jul 13 | **Jul 13 — still frozen, now 15 days stale** | — | — |
+| Page-indexing report "Last update" | Jul 10 | **Jul 24 — moved for the first time in 3 runs** | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Pages w/ impressions | — | 130 queries / 32 pages (28d) | — | — |
+
+**Indexed count finally broke out of the 3-run freeze: 44 → 49.** Not-indexed dropped 9 → 5, and the "Redirect error" bucket that had been stuck for three straight runs (Run 3, 4, 5 — always live-testable as indexed but stuck in stale bookkeeping) is now **0 pages, Validation: Passed**. Audited all 5 remaining "not indexed" entries individually — every one is a non-issue, not a live problem:
+- **Page with redirect (3, Failed validation):** `http://www.ireflect.app/`, `https://www.ireflect.app/`, `http://ireflect.app/` — the non-canonical protocol/www variants. Correctly excluded; they redirect to the real HTTPS apex. Same finding as Run 3, now with the previously-separate "redirect error" bucket cleared.
+- **Alternate page with proper canonical tag (1):** `https://ireflect.app/?q={search_term_string}` — the WebSite JSON-LD SearchAction template URL, correctly canonicalizing to the homepage. Not a real page.
+- **Crawled – currently not indexed (1):** `https://app.ireflect.app/?signup=1` — the app subdomain signup URL, not a content/blog page. Correctly not indexed; nothing to fix.
+No code action taken — all 5 are expected exclusions, not defects.
+
+**Addendum from Run 5 resolved:** the 2 posts flagged as "unknown to Google" (`ai-journaling-privacy`, `journal-prompts-for-feeling-lost`) were individually re-inspected via URL Inspection this run — **both now show "URL is on Google / Page is indexed."** That loop is closed.
+
+**Sitemap last-read is still frozen at Jul 13** (now 15 days stale, unchanged across 5 runs) even though the aggregate indexed count moved. This confirms indexing progress is happening via Google's own re-crawl of internal links / prior sitemap data, not a fresh sitemap read. Not actionable — resubmission was already tried and rejected as duplicate in Run 5.
+
+**No striking-distance (pos 8–20) queries with real impressions** in either the 28-day or 90-day view (checked full 130-query 90-day list and full 82-query 28-day list, both sorted by position). Closest as always: `40 reflection questions`, now pos 32.3 (3 impr, 28d) — it has actually drifted *further* from the 8–20 band since Run 1 (was pos 13.0 for 5 straight runs, now 32.3). Lever stays closed.
+
+**No pos 4–8 high-impression/low-CTR page with a fixable packaging problem** — see root-cause finding below on the brand term, which sits at the edge of this band but isn't a title/meta issue.
+
+### Root-cause finding this run: the brand-CTR flatline is a SERP name-collision, not a technical fault
+Run 4 and Run 5 both flagged the same anomaly and could not explain it: the exact brand query "ireflect" sits around 28-day position 8.7–8.8 with **zero clicks for three consecutive runs**, despite a healthy 90-day baseline (pos 6.1, 4.1% CTR, 22 clicks). Per this run's checklist ("if still down next run, dig harder"), ran a live (logged-in) Google search for "ireflect." Finding: **the SERP is dominated by unrelated products sharing the same name** — `ireflect.com.au` (an Australian wellbeing check-in tool, ranks #1), a Google Play Store listing for a different app called "ireflect," an Apple App Store listing for that same different app, `ireflect.eu` (a European teacher-training reflective-practice site), an "iReflect" LED/iPod-nano mirror sold on Amazon and via Instagram/TikTok unboxing content, and even a Microsoft .NET `IReflect` programming interface. `ireflect.app` does not appear in the first several result slots at all in this scan. This directly explains the pattern: typo variants like "ireflet" (pos 5.0) and "rifflect" (pos 6.0) — which have no competing matches — rank *better* than the correctly-spelled "ireflect" (pos 8.8), because the correct spelling triggers a crowded, multi-entity SERP that the typos don't.
+
+**This is not fixable via title/meta.** The homepage title (`iReflect — AI Self-Reflection App for Emotional Clarity`) and meta description already clearly differentiate the product category; the competing results outranking it are App Store/Play Store platform listings and an established `.com.au` domain — these carry structural platform authority that on-page copy cannot overcome. Per the protocol's own rule ("don't rewrite title/meta for an authority problem"), no change was made. **Flagging as closed/understood rather than closed/fixed:** this explains the flatline definitively, but it's a brand-naming/differentiation issue, outside SEO-surface scope — a product/business decision for the user, not an SEO task. No further run-over-run re-diagnosis of this specific anomaly is needed; it won't change without a business-level decision.
+
+### Changes shipped this run (2 files, 1 new internal link each — closes the zero-inbound-link cleanup arc started in Run 3)
+Re-verified the full 55-post inbound-link graph with a script. The 2 zero-inbound posts identified in Run 5 were still zero-inbound:
+1. `how-to-stop-people-pleasing` → added link to `how-to-set-boundaries-without-feeling-guilty` (boundaries/guilt cluster, direct topical fit).
+2. `how-to-trust-yourself` → added link to `how-to-keep-a-decision-journal` (self-trust/decision-tracking cluster).
+
+Both edits extended the existing "keep exploring" sentence at the end of each post's body (three links instead of two) — no new sections, no title/meta/schema changes. Validated both files with `html.parser` (0 errors) and confirmed both new `/blog/...` href targets resolve to real files. **Re-ran the inbound-link graph check after the edit: 0 of 55 posts now have zero inbound links.** This closes the internal-linking initiative that ran across Runs 3–6.
+
+### Deliberately NOT done
+- No title/meta rewrite on the homepage or brand term — root cause is platform-authority/name-collision, not packaging (see above). A rewrite would not move the needle and isn't backed by a fixable GSC signal.
+- No new content — this is the first run indexing is genuinely healthy (49/54 real content pages confirmed clean; the 5 "not indexed" are all correct exclusions), which unlocks content-gap evaluation per protocol step 3, but no competitor gap research was done yet this run. That's the flagged next step, not squeezed into this run to keep the change small.
+- No sitemap resubmission — already tried and rejected as duplicate in Run 5; last-read staying frozen isn't blocking indexing (49 pages indexed despite it), so not worth forcing again.
+- No further indexing-issue chasing — all 5 remaining "not indexed" entries are confirmed non-issues, not defects.
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 2 files (commands below).
+- [ ] URL Inspection → Request Indexing on: `how-to-stop-people-pleasing`, `how-to-trust-yourself` (link content changed), and their new targets: `how-to-set-boundaries-without-feeling-guilty`, `how-to-keep-a-decision-journal`.
+- [ ] No sitemap resubmission needed.
+
+### What to check NEXT run
+1. Did indexed count hold at 49+ or keep climbing? Did the sitemap "last read" date ever move off Jul 13 (now 15+ days stale)? If it's still frozen after another run, treat it as a genuine anomaly worth checking robots.txt / crawl-rate-limiting settings — the "just wait" explanation has now run its course over 5 runs.
+2. **First run to do the content-gap web-search check per protocol step 3(b)** — indexing is now confirmed healthy, which was the blocking precondition. Look for a clear gap query that competing self-reflection/journaling apps rank for and ireflect.app doesn't cover, before adding any new post.
+3. Any new striking-distance (8–20) non-brand queries? (`40 reflection questions` continues drifting the wrong way — 13.0 → 32.3 over the life of this log — not a candidate.)
+4. The brand-term SERP-collision finding is structural and unlikely to change run over run — no need to re-run the live-SERP check unless the 28-day brand position or CTR moves meaningfully from ~pos 8.8 / 0%.
+5. Impression-leading posts (`self-reflection-questions` pos ~76, `how-to-stop-overthinking-in-a-relationship` pos ~87) still haven't moved in 5 runs despite internal-link work — now that the link-graph cleanup arc is closed, consider whether these two specifically need on-page depth improvements (protocol option 3a) rather than more linking.
