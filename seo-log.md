@@ -325,3 +325,76 @@ Both edits extended the existing "keep exploring" sentence at the end of each po
 3. Any new striking-distance (8–20) non-brand queries? (`40 reflection questions` continues drifting the wrong way — 13.0 → 32.3 over the life of this log — not a candidate.)
 4. The brand-term SERP-collision finding is structural and unlikely to change run over run — no need to re-run the live-SERP check unless the 28-day brand position or CTR moves meaningfully from ~pos 8.8 / 0%.
 5. Impression-leading posts (`self-reflection-questions` pos ~76, `how-to-stop-overthinking-in-a-relationship` pos ~87) still haven't moved in 5 runs despite internal-link work — now that the link-graph cleanup arc is closed, consider whether these two specifically need on-page depth improvements (protocol option 3a) rather than more linking.
+
+---
+
+## 2026-08-04 — Run 7 (multi-run click/position decline confirmed as real; first content-gap addition — gratitude journal prompts)
+
+### Push check first
+Did not re-verify `git log origin/main` this run (no shell git-remote access in this environment beyond local diff) — assume Run 6's `0701226` is still what's live unless the user says otherwise. This run's diagnosis is against whatever is currently live; the 2 files from Run 6 should already be on `main`.
+
+### GSC snapshot vs Run 6 baseline
+| Metric | Run 6 (90d) | Run 7 (90d, this run) | Run 6 (28d) | Run 7 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 28 | **23** | 1 | 2 |
+| Impressions | 1,160 | 1,340 | 356 | 567 |
+| Avg CTR | 2.4% | 1.7% | 0.3% | 0.4% |
+| Avg position | 30.1 | **36.9** | 45.5 | **53.7** |
+| **Indexed** | **49** | **49 — unchanged, 2nd run holding** | — | — |
+| Not indexed | 5 (3 page-with-redirect, 1 alternate-canonical, 1 crawled-not-indexed) | 5 — identical breakdown, all previously confirmed non-issues | — | — |
+| Sitemap last read | Jul 13 | **Jul 13 — still frozen, now 22 days stale** | — | — |
+| Page-indexing report "Last update" | Jul 24 | Jul 24 — unchanged | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Distinct queries w/ impressions (90d) | 130 (28d count) | 153 (90d count) | — | — |
+| Pages w/ impressions (90d) | — | 39 | — | — |
+
+**Clicks and average position have now declined for three consecutive runs: 28→23 (90d clicks), 30.1→36.9 (90d position); 28-day position 45.5→53.7.** This is a real, repeated trend, not noise — Run 4→5→6→7 shows 90d clicks falling every run (35→32→28→23) while impressions have risen every run (≈1,090→1,120→1,160→1,340). The math: total impressions are climbing because Google is now surfacing the site for a wider tail of queries (153 distinct queries this run vs fewer in earlier runs), and most of that tail sits at position 70–100+, which drags the average down and dilutes CTR even though the core rankings haven't collapsed. The brand query "ireflect" itself is flat and healthy (pos 6.2, 477 impr, 17 clicks, 3.6% CTR — in line with every prior run). **Read this as: the site is being crawled and shown more broadly, but almost none of the new surface area converts to clicks** — which is expected for a low-authority domain being tested against competitive long-tail terms, not a sign of a technical regression. Flagging plainly because the raw numbers look bad and deserve to be named as such, not softened.
+
+**Homepage-specific data (new breakdown pulled this run):** 90d pos 8.2 (685 impr, 23 clicks, 3.4% CTR) — worse than Run 5's 7.2. 28d pos 16.2 (97 impr, 2 clicks, 2.1% CTR) — worse than Run 5's 13.6, though clicks recovered from Run 6's zero. The homepage has now drifted further into the striking-distance band on both windows. Per Run 6's root-cause finding (SERP name-collision with unrelated "ireflect" products — Australian wellbeing app, Play Store/App Store listings, LED mirror gadget, `.NET IReflect` interface), this is not a title/meta problem and no on-page fix exists for it. No new evidence emerged this run to change that conclusion. Not re-litigating it further unless the brand-term CTR itself moves.
+
+**No striking-distance (pos 8–20) non-brand query with real impressions.** Checked the full 153-row 90-day query list end to end. Closest: "i reflect" (brand variant, pos 21.1, 7 impr) — just outside the band and not a content target. "40 reflection questions" continues drifting away: pos 32.3 (3 impr), down from 13.0 at the start of this log. Lever stays closed, 7th run running.
+
+**No pos 4–8 high-impression/low-CTR page with a fixable packaging problem** outside the homepage/brand case, which is closed per above.
+
+**Indexing unchanged and confirmed clean.** 49 indexed / 5 not, identical breakdown to Run 6 (3 page-with-redirect on www/http variants, 1 alternate-canonical on the JSON-LD SearchAction template URL, 1 crawled-not-indexed on the app subdomain signup page) — all previously audited as correct exclusions, not defects. No new indexing issues found. Did not re-spot-check individual posts via URL Inspection this run (Run 6 already closed that loop); nothing in the aggregate data suggests a new problem.
+
+**Sitemap last-read is still frozen at Jul 13 — now 22 days stale across 5 consecutive runs**, even as indexed count, click, and impression data have all moved independently. This continues to look like Google simply isn't re-fetching this specific sitemap file on its own schedule, not a site defect (49 pages are indexed regardless). Resubmission was already tried and rejected as duplicate in Run 5. Not forcing it again — logging it as a standing, non-blocking oddity rather than re-flagging it as an open question every run.
+
+### Content-gap check (protocol step 3b, first real pass)
+Per Run 6's checklist, ran the deferred content-gap web search now that indexing is confirmed healthy for a 2nd consecutive run. Read both impression-leading deep-ranked posts (`self-reflection-questions`, `how-to-stop-overthinking-in-a-relationship`) in full before deciding whether "on-page depth" (checklist item 5) was the right lever — **both are already long, well-structured, non-thin posts** (40 categorized questions with framing prose; a ~1,400-word post with FAQ). Their stuck positions (pos 75.4 and 88.5 this run) read as a domain-authority gap against established competitors, not a content-thinness gap — expanding already-thorough posts further would be padding without a specific problem to fix, so did not do this. Also checked current inbound-link counts for both: `self-reflection-questions` has 6, `how-to-stop-overthinking-in-a-relationship` has 3 — neither is under-linked relative to the rest of the site, and more linking was already the primary lever tried across Runs 3–6 with no measurable effect on either page's position. Closing this specific checklist item as "tried the available levers, none apply" rather than forcing an edit.
+
+Searched instead for genuine topic gaps: competing journaling/self-reflection content (`mylifenote.ai`, `linesofattraction.com`, `mindfulsuite.com`, and others) publish extensively on **gratitude journal prompts** and **shadow work journal prompts** — both established, evergreen, high-interest categories in exactly this site's niche. Checked the existing 55-post catalog: `types-of-journaling` mentions gratitude in one sentence as one of nine methods; `self-reflection-journal-prompts` explicitly uses "What are you grateful for?" as its example of a *weak* prompt. **No post targets gratitude journaling directly.** This is a real, citable gap, not a guess — it fits the site's existing "[topic] journal prompts" / "[topic] questions" content pattern exactly (same pattern as `personalized-journal-prompts`, `morning-reflection-questions`, `weekly-self-reflection-questions`).
+
+### Decision: ADD, not UPDATE
+Per protocol step 3, explicitly chose (b) ADD new content over (a) UPDATE existing posts, because: indexing is healthy for the 2nd straight run (precondition met), the on-page-depth option for the two stuck posts was checked and rejected as not applicable (see above, both already thorough), and a specific, evidence-backed gap query exists that competitors serve and this site does not. Shipped 1 post (within the 1–3 cap).
+
+### Changes shipped this run (1 new post + 3 files touched to link it in)
+1. **New post: `blog/gratitude-journal-prompts/index.html`** (189 lines) — "40 Gratitude Journal Prompts Beyond 'What Are You Thankful For'". Matches the existing template exactly: same head structure, canonical, OG/Twitter tags, `blog.css`, BlogPosting JSON-LD (real dates, no fabricated author/rating data). 40 original prompts across 5 categories (morning, ordinary days, hard days, relationships, work/self), explicitly written to avoid the generic "three things you're grateful for" pattern the site's own `self-reflection-journal-prompts` post already criticizes — genuinely useful, not thin. Contains 2 contextual internal links (`positive-journaling-without-toxic-positivity`, `self-reflection-journal-prompts`) and a home CTA, per template.
+2. `blog/positive-journaling-without-toxic-positivity/index.html` — added 1 inbound link to the new post in its existing "keep exploring" sentence (natural fit: this post already discusses gratitude prompts and toxic positivity, and has an FAQ entry "Is gratitude journaling harmful?").
+3. `blog/types-of-journaling/index.html` — added 1 inbound link to the new post in its existing "keep exploring" sentence (natural fit: gratitude is listed as one of the nine journaling types this post surveys).
+4. `blog/index.html` — added a post-card for the new post to the main blog hub listing (every other post has one; without it the new post would be a hub-orphan on day one, repeating Run 1's original root-cause mistake).
+5. `sitemap.xml` — added `https://ireflect.app/blog/gratitude-journal-prompts/`, lastmod 2026-08-04. Sitemap now lists 60 URLs (was 59).
+
+Validated all 4 changed/new HTML files with Python's `html.parser`: 0 parse errors. Confirmed every internal `/blog/...` href across all 4 files resolves to a real `index.html` on disk (scripted check, not manual). Confirmed `sitemap.xml` is well-formed XML and the new URL is present.
+
+### Deliberately NOT done
+- No on-page depth expansion of `self-reflection-questions` or `how-to-stop-overthinking-in-a-relationship` — checked and rejected, see above (already thorough; stuck position reads as authority gap, not content gap).
+- No more internal linking to those two posts — already well-linked (6 and 3 inbound respectively), lever exhausted across Runs 3–6.
+- No title/meta rewrite on the homepage or brand term — root cause (SERP name-collision) unchanged from Run 6, still outside SEO-surface scope.
+- No sitemap resubmission for the frozen Jul 13 last-read date — already tried and rejected as duplicate in Run 5; not blocking indexing.
+- No second new post this run — capped at 1 to keep this a defensible increment (protocol allows up to 3; used 1). The "shadow work journal prompts" gap identified during research is a candidate for a future run, not this one.
+- Did not touch `CLAUDE.md`, which shows as deleted in the working tree — did not create this state and will not stage it. Flagging it for the user; it looks like local repo drift unrelated to this run's edits.
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 5 files (commands below).
+- [ ] URL Inspection → Request Indexing on the new page: `gratitude-journal-prompts`, and re-crawl requests on the 3 posts whose body content changed: `positive-journaling-without-toxic-positivity`, `types-of-journaling`, and the blog index `/blog/`.
+- [ ] Resubmit sitemap (a URL was added this time — unlike prior no-op resubmission attempts, this one has a real reason).
+- [ ] Do not stage `CLAUDE.md` — it currently shows as deleted in the local working tree and that was not this run's doing.
+
+### What to check NEXT run
+1. **Is the 3-run decline in clicks/position continuing, holding, or reversing?** This is now the single most important trend to track. If 90d clicks keep falling below 23 next run with impressions still rising, that pattern (broader surface, near-zero conversion) is worth a deeper look at whether the site is being shown for increasingly irrelevant queries. If clicks stabilize or recover, the "wider tail, same core" read above holds.
+2. Did the new `gratitude-journal-prompts` post get indexed? (First live-inspection check should happen ~run 8, not before — give it real crawl time.)
+3. Did the sitemap last-read date finally move past Jul 13 now that a real new URL was added (unlike the no-op resubmission attempts in Run 5)?
+4. Any movement on homepage position (90d pos 8.2, 28d pos 16.2 — both worse than Run 5)? Third consecutive run of this pattern would start to look less like SERP noise and more like something worth a fresh live-SERP check, even though Run 6's root cause still looks correct.
+5. Any new striking-distance (8–20) non-brand queries? ("40 reflection questions" continues drifting the wrong way, now pos 32.3.)
+6. Candidate for a future run: "shadow work journal prompts" — same evidence-backed gap pattern as this run's gratitude post, not yet actioned.
