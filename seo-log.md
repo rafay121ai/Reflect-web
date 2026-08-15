@@ -398,3 +398,76 @@ Validated all 4 changed/new HTML files with Python's `html.parser`: 0 parse erro
 4. Any movement on homepage position (90d pos 8.2, 28d pos 16.2 — both worse than Run 5)? Third consecutive run of this pattern would start to look less like SERP noise and more like something worth a fresh live-SERP check, even though Run 6's root cause still looks correct.
 5. Any new striking-distance (8–20) non-brand queries? ("40 reflection questions" continues drifting the wrong way, now pos 32.3.)
 6. Candidate for a future run: "shadow work journal prompts" — same evidence-backed gap pattern as this run's gratitude post, not yet actioned.
+
+---
+
+## 2026-08-12 — Run 8 (multi-run click/position decline continues to a 5th straight run — flagging hard; second content-gap post — shadow work journal prompts)
+
+### Push check first
+`git log origin/main` = `6447e73` ("SEO: add gratitude-journal-prompts post, link it in, update sitemap") — matches local HEAD, confirmed live. Run 7's changes reached production. Working tree also still shows `CLAUDE.md` as deleted — same pre-existing drift flagged in Run 7, not this run's doing, not staged.
+
+### GSC snapshot vs Run 7 baseline
+| Metric | Run 7 (90d) | Run 8 (90d, this run) | Run 7 (28d) | Run 8 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 23 | **17** | 2 | 2 |
+| Impressions | 1,340 | ~1,360 | 567 | 625 |
+| Avg CTR | 1.7% | 1.3% | 0.4% | 0.3% |
+| Avg position | 36.9 | **40.3** | 53.7 | **55.5** |
+| **Indexed** | **49** | **52** | — | — |
+| Not indexed | 5 (3 page-with-redirect, 1 alternate-canonical, 1 crawled-not-indexed) | 5 — identical breakdown, all previously confirmed non-issues | — | — |
+| Sitemap last read | Jul 13 | **Jul 13 — still frozen, now 30 days / 6 runs stale** | — | — |
+| Page-indexing report "Last update" | Jul 24 | **Aug 7 — moved forward** | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Homepage (90d) | pos 8.2, 685 impr, 23 clicks, 3.4% CTR | **607 impr, 17 clicks** (position not re-pulled this run) | — | — |
+| Brand query "ireflect" (28d) | not isolated | **23 impressions, 0 clicks** — sharply below the ~70–116 range seen in every prior run's 28d window | — | — |
+
+**Clicks and average position have now declined for five consecutive runs.** 90-day clicks: 35 → 32 → 28 → 23 → **17** (Run 4 through Run 8). 90-day avg position: 24.1 → 26.8 → 30.1 → 36.9 → **40.3**. 28-day avg position: 45.5 → 53.7 → **55.5**. Impressions keep climbing (1,090 → 1,360, 90d) while clicks keep falling — the "wider tail, near-zero conversion" read from Run 7 still holds directionally, but the brand term itself is now part of the erosion, not just the long tail: **all 17 of the 90-day clicks came from the homepage** (17 clicks / 607 impressions on `https://ireflect.app/` — every non-brand blog post shows 0 clicks over 90 days), and in the 28-day window the brand query "ireflect" itself dropped to just 23 impressions with 0 clicks, well below every prior run's 70–116 range. This is a new, sharper data point than Run 7 had — the decline is no longer purely a long-tail dilution story, the core brand signal is thinning too. Flagging this plainly: five runs of decline with no reversal is no longer "volatility to watch," it is a trend that needs the user's attention, even though no fixable on-page cause exists (see below).
+
+**Re-verified Run 6's root-cause finding still holds; checked for on-page regression, found none.** Read the full homepage `<head>` (title, meta description, canonical, OG/Twitter tags, all three JSON-LD blocks — SoftwareApplication, FAQPage, WebSite/SearchAction) end to end: everything is byte-identical in substance to what Run 1/6 audited, no regression, no missing tag, no broken schema. The SERP name-collision finding from Run 6 (unrelated `ireflect.com.au`, Play Store/App Store listings, LED mirror gadget, `.NET IReflect` interface all competing for the exact brand term) remains the most likely explanation and nothing this run contradicts it. This is a platform-authority/naming problem, not an SEO-surface one — no title/meta rewrite was made.
+
+**Investigated the frozen sitemap (now 30 days / 6 runs stale) at the config level for the first time**, per Run 5's own escalation trigger ("if a 4th run shows no movement, dig into why — robots.txt, crawl-rate settings"). Read `robots.txt` directly: `User-agent: *` / `Allow: /` / `Sitemap: https://ireflect.app/sitemap.xml` — clean, no disallow rules, correct sitemap reference, nothing blocking Googlebot. Confirmed `sitemap.xml` itself is well-formed XML (61 URLs after this run's addition) with no malformed entries. **The freeze is not a site-config defect** — robots.txt and the sitemap file are both correct. It is Google simply not re-fetching this specific file on its own schedule, which is now a 6-run-old, unexplained anomaly worth noting but not further chaseable from the SEO-surface side; resubmission was already tried and rejected as duplicate in Run 5.
+
+**Indexed count kept climbing (49 → 52) despite the sitemap freeze** — confirms indexing is happening via internal-link discovery and Google's own re-crawl cadence, not fresh sitemap reads. The Run 7 `gratitude-journal-prompts` post is a live proof point: it was not in the last sitemap Google actually read (Jul 13), yet it's already indexed and earning impressions (3 in the last 28 days) 8 days after publishing — internal linking is doing the discovery work the sitemap isn't.
+
+**No striking-distance (pos 8–20) non-brand query with real impressions.** Checked the full 90-day query list (159 rows) sorted by clicks; scanned every row's position column. Nothing non-brand sits in the 8–20 band with meaningful impressions — closest is "i reflect" (brand variant) at pos 21.1, 7 impressions, just outside the band. Lever stays closed, 8th run running.
+
+**No pos 4–8 high-impression/low-CTR page with a fixable packaging problem** outside the homepage/brand case, which is closed per the root-cause finding above.
+
+**Indexing bucket unchanged and confirmed clean.** Still 5 not-indexed: 3 page-with-redirect (www/http protocol variants — correct exclusions), 1 alternate-canonical (the WebSite JSON-LD SearchAction template URL — correct), 1 crawled-not-indexed (the `app.ireflect.app` signup subdomain — correct, not a content page). Identical to Run 6/7, no new issues.
+
+### Content-gap check and decision: ADD, not UPDATE
+Per protocol step 3, checked whether the two long-stuck impression leaders (`self-reflection-questions`, `how-to-stop-overthinking-in-a-relationship`) warranted another look before deciding: both continued gaining raw impressions this run (205 and 112 in the 90-day pages breakdown, both up from Run 7) with the same pattern as before — impressions rising, clicks at 0, deep positions. Run 7 already exhausted the applicable levers here (both posts are already thorough; both are already well-linked at 6 and 3+ inbound links). No new evidence this run to reopen that finding, so did not touch them again — repeating the same edit without new data would be busywork, not a defensible increment.
+
+Proceeded instead with the gap flagged at the end of Run 7: **shadow work journal prompts**. Verified via web search this is still a live, evergreen gap — competing journaling/self-reflection sites (`mylifenote.ai`, `rosebud.app`, `psychedelic.support`, `scienceofpeople.com`, and others) publish extensively on it, and a repo-wide search confirmed ireflect.app has zero pages mentioning "shadow work." This fits the same evidence-backed pattern as the gratitude post and the site's existing "[topic] journal prompts" template. Indexing is healthy for a 3rd consecutive run (52 indexed, all 5 exclusions confirmed correct), meeting the precondition for content addition. Shipped 1 post, within the 1–3 cap.
+
+### Changes shipped this run (1 new post + 3 files touched to link it in)
+1. **New post: `blog/shadow-work-journal-prompts/index.html`** (40 original prompts across 5 categories: triggers/reactions, what I judge in others, what I hide or perform, where it started/conditioning, integration) plus a "how to use" section and a short FAQ. Matches the gratitude post's template exactly: same head structure, canonical, OG/Twitter tags, `blog.css`, BlogPosting JSON-LD (real dates, no fabricated author/rating data), 2 contextual internal links, home CTA. Includes an explicit, non-alarmist note that persistent or heavy material surfaced by the prompts is worth bringing to a therapist — kept consistent with the site's existing "not therapy" positioning (footer, disclaimers on other posts).
+2. `blog/why-am-i-so-hard-on-myself/index.html` — added 1 inbound link to the new post in its existing "keep exploring" sentence (direct topical fit: self-criticism and the inner critic are core shadow-work material).
+3. `blog/why-do-i-feel-disconnected-from-myself/index.html` — added 1 inbound link to the new post in its existing "keep exploring" sentence (direct topical fit: reconnecting with disowned parts of self; also one of the two highest-impression posts on the site, 205/112 impr, giving the new post a strong discovery path independent of the frozen sitemap).
+4. `blog/index.html` — added a post-card for the new post to the main blog hub listing, same pattern as every other post (avoids a day-one hub-orphan, the mistake that caused Run 1's original root-cause finding).
+5. `sitemap.xml` — added `https://ireflect.app/blog/shadow-work-journal-prompts/`, lastmod 2026-08-12. Sitemap now lists 61 URLs (was 60). Note: this addition will not be seen by Google until the file is actually re-read, which has not happened in 30 days — flagged above, not a reason to withhold the addition since internal linking is independently getting new posts indexed.
+
+Validated all 4 changed/new HTML files with Python's `html.parser`: 0 parse errors across all 4. Confirmed every internal `<a href="/blog/...">` across all 4 files resolves to a real `index.html` on disk (scripted check, differentiated from the `<link href="/blog/blog.css">` stylesheet reference which is not a content link). Confirmed `sitemap.xml` parses as well-formed XML via `ElementTree` and contains the new URL, 61 total `<url>` entries.
+
+### Deliberately NOT done
+- No reaction to the 5-run click/position decline beyond flagging it — homepage `<head>` re-audited line by line this run and found clean; root cause remains the Run 6 SERP name-collision finding, which is a business/naming decision outside SEO-surface scope, not a code or content fix.
+- No further chasing of the frozen sitemap last-read date — robots.txt and sitemap.xml both confirmed clean/correct this run (first time actually checking robots.txt rather than just re-flagging the symptom); no site-side defect to fix, and forcing a resubmission was already rejected as duplicate in Run 5.
+- No on-page depth work on `self-reflection-questions` / `how-to-stop-overthinking-in-a-relationship` — already exhausted per Run 7, no new evidence this run to reopen.
+- No title/meta rewrite on the homepage or brand term — same reasoning as Runs 6–7.
+- No second new post this run — capped at 1 to keep this a defensible increment (protocol allows up to 3; used 1, same as Run 7).
+- Did not stage `CLAUDE.md`, which again shows as deleted in the working tree — not this run's doing, flagged again for the user.
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 4 changed files + 1 new post directory (commands below).
+- [ ] URL Inspection → Request Indexing on the new page: `shadow-work-journal-prompts`, and re-crawl requests on the 3 posts whose body/listing content changed: `why-am-i-so-hard-on-myself`, `why-do-i-feel-disconnected-from-myself`, and the blog index `/blog/`.
+- [ ] Resubmit sitemap (a real URL was added, same justification as Run 7's resubmission).
+- [ ] Do not stage `CLAUDE.md` — still shows as deleted locally, not this run's doing.
+- [ ] **Read the decline finding above.** Five straight runs of falling 90-day clicks and worsening position, plus a brand-term 28-day impression count (23) far below every prior run's range, is a pattern that has now run its course under the "just watch it" plan. There is no further SEO-surface lever to pull against it — the next real move, if any, is a naming/brand-differentiation decision outside this task's scope, not another log entry watching the same number fall.
+
+### What to check NEXT run
+1. **Is the 5-run decline continuing, holding, or reversing?** This remains the single most important number. Specifically watch the 28-day brand-term impression count (23 this run) — if it keeps falling, that's a different and more urgent story than the long-tail-dilution read.
+2. Did the new `shadow-work-journal-prompts` post get indexed and start earning impressions? (Check ~run 9, mirroring how gratitude-journal-prompts was checked this run.)
+3. Did the sitemap last-read date finally move past Jul 13 (now 30+ days / 6 runs stale)? No further action planned on this from the SEO-surface side regardless — config confirmed clean.
+4. Any new striking-distance (8–20) non-brand queries? Still none after 8 runs of checking.
+5. Indexed count trend — did it hold at 52+ or keep climbing toward the full 61-URL sitemap?
+6. No further content-gap candidates identified yet this run — next run should do a fresh competitor-gap search rather than reuse an old list, now that both flagged gaps (gratitude, shadow work) are shipped.
