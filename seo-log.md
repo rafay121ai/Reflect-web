@@ -471,3 +471,73 @@ Validated all 4 changed/new HTML files with Python's `html.parser`: 0 parse erro
 4. Any new striking-distance (8–20) non-brand queries? Still none after 8 runs of checking.
 5. Indexed count trend — did it hold at 52+ or keep climbing toward the full 61-URL sitemap?
 6. No further content-gap candidates identified yet this run — next run should do a fresh competitor-gap search rather than reuse an old list, now that both flagged gaps (gratitude, shadow work) are shipped.
+
+---
+
+## 2026-08-18 — Run 9 (verification-only — sitemap freeze finally resolved, brand-impression erosion now a 4th-run trend, link graph confirmed healthy, no defensible lever this run)
+
+### Push check first
+`git log origin/main` = `4ebf80f` ("SEO: add shadow-work-journal-prompts post, link it in, update sitemap") — matches local HEAD, confirmed live. Run 8's changes reached production. Working tree still shows `CLAUDE.md` as deleted (pre-existing drift, not staged, not this run's doing — 3rd run flagging it).
+
+### GSC snapshot vs Run 8 baseline
+| Metric | Run 8 (90d) | Run 9 (90d, this run) | Run 8 (28d) | Run 9 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 17 | **11** | 2 | 3 |
+| Impressions | ~1,360 | 1,290 | 625 | 598 |
+| Avg CTR | 1.3% | 0.9% | 0.3% | 0.5% |
+| Avg position | 40.3 | **45.3** | 55.5 | 56.3 |
+| **Indexed** | **52** | **52** | — | — |
+| Not indexed | 5 (3 page-with-redirect, 1 alternate-canonical, 1 crawled-not-indexed) | 5 — identical breakdown, all previously confirmed non-issues | — | — |
+| **Sitemap last read** | **Jul 13 (30 days stale)** | **Aug 15 — moved for the first time in 6 runs** | — | — |
+| Page-indexing report "Last update" | Aug 7 | Aug 14 | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand query "ireflect" (28d) | 23 impr, 0 clicks, pos ~8.8 | **12 impr, 0 clicks, pos 6.3** | — | — |
+| Homepage (28d, page-level) | not isolated | **68 impr, 3 clicks, 4.4% CTR, pos 16.8** | — | — |
+
+**Sitemap freeze resolved: last-read moved from Jul 13 to Aug 15 — the first movement in 6 consecutive runs (Run 3 through Run 8, 33 days stale).** Status: Success, 61 discovered pages (matches current `sitemap.xml` URL count after Run 7/8's two additions). This closes the standing anomaly flagged since Run 5 and investigated at the config level in Run 8 (robots.txt/sitemap.xml both confirmed clean then). No action was needed — it was genuinely just Google's own re-fetch cadence, as Run 8 concluded.
+
+**Indexed count held flat at 52** (was climbing 44→49→52 across Runs 6-8, now plateaued one run). Not-indexed bucket unchanged: still 5, same 3 reasons (3 page-with-redirect on www/http protocol variants, 1 alternate-canonical on the WebSite JSON-LD SearchAction template URL, 1 crawled-not-indexed on the `app.ireflect.app` signup subdomain) — all re-confirmed as correct exclusions, not defects, consistent with Runs 6-8's audits. No new indexing issues.
+
+**90-day clicks/position decline continues into a 6th consecutive run** (Run 4→9: clicks 35→32→28→23→17→**11**; position 24.1→26.8→30.1→36.9→40.3→**45.3**). This is the same "wider tail, near-zero conversion" pattern named in Run 7/8 — nothing new to add. The 28-day window, by contrast, actually improved slightly this run (clicks 2→3, CTR 0.3%→0.5%), so this isn't a fresh cliff, just the rolling 90-day average continuing to shed the higher-performing days from May/June as they age out of the window.
+
+**Brand query "ireflect" impression collapse continues — now a 4th consecutive run of decline, and the worst yet.** 28-day impressions: 70-116 (Runs 4-7) → 23 (Run 8) → **12 (Run 9)**. Clicks have been 0 for the last 3 runs straight. Position remains excellent (6.3) — this is not a ranking problem, it's a demand/impression problem for the exact-match brand term. Consistent with Run 6's root-cause finding (SERP name-collision with unrelated "ireflect" products — `ireflect.com.au`, App/Play Store listings for a different app, an LED mirror gadget, the .NET `IReflect` interface) — re-verified no new evidence this run to change that conclusion, and it remains outside SEO-surface scope (naming/differentiation decision, not a code or content fix). **Notable counter-signal**: homepage page-level 28d shows 3 clicks / 68 impressions / 4.4% CTR — i.e., clicks are still landing on the homepage despite the brand query itself showing 0 clicks, meaning some of that traffic is now coming through other (likely privacy-redacted long-tail) queries rather than the exact brand term. Read this as a small positive — traffic isn't purely brand-dependent — but the sample is too small (3 clicks) to draw a firm conclusion.
+
+**No striking-distance (pos 8–20) query with real, targetable impressions.** Checked the full 90-day and 28-day query lists. Closest non-brand candidates by *page*-level aggregate: `brain-dump-vs-journaling` (pos 16.8, 16 impr/28d) and `emotional-check-in-questions` (pos 15.3, 10 impr/28d). Drilled into `brain-dump-vs-journaling`'s query breakdown specifically — only one individual query is visible ("what is a brain dump journal", 1 impression); the rest of its 16 impressions are spread across queries below GSC's per-query privacy-disclosure threshold. Per protocol, a title/meta rewrite needs a specific query + number to justify it — an aggregate page position built from anonymized long-tail queries doesn't meet that bar, same conclusion reached for similar cases in every prior run. Lever stays closed, 9th run running.
+
+**No pos 4–8 high-impression/low-CTR page with a fixable packaging problem** outside the brand-term case above, which is a demand/authority issue, not packaging.
+
+### Link-graph and content-health check
+Re-verified the full, now-57-post inbound-link graph with a script (not reused from memory): **0 of 57 posts have zero inbound links from another post body.** The cleanup arc that ran Runs 3-6 remains fully closed, and Run 7/8's two new posts are properly integrated: `gratitude-journal-prompts` has 2 inbound links from other post bodies (plus its blog-index card), `shadow-work-journal-prompts` has 2 inbound links from other post bodies (plus its blog-index card). No orphan-link work needed this run.
+
+**Confirmed both Run 7/8 new posts are indexed.** `gratitude-journal-prompts` is indexed and earning impressions (3 in the last 28 days, pos 84.0 — deep, expected for a 2-week-old post with no backlinks beyond internal links). `shadow-work-journal-prompts` (published Aug 12, 6 days old) did not appear in the 28-day pages-with-impressions list, so ran a live URL Inspection: **confirmed "URL is on Google / Page is indexed."** It simply hasn't earned a measurable impression yet — too early to read anything into that.
+
+### Decision: no code changes this run
+Walked the full priority order (striking-distance keywords → high-impression/low-CTR pages → indexing/crawl issues → CWV → content gaps) and every lever came back closed or already-resolved:
+1. Striking-distance: no query with real impressions (see above).
+2. High-impression/low-CTR: brand-term case only, non-fixable per Run 6, unchanged.
+3. Indexing/crawl: no open issues — the one open item (sitemap freeze) resolved itself this run.
+4. CWV: still no CrUX data.
+5. Content gaps: two content-add runs already shipped back to back (Run 7, Run 8); both posts are still too new (6-14 days old) to have generated any signal worth acting on, and per protocol ("resist batching," "at most 1–3 posts of work per run") adding a third new post two runs in a row would be exactly the burst pattern domain-warming is supposed to avoid. Explicitly holding here rather than reaching for a post just to ship something.
+No zero-inbound orphans remain to fix (checked above). No indexing defects to fix (checked above). Shipping an edit without a GSC number or a defensible structural gap behind it would be manufacturing work, not domain-warming — so this run ships zero file changes, same as Run 2's precedent.
+
+### Changes shipped this run
+None. Verification-only pass: confirmed the sitemap-freeze anomaly resolved, confirmed indexing is stable and clean, confirmed the internal link graph has zero orphans across all 57 posts, confirmed both recent new posts are indexed, and confirmed no new actionable GSC signal exists.
+
+### Deliberately NOT done
+- No title/meta changes — no query/page meets the "real impressions" bar (see above).
+- No new content — content-gap lever intentionally not pulled a 3rd run running; both existing new posts need more time before evaluating them, let alone adding a 3rd.
+- No reaction to the continued brand-impression decline beyond flagging it again — same root cause as Run 6, no new on-page evidence, outside SEO-surface scope.
+- No sitemap action — it resolved on its own this run.
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing, flagged again (3rd time).
+
+### Post-deploy actions (for the user)
+- Nothing to push this run — no files changed.
+- No re-indexing requests needed — no page content changed.
+
+### What to check NEXT run
+1. **Did the 90-day click/position decline finally bottom out or keep falling?** 6 runs running (35→32→28→23→17→11 clicks). The 28-day window ticked up slightly this run (2→3 clicks) — worth checking if that's the start of a floor or just noise.
+2. Did the brand-term 28-day impression count keep falling (12 this run, 4th straight decline) or stabilize? If it falls again next run, that's worth a fresh live-SERP check even though Run 6's root cause likely still holds.
+3. Did `gratitude-journal-prompts` (2+ weeks old) or `shadow-work-journal-prompts` (10+ days old by next run) gain any position or impressions? First run where it's fair to expect early movement.
+4. Did the sitemap keep getting re-read on a normal cadence now that it's unstuck, or freeze again?
+5. Any new striking-distance query with real (non-redacted) impressions? None found in 9 runs — worth periodically re-checking `brain-dump-vs-journaling` and `emotional-check-in-questions` specifically, since they're the closest page-level candidates so far.
+6. If indexed count (52) or the overall decline picture hasn't moved by next run, this may be a good point to do a fresh competitor content-gap search per protocol step 3(b) rather than another verification pass — two verification-only runs in a row (this is the 1st since Run 2) is fine, three would mean the log isn't finding anything, which itself would be worth noting.
