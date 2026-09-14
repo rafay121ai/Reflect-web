@@ -541,3 +541,222 @@ None. Verification-only pass: confirmed the sitemap-freeze anomaly resolved, con
 4. Did the sitemap keep getting re-read on a normal cadence now that it's unstuck, or freeze again?
 5. Any new striking-distance query with real (non-redacted) impressions? None found in 9 runs — worth periodically re-checking `brain-dump-vs-journaling` and `emotional-check-in-questions` specifically, since they're the closest page-level candidates so far.
 6. If indexed count (52) or the overall decline picture hasn't moved by next run, this may be a good point to do a fresh competitor content-gap search per protocol step 3(b) rather than another verification pass — two verification-only runs in a row (this is the 1st since Run 2) is fine, three would mean the log isn't finding anything, which itself would be worth noting.
+
+---
+
+## 2026-09-05 — Run 10 (7th straight run of click/position decline; NEW indexing regression found — 6 posts never crawled; 1 internal-link fix on the site's only real striking-distance page)
+
+### Push check first
+Did not re-verify `git log origin/main` via a remote call (no network git remote access in this sandbox), but local HEAD is `7befa40` ("SEO log: Run 9 — sitemap freeze resolved..."), matching exactly what Run 9 said it would push, and Run 9's own diagnosis already reflected a live site. Treating that as confirmed live. `CLAUDE.md` still shows as deleted in the working tree — 4th consecutive run flagging this, still not staged, still not this run's doing.
+
+### GSC snapshot vs Run 9 baseline
+| Metric | Run 9 (90d) | Run 10 (90d, this run) | Run 9 (28d) | Run 10 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 11 | **4** | 3 | 2 |
+| Impressions | 1,290 | 1,160 | 598 | 386 |
+| Avg CTR | 0.9% | 0.3% | 0.5% | 0.5% |
+| Avg position | 45.3 | **51.7** | 56.3 | **56.8** |
+| **Indexed** | **52** | **53** | — | — |
+| Not indexed | 5 (3 page-with-redirect, 1 alternate-canonical, 1 crawled-not-indexed) | **13** (3 page-with-redirect, 1 alternate-canonical, **8 discovered-currently-not-indexed [NEW]**, 1 crawled-not-indexed) | — | — |
+| Sitemap last read | Aug 15 | **Aug 27** (Success, 61 discovered pages — normal cadence holding) | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand query "ireflect" (28d) | 12 impr, 0 clicks, pos 6.3 | **15 impr, 0 clicks, pos 7.0** | — | — |
+| Homepage (28d, page-level) | 68 impr, 3 clicks, pos 16.8 | **66 impr, 2 clicks, pos 13.5** | — | — |
+| Homepage (90d, page-level) | not isolated | **275 impr, 4 clicks, pos 14.2 — every one of this run's 4 total clicks came from the homepage** | — | — |
+
+**90-day clicks and position have now declined for a 7th consecutive run.** Clicks: 35→32→28→23→17→11→**4** (Run 4 through Run 10). Position: 24.1→26.8→30.1→36.9→40.3→45.3→**51.7**. This is the steepest single-run drop yet (11→4 clicks, a 64% fall). The 28-day window is comparatively closer to flat (3→2 clicks, position 56.3→56.8) — consistent with the "wider tail, near-zero conversion" pattern named in Runs 7–9: the 90-day average keeps degrading mainly because it's shedding the better days from May/June as they age out, while the current 28-day baseline has been low and roughly stable for a while. Brand query "ireflect" 28d impressions actually improved slightly (12→15) with position improving too (6.3→7.0), but clicks remain 0 for the 4th straight run at the individual-query level — though homepage page-level clicks did register 2 (28d) and 4 (90d) this run, so brand-adjacent traffic hasn't gone fully to zero, it's just not resolving to the bare "ireflect" query in GSC's attribution. No new evidence to revisit Run 6's SERP name-collision root-cause finding (unrelated `ireflect.com.au`, App/Play Store listings, LED mirror gadget, `.NET IReflect` interface) — not re-litigated further this run.
+
+### New finding this run: 6 blog posts have never been crawled by Google (root cause found, not fixable in code)
+The Page Indexing report showed a not-indexed bucket that nearly tripled since Run 9 (5 → 13), driven entirely by a new reason category that hadn't appeared as its own line item before: **"Discovered - currently not indexed," 8 pages**. Drilled into the list: 6 are real content posts (`cant-understand-my-feelings`, `how-to-keep-a-decision-journal`, `how-to-start-a-self-reflection-journal`, `journaling-for-anxiety`, `lack-of-self-awareness`, `why-do-i-feel-emotional-for-no-reason`); the other 2 are `privacy.html` and `terms.html`, which are correctly and expectedly excluded (legal pages, not content Google needs to serve — non-issue).
+
+For the 6 real posts, "Last crawl: N/A" on every one — Google has never fetched them at all, not a stale re-crawl problem like the redirect-error bucket in Runs 3–6. Ran the protocol-prescribed check before touching anything: verified via a script that all 6 (a) exist as real files, (b) are present in `sitemap.xml` (confirmed all 6 by grep — GSC's live URL Inspection panel showing "no referring sitemap" for 2 of them was a live-tool quirk, not a real gap, since the aggregate report and the file itself both confirm sitemap presence), and (c) already have 1–3 inbound links each from other post bodies (`how-to-keep-a-decision-journal`: 1, others: 2–3) plus a blog-index hub card — so this is not a repeat of the internal-linking-graph problem closed in Runs 3–6. Live-tested all 6 via URL Inspection > Test Live URL: **"Page can be indexed"** on every one that returned a live-test result. This is squarely a crawl-budget/authority deprioritization by Google on a still-low-authority domain, consistent with the 7-run traffic decline — not a site defect, and there is no code fix available for it per protocol (SEO-surface scope covers meta/schema/linking, not Google's crawl-budget allocation). **Action taken: requested indexing directly in Search Console for all 6 posts** (each confirmed "Indexing requested" / added to priority crawl queue). No file changes were needed or made for this finding — it required a GSC action, not a code change.
+
+### Priority-order check
+1. **Striking-distance keywords (pos 8–20, real impressions):** Re-checked the full 90-day page-level breakdown (46 pages) sorted by position. Found one real, repeat-run candidate: **`brain-dump-vs-journaling` — pos 15.3, 20 impressions (90d)**, up from Run 9's page-level reading of pos 16.8 (28d, 16 impr) — the same page flagged as the closest non-brand candidate in Run 9, now confirmed again a run later with more data. Drilled into its query-level breakdown: only one individual query is disclosed above GSC's privacy threshold (`what is a brain dump journal`, pos 93.0, 1 impression — deep, clearly not what's driving the pos-15.3 aggregate). The rest of the 20 impressions are spread across redacted long-tail queries. Per protocol's "cite the specific query + number" bar, this doesn't clear the threshold for a title/meta rewrite (same conclusion Run 9 reached for this exact page). It does, however, clear the bar for the other lever in this same protocol line — internal linking — since the page-level signal itself (position, impressions) is real, not redacted, and repeats across two runs. Checked inbound links: only 1 (`types-of-journaling`). Checked `journaling-vs-self-reflection` too (pos 18.4, 9 impr, 90d) as a second candidate — its query breakdown was fully empty (all impressions redacted), and it's a much thinner signal (9 impr vs 20); did not act on it this run to keep the change to one clear, well-evidenced item.
+2. **High-impression pos 4–8 low-CTR pages:** None outside the homepage/brand case, which remains the Run 6 SERP-collision finding — not a packaging problem, not re-litigated.
+3. **Indexing/crawl issues:** the headline finding this run — see above. Addressed via Request Indexing (GSC action), not a file change.
+4. **Core Web Vitals:** still no CrUX data, still not actionable.
+5. **Content gaps:** not evaluated this run. Indexing health moved the wrong direction (not-indexed 5→13, a new never-crawled category appeared) — per protocol, content addition requires indexing to be healthy first. This is not that run. Holding here, same logic as Run 9's hold but for the opposite reason (there, indexing was healthy and new posts needed more time; here, indexing needs to actually recover before adding more URLs for Google to deprioritize).
+
+### Decision: UPDATE (internal linking only), not ADD
+Per protocol step 3, explicitly chose (a) strengthen an existing page over (b) new content, because indexing health regressed this run (new precondition failure) and a specific, well-evidenced existing-page opportunity was available (`brain-dump-vs-journaling`, 2 runs running as the closest striking-distance candidate, under-linked at 1 inbound).
+
+### Changes shipped this run (1 file, 1 new internal link)
+1. `blog/journaling-for-anxiety/index.html` — added 1 inbound link to `brain-dump-vs-journaling` in the existing "keep reading" sentence. Natural fit: this post has an entire H2 section ("Brain dump when the worry has no shape") that discusses the brain-dump technique directly but previously didn't link to the dedicated brain-dump-vs-journaling post at all. Raises that page's inbound count from 1 to 2. Note: `journaling-for-anxiety` is itself one of the 6 never-crawled posts from the finding above, so this link won't register with Google until that post gets its first crawl — but it's now in the priority queue (see above), and the edit is correct/ready regardless of timing.
+
+Validated the changed file with Python's `html.parser`: 0 parse errors. Confirmed all internal `/blog/...` href targets in the file resolve to real `index.html` files on disk (scripted check).
+
+### Deliberately NOT done
+- No title/meta rewrite on `brain-dump-vs-journaling` — no individually-disclosed query clears the "specific query + number" bar (see above); same conclusion Run 9 reached.
+- No action on `journaling-vs-self-reflection` (pos 18.4, 9 impr) — weaker, fully-redacted signal; capped this run's link-fix to the one clearly-evidenced page.
+- No reaction to the brand-term/homepage volatility beyond logging it — no new evidence against Run 6's SERP-collision root cause.
+- No new content — indexing health regressed this run (precondition for content addition not met); the two most recent posts (`gratitude-journal-prompts`, `shadow-work-journal-prompts`) also still weren't re-checked for position movement this run, deferred to next run to keep this run focused on the indexing finding.
+- No sitemap action — cadence is healthy (Aug 27 last read, Success, 61 pages, all 6 never-crawled posts confirmed present in the file).
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing, flagged again (4th time).
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 1 file (commands below).
+- [ ] No further URL Inspection action needed on the 6 never-crawled posts — already requested indexing directly this run via Search Console.
+- [ ] URL Inspection → Request Indexing on `journaling-for-anxiety` again once the push lands (its content changed) — low priority since it's already in the crawl queue from this run's indexing-regression fix, but worth a fresh request after the link is actually live.
+- [ ] No sitemap resubmission needed.
+
+```
+cd "REFLECT LANDING"
+git add blog/journaling-for-anxiety/index.html seo-log.md
+git commit -m "SEO: link brain-dump-vs-journaling from journaling-for-anxiety; log Run 10 (indexing regression + re-index requests)"
+git push origin main
+```
+
+### What to check NEXT run
+1. **Is the 7-run decline continuing, holding, or reversing?** 90-day clicks fell 64% this run alone (11→4) — the sharpest drop in the log. Keep watching, but don't over-react to one run; confirm whether Run 11 continues the slide or stabilizes.
+2. **Did the 6 never-crawled posts get their first crawl?** Check via URL Inspection (Last crawl should move off N/A) or via the aggregate Page Indexing report (not-indexed should drop from 13 back toward 5 if they get indexed, or at minimum the "Discovered - currently not indexed" count should drop from 8).
+3. Did `brain-dump-vs-journaling` move off pos ~15.3, or gain impressions, now that it has a 2nd inbound link?
+4. Did indexed count hold at 53+ or keep climbing?
+5. Any new striking-distance query with real, non-redacted impressions? Still none found directly at the query level in 10 runs — page-level aggregates (`brain-dump-vs-journaling`, `journaling-vs-self-reflection`) remain the only usable proxy.
+6. If the decline is still accelerating next run with no clear technical cause, it may be worth checking whether this is now genuinely a domain-authority/backlink problem rather than anything crawl- or on-page-related — nothing in 10 runs of SEO-surface work has reversed the trend, and that's worth naming plainly rather than repeating the same diagnostic loop a 3rd time.
+
+---
+
+## 2026-09-09 — Run 11 (⚠ Run 10 was never committed — 4-day gap found and closed; 7-run decline has stabilized; "indexing regression" from Run 10 confirmed as report lag, not real; verification-only on code)
+
+### Critical finding before anything else: Run 10's changes were never committed
+`git log` local HEAD = `7befa40` ("SEO log: Run 9...") — **Run 9's commit, not Run 10's.** Run 10 (2026-09-05) edited `blog/journaling-for-anxiety/index.html` (added the `brain-dump-vs-journaling` internal link) and wrote its full log entry into `seo-log.md`, but neither was ever staged or committed — both sat as uncommitted working-tree changes for 4 days, same failure mode Run 4 found and fixed for Run 2/3. `git diff --stat` this run: `journaling-for-anxiety/index.html` (+1/-1), `seo-log.md` (+73), plus the pre-existing `CLAUDE.md` deletion (not our doing, still not staged, 5th run flagging it). Re-validated Run 10's edit with `html.parser`: 0 errors, link target resolves. **This run's commands at the bottom bundle Run 10 + Run 11 together — push both.**
+
+### GSC snapshot vs Run 10 baseline
+| Metric | Run 10 (90d) | Run 11 (90d, this run) | Run 10 (28d) | Run 11 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 4 | 4 | 2 | 2 |
+| Impressions | 1,160 | 1,180 | 386 | 392 |
+| Avg CTR | 0.3% | 0.3% | 0.5% | 0.5% |
+| Avg position | 51.7 | **51.3** | 56.8 | **55.5** |
+| **Indexed** | **53** | **52** | — | — |
+| Not indexed | 13 (3 page-with-redirect, 1 alternate-canonical, 8 discovered-not-indexed, 1 crawled-not-indexed) | **14** (3 page-with-redirect, 1 alternate-canonical, 4 discovered-not-indexed, **6 crawled-not-indexed**) | — | — |
+| Sitemap last read | Aug 27 | **Sep 6** (Success, 61 pages — normal cadence holding) | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand "ireflect" (28d) | 15 impr, 0 clicks, pos 7.0 | **15 impr, 0 clicks, pos 7.3** | — | — |
+| Homepage (28d, page-level) | 66 impr, 2 clicks, pos 13.5 | **65 impr, 2 clicks, pos 12.8** | — | — |
+| Homepage (90d, page-level) | 275 impr, 4 clicks, pos 14.2 | **269 impr, 4 clicks, pos 14.0** | — | — |
+
+**The 7-run decline (Run 4→10) has stabilized this run.** 90-day clicks held at 4 (was the sharp 11→4 drop last run); position actually improved slightly (51.7→51.3). 28-day position also improved (56.8→55.5). Too early to call this a reversal — one flat/slightly-up run after seven down runs could just be noise at these low volumes — but it's the first run since Run 3 that didn't post a fresh low. Brand query and homepage are both flat-to-slightly-better across both windows. No new evidence against Run 6's SERP name-collision root cause for the brand term; not re-litigated further.
+
+### Investigated: is the indexing "regression" real?
+The aggregate Page Indexing report looked worse than Run 10 at first glance — not-indexed rose 13→14, and a brand-new "Crawled - currently not indexed" bucket appeared with 6 pages (up from the 1 pre-existing app-subdomain entry), while "Discovered - currently not indexed" dropped 8→4. Read this as: some of Run 10's 8 never-crawled posts finally got their first Googlebot visit, but the aggregate report is now saying it decided not to index them. Before treating this as a new problem, live-tested every affected content page via URL Inspection > Test Live URL, per protocol (a stale-report finding needs a live check before it's treated as real):
+- `journaling-for-anxiety`, `how-to-keep-a-decision-journal`, `cant-understand-my-feelings`, `lack-of-self-awareness` — **all four show "URL is on Google / Page is indexed" live**, despite the aggregate report listing them as not-indexed (two in "Crawled - not indexed," two in "Discovered - not indexed" with "Last crawled: N/A").
+- The other 2 posts in the "Crawled - not indexed" bucket (`why-do-i-feel-emotional-for-no-reason`, `how-to-start-a-self-reflection-journal`) share the identical "Last crawled: Sep 5, 2026" timestamp as the two confirmed-indexed posts above — same batch, not spot-checked individually but inferred indexed on the same basis.
+- `self-reflection-journal-prompts`, the one older page in that bucket (last crawled Jul 2), was not individually re-verified this run — flagged for a live check next run if it still shows in the bucket.
+
+**Conclusion: this is the same stale-aggregate-report pattern established in Runs 3, 5, 6, and 10 (the "Redirect error" bucket then, "Discovered/Crawled - not indexed" now) — not a real indexing regression.** The Page Indexing report's "Last update" timestamp was Sep 4, three days behind the Sep 5 crawl and today's live-index state. **Run 10's finding is functionally resolved**: Google did crawl and index the previously-never-crawled posts; the report just hadn't caught up. No code action was needed or taken — this required only a GSC live-check, not a fix. Did not re-request indexing on anything (would be noise against an already-resolved state, same reasoning as every prior run that hit this pattern).
+
+**Sitemap last-read advanced normally again (Aug 27 → Sep 6, still 61 pages, Status: Success)** — the cadence that came unstuck in Run 9 continues to hold. No action needed.
+
+### Priority-order check
+1. **Striking-distance keywords:** Checked the full 90-day and 28-day query lists sorted by position ascending, both with CTR/position columns enabled (not the default view). Only "ireflect" (brand, pos 8.8/90d, pos 7.3/28d) sits in the 8–20 band with real impressions — same as every run since Run 1. No non-brand query clears the bar; closest negligible entries: "irefully" (pos 10.0, 1 impr), "ai self reflection" (pos 16.0, 1 impr) — both too low-volume to act on. Lever stays closed, 11th run running.
+   - **Page-level exception, tracked separately:** `brain-dump-vs-journaling` continues improving — pos 16.8 (Run 9) → 15.3 (Run 10) → **14.1 (Run 11, 90d, 25 impr)**. This is a real, repeat-run, non-redacted page-level signal. It already has 2 inbound links counted locally (`types-of-journaling`, live; `journaling-for-anxiety`, the still-unpushed Run 10 edit). Did not add a 3rd link this run — Run 10's link hasn't even reached production yet (see critical finding above), so layering another edit on top before that one has had a chance to register would be exactly the batching the protocol warns against. Next run's job: check whether pos keeps improving now that Run 10's link is finally live.
+2. **High-impression pos 4–8 low-CTR pages:** None outside the homepage/brand case, which remains Run 6's SERP-collision finding — unchanged, not re-litigated.
+3. **Indexing/crawl issues:** the headline investigation this run — see above. Resolved as report lag, not a real problem. No code action.
+4. **Core Web Vitals:** still no CrUX data, still not actionable.
+5. **Content gaps:** checked the two most recent posts' traction per Run 9/10's own checklist. `gratitude-journal-prompts` (5 weeks old): 4 impressions/90d, pos 87 — up marginally from Run 9's 3 impr/pos 84, still deep. `shadow-work-journal-prompts` (4 weeks old): confirmed indexed live via URL Inspection, but **0 impressions over 90 days** — no signal yet at all. Neither post has generated anything to act on. Per protocol, adding a third new post now — while the first two are still producing zero real traction and indexing is only *probably* (not yet re-confirmed via a clean aggregate report) fully healthy — would be premature. Held here, same logic as Run 9.
+
+### Decision: no code changes shipped this run (verification-only), critical process fix is the deliverable
+Walked the full priority order; every lever is either closed (striking-distance, CTR-packaging, CWV) or was investigated and resolved without needing a code change (indexing). The one live content lever (`brain-dump-vs-journaling`) already has an edit in flight from Run 10 that hasn't gone live — pulling it again this run would be double-dipping on one signal instead of letting it play out. Content-gap addition is not warranted — the precondition (existing new posts showing traction) isn't met. This run's real work was diagnostic: confirming the "indexing regression" flagged by the aggregate report is not real, and catching the 4-day-old broken deploy pipeline before a third run's work piled up uncommitted behind it.
+
+### Changes shipped this run
+None beyond what Run 10 already made (still pending commit — see below). This run edited only `seo-log.md` (this entry).
+
+### Deliberately NOT done
+- No additional internal link to `brain-dump-vs-journaling` — Run 10's edit to the same page hasn't shipped yet; let it land before adding more.
+- No re-request-indexing action — the aggregate "not indexed" findings were confirmed as stale reporting via live URL Inspection, not real; requesting indexing again would be noise.
+- No new content — the two most recent posts (gratitude, shadow-work) still show no meaningful traction (4 and 0 impressions respectively) to justify a third addition yet.
+- No title/meta changes — no query/page meets the "real, non-redacted impressions" bar beyond the already-closed brand-term case.
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing, flagged again (5th consecutive run).
+
+### Post-deploy actions (for the user)
+- [ ] **Push Run 10 + Run 11 together** (commands below) — this is the priority; Run 10's link edit has been sitting unpublished for 4 days.
+- [ ] URL Inspection → Request Indexing on `journaling-for-anxiety` once the push lands (its content changed with the new link) — low priority since it's already confirmed indexed live, but worth a fresh crawl request after the edit is actually in production.
+- [ ] No sitemap resubmission needed — cadence is healthy (Sep 6 last read).
+- [ ] No other re-indexing requests needed — this run's indexing "regression" was confirmed as stale reporting, not a real state to fix.
+
+```
+cd "REFLECT LANDING"
+git add blog/journaling-for-anxiety/index.html seo-log.md
+git commit -m "SEO: link brain-dump-vs-journaling from journaling-for-anxiety (Run 10); log Run 10 + Run 11 (indexing regression confirmed as report lag, decline stabilized)"
+git push origin main
+```
+
+### What to check NEXT run
+1. **Did Run 10's link edit actually reach production this time?** Check `git log origin/main` before anything else — if it's not there, stop and flag it again rather than re-diagnosing stale data (this is the second time in 11 runs this has happened; consider whether the push step needs a more reliable handoff).
+2. **Is the click/position stabilization from this run holding, or was it a one-run blip?** One flat run after seven down runs isn't a trend yet — needs at least one more data point before reading anything into it.
+3. Did `brain-dump-vs-journaling` continue improving (14.1 this run) now that its 2nd inbound link is finally live? This is the clearest positive signal in the log right now.
+4. Did the aggregate Page Indexing report catch up to the live-index state confirmed this run (all spot-checked "not indexed" pages actually indexed)? Check whether "Discovered/Crawled - not indexed" drops back toward 0 on its own, same pattern as the old "Redirect error" bucket.
+5. Any movement on `gratitude-journal-prompts` (4 impr/pos 87) or `shadow-work-journal-prompts` (0 impr) — both are due for a real look next run; if shadow-work still shows zero impressions after 8 weeks, that's worth a fresh look rather than continued patience.
+6. Any new striking-distance non-brand query? None in 11 runs — worth periodically re-checking but not worth a dedicated pass every time.
+
+---
+
+## 2026-09-14 — Run 12 (⚠ Run 10's edit STILL not pushed — 5 days after Run 11 said to push it; decline has now stabilized for a 2nd straight run; brand-term impressions sharply reversed; brain-dump-vs-journaling entered striking distance; verification-only)
+
+### Critical finding before anything else: Run 10's edit is still sitting unpushed
+`git log` local HEAD = `7befa40` ("SEO log: Run 9..."), and `git log origin/main` = same — **identical to what Run 11 found five days ago.** Run 11 explicitly bundled Run 10 + Run 11 into one push and handed over commands; those commands were not run. `git diff --stat` this run: `blog/journaling-for-anxiety/index.html` (+1/-1, the `brain-dump-vs-journaling` link), `seo-log.md` (unstaged growth from Run 10 and Run 11's entries), plus the pre-existing `CLAUDE.md` deletion (still not ours, still not staged, 6th consecutive run flagging it). Re-validated the pending edit with `html.parser`: 0 errors, link target (`blog/brain-dump-vs-journaling/`) confirmed to exist on disk. This is now the **second occurrence** of a multi-run unpushed gap (the first was Run 2→4), and this one has now sat for 3 full run cycles (Run 10, 11, 12) — 9 days. Also found and cleared a stale `.git/index.lock` (dated Sep 9, harmless leftover from a prior interrupted session per this task's own known workaround — renamed, not the cause of the missed push). **This run's commands at the bottom bundle Run 10 + 11 + 12 together — push all three.**
+
+### GSC snapshot vs Run 11 baseline
+| Metric | Run 11 (90d) | Run 12 (90d, this run) | Run 11 (28d) | Run 12 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 4 | 5 | 2 | 2 |
+| Impressions | 1,180 | 1,270 | 392 | 437 |
+| Avg CTR | 0.3% | 0.4% | 0.5% | 0.5% |
+| Avg position | 51.3 | **51.4** | 55.5 | **55.5** |
+| **Indexed** | **52** | **52** | — | — |
+| Not indexed | 14 (3 page-with-redirect, 1 alternate-canonical, 4 discovered-not-indexed, 6 crawled-not-indexed) | **14 — identical breakdown**, confirmed stable | — | — |
+| Sitemap last read | Sep 6 | Sep 6 — unchanged (no new URL to trigger a fresh read; not a red flag, same reasoning as prior stable periods) | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand "ireflect" (28d) | 15 impr, 0 clicks, pos 7.3 | **109 impr, 0 clicks, pos 8.6** | — | — |
+| Homepage (28d, page-level) | 65 impr, 2 clicks, pos 12.8 | **63 impr, 2 clicks, pos 12.5** | — | — |
+| Homepage (90d, page-level) | 269 impr, 4 clicks, pos 14.0 | **268 impr, 5 clicks, pos 14.1** | — | — |
+
+**The 7-run decline (Run 4→10) has now stabilized for a 2nd consecutive run.** 90-day clicks ticked up (4→5), impressions rose (1,180→1,270), position is flat to one decimal (51.3→51.4). 28-day clicks flat (2→2), position exactly flat (55.5→55.5). Two flat-to-slightly-up runs after seven down runs is now a real pattern, not a single-run blip — per Run 11's own checklist item 2, this needed at least one more data point, and it got one. Not declaring victory (volumes are still tiny and noisy), but the multi-run downtrend named in Runs 4–10 has clearly broken.
+
+**Brand query "ireflect" impressions sharply reversed — the biggest single-metric move in the log.** 28-day impressions: 70–116 (Runs 4–7) → 23 (Run 8) → 12 (Run 9) → 15 (Run 10/11) → **109 (Run 12)**. This snaps back to the pre-decline range in one run, with position also improving (7.3 → 8.6 is nominally worse by a decimal but both are within the same healthy band — not a meaningful move). Clicks remain 0 at the individual-query level for the 5th straight run, consistent with Run 9–11's finding that brand-adjacent traffic is landing via other queries (homepage page-level still shows 2 clicks/28d). No new evidence to revisit Run 6's SERP name-collision root-cause finding (unrelated `ireflect.com.au`, App/Play Store listings, LED mirror gadget, `.NET IReflect` interface) for why the exact-match query itself doesn't convert — not re-litigated further. This reversal is a genuinely positive, unexplained-but-real data point; flagging it plainly rather than reaching for a causal story the data doesn't support.
+
+**New non-brand demand signal: "why do i feel disconnected from myself" — 82 impressions (28d), position 73.8, 0 clicks.** This maps directly to the existing post `why-do-i-feel-disconnected-from-myself` (linked from Run 6 and Run 8's work). Too deep to be a striking-distance or CTR-packaging candidate (protocol requires pos 8–20 or 4–8 respectively), but worth noting as a real new query cluster forming — if this page's position improves in future runs the way `brain-dump-vs-journaling` has, it becomes a lever. Not actionable this run.
+
+### Priority-order check
+1. **Striking-distance keywords (pos 8–20, real impressions):** Brand term "ireflect" sits here as always (pos 8.6, 28d) — no fixable lever beyond what's already in place. Checked the full 90-day and 28-day query lists end to end (159 rows/90d): no non-brand query clears the bar. Closest negligible entries: "irefully" (pos 10.0, 1 impr), "ai self reflection" (pos 16.0, 1 impr) — both too low-volume, unchanged from Run 11.
+   - **Page-level candidate, now genuinely inside the band: `brain-dump-vs-journaling` — pos 12.5 (90d, 33 impressions), up from Run 11's 14.1.** This is the 4th consecutive run of improvement (16.8 → 15.3 → 14.1 → **12.5**), and it has now crossed into the 8–20 striking-distance zone by the page-level proxy. Drilled into its query breakdown again: still only 1 individually-disclosed query ("what is a brain dump journal," pos 93.0, 1 impression) — the other 32 of 33 impressions remain below GSC's redaction threshold. Same conclusion as Runs 9–11: doesn't clear the "specific query + number" bar for a title/meta rewrite. The internal-linking lever for this exact page already has an edit in flight from Run 10 that still isn't live (see critical finding above) — adding a 3rd link on top of an unlanded 2nd would be double-dipping on one signal before it's even been measured. Held here deliberately.
+2. **High-impression pos 4–8 low-CTR pages:** None outside the homepage/brand case, still Run 6's SERP-collision finding, not re-litigated.
+3. **Indexing/crawl issues:** Not-indexed held flat at 14 with an identical reason breakdown to Run 11 (3 page-with-redirect, 1 alternate-canonical, 4 discovered-not-indexed, 6 crawled-not-indexed) — confirms Run 11's finding that this is a settled, correctly-categorized state, not an active problem. No live re-checks needed this run; nothing changed. Sitemap last-read unchanged at Sep 6 — expected, no new URL was added to trigger a fresh read.
+4. **Core Web Vitals:** still no CrUX data, still not actionable.
+5. **Content gaps:** `gratitude-journal-prompts` (90d): 4 impressions, pos 87 — flat vs Run 11, still no traction after 6 weeks. `shadow-work-journal-prompts` (90d): **0 clicks, 0 impressions, pos 0** — still zero signal at ~4.5 weeks old (Run 11 also found 0 at 4 weeks). Per Run 11's own checklist, the trigger for a fresh look is 8 weeks with zero impressions; not there yet (would land around Run 14–15). Neither post's traction justifies a 3rd content addition, and the precondition (existing posts showing signal) still isn't met. Held, same logic as Run 9 and Run 11.
+
+### Decision: no code changes shipped this run (verification-only)
+Every lever is either closed, already has an edit in flight (brain-dump-vs-journaling, pending Run 10's unpushed link), or fails its precondition (content-gap addition, indexing already stable with nothing to fix). Shipping a new edit on top of an already-pending, unlanded change on the same page would be exactly the batching the protocol warns against, and no other page/query cleared any bar this run. This run's real work was diagnostic and process-focused: confirming the decline has stabilized for a 2nd run, catching that the critical deploy gap flagged in Run 11 is now 5 days older with zero progress, and clearing a stale lockfile that could otherwise mask future `git status` reads.
+
+### Changes shipped this run
+None beyond what Run 10 already made (still pending commit). This run edited only `seo-log.md` (this entry) and cleared a stale `.git/index.lock` (housekeeping, not a content change).
+
+### Deliberately NOT done
+- No additional internal link to `brain-dump-vs-journaling` — Run 10's edit to the same page still hasn't shipped; won't layer a 2nd edit on an unlanded 1st.
+- No title/meta changes — no query/page meets the "real, non-redacted impressions" bar beyond the already-closed brand-term case.
+- No new content — `shadow-work-journal-prompts` hasn't hit the 8-week zero-impressions checkpoint yet; `gratitude-journal-prompts` still flat with no traction to build on.
+- No reaction to the brand-impression reversal beyond logging it — it's a positive, unexplained data point; inventing a causal story without evidence would violate the "never propose a change without a GSC number behind it" rule in reverse (don't claim credit without evidence either).
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing, flagged again (6th consecutive run).
+
+### Post-deploy actions (for the user)
+- [ ] **Push Run 10 + Run 11 + Run 12 together** (commands below) — this is now a 9-day-old gap. Nothing in this log updates meaningfully until this lands.
+- [ ] URL Inspection → Request Indexing on `journaling-for-anxiety` once the push lands (content changed with the new link).
+- [ ] No sitemap resubmission needed — cadence is stable (Sep 6 last read, Success, 61 pages).
+- [ ] No other re-indexing requests needed — indexing bucket is confirmed stable, nothing changed.
+
+```
+cd "REFLECT LANDING"
+git add blog/journaling-for-anxiety/index.html seo-log.md
+git commit -m "SEO: link brain-dump-vs-journaling from journaling-for-anxiety (Run 10); log Run 10 + 11 + 12 (decline stabilized, brand impressions reversed, brain-dump-vs-journaling in striking distance)"
+git push origin main
+```
+
+### What to check NEXT run
+1. **Did the push finally land this time?** Check `git log origin/main` before anything else. This is the 3rd run in a row this exact check has been necessary — if it's still not there, this stops being a diagnostic footnote and becomes the headline finding again.
+2. Is the 2-run stabilization (Run 11→12) continuing into a 3rd flat-or-up run, confirming the 7-run decline is genuinely over?
+3. Did `brain-dump-vs-journaling` keep improving (12.5 this run) once its 2nd inbound link is actually live? It's the clearest, most consistent positive signal in the log — 4 runs of uninterrupted improvement.
+4. Did the brand-term 28-day impression spike (109 this run) hold, or was it a one-run blip like the earlier lows may have been? Needs a 2nd data point before reading a trend into it either way.
+5. Is `shadow-work-journal-prompts` still at 0 impressions? It'll be ~6.5 weeks old next run — one more run after that hits the 8-week checkpoint from Run 11's checklist.
+6. Any movement on `why do i feel disconnected from myself` (82 impr/28d, pos 73.8) — new query cluster worth tracking alongside `brain-dump-vs-journaling` as a second potential striking-distance candidate if its position starts moving.
