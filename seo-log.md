@@ -760,3 +760,83 @@ git push origin main
 4. Did the brand-term 28-day impression spike (109 this run) hold, or was it a one-run blip like the earlier lows may have been? Needs a 2nd data point before reading a trend into it either way.
 5. Is `shadow-work-journal-prompts` still at 0 impressions? It'll be ~6.5 weeks old next run — one more run after that hits the 8-week checkpoint from Run 11's checklist.
 6. Any movement on `why do i feel disconnected from myself` (82 impr/28d, pos 73.8) — new query cluster worth tracking alongside `brain-dump-vs-journaling` as a second potential striking-distance candidate if its position starts moving.
+
+---
+
+## 2026-09-17 — Run 13 (push finally confirmed landed — 3-run stabilization holds; brand-impression spike was a one-run blip as flagged; brain-dump-vs-journaling now 5 straight runs improving — 3rd link added; indexing bucket keeps clearing)
+
+### Push check first
+`git log` local HEAD = `48d993c` ("...log Run 10 + 11 + 12..."), and `git log origin/main` = **identical**. Confirmed: the Run 10/11/12 push that sat unlanded for 9 days finally happened between Run 12 and this run. Working tree still shows `CLAUDE.md` as deleted (pre-existing drift, still not staged, 7th consecutive run flagging it — not re-flagging in detail again after this, it's a known constant).
+
+### GSC snapshot vs Run 12 baseline
+| Metric | Run 12 (90d) | Run 13 (90d, this run) | Run 12 (28d) | Run 13 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 5 | 5 | 2 | 2 |
+| Impressions | 1,270 | 1,320 | 437 | 468 |
+| Avg CTR | 0.4% | 0.4% | 0.5% | 0.4% |
+| Avg position | 51.4 | **52** | 55.5 | **55.3** |
+| **Indexed** | **52** | **58** |  |  |
+| Not indexed | 14 (3 page-with-redirect, 1 alternate-canonical, 4 discovered-not-indexed, 6 crawled-not-indexed) | **8** (3 page-with-redirect, 1 alternate-canonical, 2 discovered-not-indexed, 2 crawled-not-indexed, 0 redirect error) | — | — |
+| Sitemap last read | Sep 6 | **Sep 15** (Success, 61 pages — normal cadence holding) | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand "ireflect" (28d) | 109 impr, 0 clicks, pos 8.6 | **18 impr, 0 clicks, pos 7.7** | — | — |
+| Brand "ireflect" (90d) | not isolated | 105 impr, 0 clicks, pos 8.4 | — | — |
+| Homepage (90d, page-level) | 268 impr, 5 clicks, pos 14.1 | **262 impr, 5 clicks, pos 14.1 — every one of this run's 5 clicks came from the homepage, same as Run 10/12** | — | — |
+
+**The stabilization holds for a 3rd consecutive run.** 90-day clicks flat at 5, position flat to one decimal (51.4→52), impressions up slightly (1,270→1,320). 28-day clicks flat at 2, position essentially flat (55.5→55.3), impressions up slightly (437→468). This confirms Run 12's read: the 7-run decline (Run 4–10) is over, not just a 2-run blip — three flat-to-slightly-up runs in a row is a real pattern now.
+
+**Run 12's brand-impression "spike" (109 impr, 28d) did not hold — it reverted to 18 impressions this run**, back in the same low range as Runs 9–11 (12–15). Run 12 explicitly flagged this as needing a second data point before calling it a trend ("was it a one-run blip like the earlier lows may have been?") — it was. Position remains healthy and stable throughout (pos 6–9 range every run since Run 6), so this was pure impression-volume noise, not a ranking change. No new evidence to revisit Run 6's SERP name-collision root-cause finding — not re-litigated further.
+
+**`why do i feel disconnected from myself` is completely unchanged**: 82 impressions, position 73.8 — identical to Run 12's read to one decimal, on both metrics. Zero movement in 4 days. Still just a demand signal, still too deep to be a striking-distance candidate, still not actionable.
+
+### Indexing: bucket keeps clearing, consistent with report-lag pattern, not a new problem
+Indexed count jumped 52 → 58 (+6). Not-indexed dropped 14 → 8, with the biggest change in "Discovered - currently not indexed" (4→2) and "Crawled - currently not indexed" (6→2). This is the same pattern Run 11 diagnosed and confirmed via live URL Inspection (the aggregate report lagging real index state, following the same "Redirect error" stale-bookkeeping precedent from Runs 3/5/6) — did not re-run individual live URL Inspection checks this run since the trend is continuing in the expected direction (buckets shrinking toward the 5 confirmed-correct exclusions: 3 protocol/www redirect variants, 1 alternate-canonical search-template URL, and what should eventually settle as 1 crawled-not-indexed for the app-subdomain signup page). Not flagging this as a new investigation — it's the same resolving-itself pattern, now clearing further.
+
+**Sitemap last-read advanced normally again (Sep 6 → Sep 15)** — cadence continues healthy since it came unstuck in Run 9.
+
+### Priority-order check
+1. **Striking-distance keywords:** Brand term "ireflect" sits here as always (pos 7.7–8.4 across windows) — no new lever. Checked the full 90-day query list (170 rows) end to end: no non-brand query clears the bar. Closest negligible entries unchanged from Run 12: "ai self reflection" (pos 16.0, 1 impr), "irefully" (pos 10.0, 1 impr) — both too low-volume.
+   - **Page-level candidate, now 5 consecutive runs of improvement: `brain-dump-vs-journaling` — pos 12.0 (90d, 37 impressions)**, up again from Run 12's 12.5/33 impr (16.8 → 15.3 → 14.1 → 12.5 → **12.0**). This is the clearest, longest-running positive signal in the entire log. Query breakdown still shows only 1 disclosed query ("what is a brain dump journal," pos 93.0, 1 impression) — same conclusion as Runs 9–12, doesn't clear the title/meta bar. **Confirmed via `git log` this run that Run 10's 2nd inbound link (from `journaling-for-anxiety`) is now live in production** (unlike Runs 11–12, when it was still pending) — the double-dipping concern that held back further action in Runs 11 and 12 no longer applies. Added a 3rd inbound link this run (see below).
+   - `journaling-vs-self-reflection`: pos 17.4 (90d, 10 impr), up slightly from Run 12's 18.4/9 — 2nd run of mild improvement, but the signal is still thin (10 impressions, fully redacted at the query level). Not acted on this run — one page-level lever per run is enough to stay incremental, and `brain-dump-vs-journaling` has 5 runs of evidence behind it vs. this page's 2.
+2. **High-impression pos 4–8 low-CTR pages:** None outside the homepage/brand case, still Run 6's SERP-collision finding, not re-litigated.
+3. **Indexing/crawl issues:** Continuing to resolve on its own, see above — no action needed.
+4. **Core Web Vitals:** still no CrUX data, still not actionable.
+5. **Content gaps:** `gratitude-journal-prompts` (90d): 4 impressions, pos 87 — completely flat vs Run 12, still no traction after 6 weeks. `shadow-work-journal-prompts`: confirmed via the full 51-page 90-day breakdown that it has **zero impressions**, still — it's ~5 weeks old (published Aug 12), short of the 8-week checkpoint Run 11 set (due around Run 14–15, early October). Held again, same reasoning as Runs 9, 11, 12.
+
+### Decision: UPDATE (internal linking only) — 1 file
+Per protocol step 3, chose to strengthen `brain-dump-vs-journaling` further because: it's the single best-evidenced lever in the log (5 straight runs of position improvement, real non-redacted page-level data), its previous inbound-link edit (Run 10) is now confirmed live (clearing the double-dip concern that paused this in Runs 11–12), and no other lever cleared its bar this run.
+
+### Changes shipped this run (1 file, 1 new internal link)
+1. `blog/how-to-journal/index.html` — added a link to `brain-dump-vs-journaling` in the existing "Keep reading" sentence. Natural fit: this post's "Give yourself a container" section already discusses structured/limited journaling techniques as an alternative to open-ended writing, and it's the site's main journaling-101 hub post (already the source of the Run 3 `types-of-journaling` link) — a logical 3rd inbound source distinct from the previous two (`types-of-journaling`, `journaling-for-anxiety`). Raises `brain-dump-vs-journaling`'s inbound count from 2 to 3.
+
+Validated with Python's `html.parser`: 0 parse errors. Confirmed the link target (`blog/brain-dump-vs-journaling/index.html`) exists on disk.
+
+### Deliberately NOT done
+- No title/meta rewrite on `brain-dump-vs-journaling` — still only 1 disclosed query at the individual level, same conclusion as every run since Run 9.
+- No action on `journaling-vs-self-reflection` — weaker, 2-run signal; capped this run's link-fix to the strongest candidate to stay incremental.
+- No reaction to the brand-impression reversion (109→18) beyond logging it as the resolved one-run blip Run 12 predicted it might be.
+- No new content — neither recent post (`gratitude-journal-prompts`, `shadow-work-journal-prompts`) has hit its traction checkpoint yet.
+- No further indexing action — the not-indexed bucket is shrinking on its own, consistent with the established report-lag pattern; forcing another live-inspection pass or re-index request would be redundant given the trend is already moving the right direction.
+- No sitemap action — cadence is healthy.
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing (7th consecutive run; not re-detailing every run going forward unless its state changes).
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 1 file (commands below).
+- [ ] URL Inspection → Request Indexing on `how-to-journal` once the push lands (its content changed with the new link).
+- [ ] No sitemap resubmission needed — cadence is healthy (Sep 15 last read).
+- [ ] No re-indexing requests needed beyond the one edited page — the not-indexed bucket is resolving on its own.
+
+```
+cd "REFLECT LANDING"
+git add blog/how-to-journal/index.html seo-log.md
+git commit -m "SEO: add 3rd inbound link to brain-dump-vs-journaling from how-to-journal; log Run 13 (stabilization holds, brand-impression blip confirmed, indexing bucket clearing)"
+git push origin main
+```
+
+### What to check NEXT run
+1. Did `brain-dump-vs-journaling` continue improving (12.0 this run) with its 3rd inbound link now live? 6 consecutive runs of data would make this an unambiguous, durable pattern.
+2. Is the 3-run stabilization (Run 11→13) holding into a 4th run, or was Run 13 the point it plateaus/reverses?
+3. Did the not-indexed bucket keep shrinking toward the 5 confirmed-correct exclusions (currently at 8)?
+4. Is `shadow-work-journal-prompts` still at 0 impressions? It'll cross the 8-week mark (published Aug 12) around early October — worth a dedicated look once it does.
+5. Any movement on `journaling-vs-self-reflection` (pos 17.4, 10 impr, 2nd run of mild improvement) — if it keeps trending like `brain-dump-vs-journaling` did, it becomes the next internal-linking candidate.
+6. Confirm this run's push actually landed before trusting next run's baseline — check `git log origin/main` first, as always.
