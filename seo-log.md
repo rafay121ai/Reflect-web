@@ -840,3 +840,78 @@ git push origin main
 4. Is `shadow-work-journal-prompts` still at 0 impressions? It'll cross the 8-week mark (published Aug 12) around early October — worth a dedicated look once it does.
 5. Any movement on `journaling-vs-self-reflection` (pos 17.4, 10 impr, 2nd run of mild improvement) — if it keeps trending like `brain-dump-vs-journaling` did, it becomes the next internal-linking candidate.
 6. Confirm this run's push actually landed before trusting next run's baseline — check `git log origin/main` first, as always.
+
+---
+
+## 2026-09-21 — Run 14 (push confirmed — 4-run stabilization holds; brain-dump-vs-journaling now 6 straight runs improving; journaling-vs-self-reflection newly enters striking distance — 3rd link added)
+
+### Push check first
+Local HEAD = `9f9c82f` ("...log Run 13..."), and `git log origin/main` = **identical**, confirmed via `git fetch origin main`. Run 13's link edit reached production. Working tree still shows `CLAUDE.md` as deleted (pre-existing drift, not staged, not this run's doing — 8th consecutive run, not re-detailing per Run 13's own note unless its state changes). Also found and cleared another stale `.git/index.lock` (same harmless recurring artifact Run 12 first found; git recreates and fails to unlink it on this mount, but commands still complete correctly).
+
+### GSC snapshot vs Run 13 baseline
+| Metric | Run 13 (90d) | Run 14 (90d, this run) | Run 13 (28d) | Run 14 (28d, this run) |
+|---|---|---|---|---|
+| Clicks | 5 | 5 | 2 | 2 |
+| Impressions | 1,320 | 1,360 | 468 | 454 |
+| Avg CTR | 0.4% | 0.4% | 0.4% | 0.4% |
+| Avg position | 52.0 | **51.7** | 55.3 | **52.8** |
+| **Indexed** | **58** | **58** | — | — |
+| Not indexed | 8 (3 page-with-redirect, 1 alternate-canonical, 2 discovered-not-indexed, 2 crawled-not-indexed) | 8 — **identical breakdown**, confirmed stable | — | — |
+| Sitemap last read | Sep 15 | Sep 15 — unchanged (no new URL added since Run 8, expected) | — | — |
+| Core Web Vitals | No data | No data — unchanged | — | — |
+| Brand "ireflect" (90d) | 105 impr, pos 8.4 | 103 impr, pos 8.3 | 18 impr, pos 7.7 (28d) | **16 impr, pos 8.5 (28d)** |
+| Homepage (90d, page-level) | 262 impr, 5 clicks, pos 14.1 | **259 impr, 5 clicks, pos 14.1** | — | **56 impr, 2 clicks, 3.6% CTR, pos 12.6 (28d)** |
+
+**The stabilization holds for a 4th consecutive run.** 90-day clicks held exactly at 5 for the 2nd straight run; position essentially flat (52.0 → 51.7); 28-day position actually improved (55.3 → 52.8). The 7-run decline (Run 4–10) that bottomed out at Run 10 remains reversed — four runs (11, 12, 13, 14) of flat-to-slightly-up data now confirm this is a settled floor, not residual noise.
+
+**Run 12's brand-impression spike (109, 28d) stays fully reverted, as Run 13 already found — this run confirms the low range is the new normal, not a fresh decline.** 28-day brand impressions: 15 (R11) → 109 (R12, one-run blip) → 18 (R13) → **16 (R14)**. Two consecutive runs in the same 16–18 band closes this out as settled; position remains healthy throughout (pos 7–9 range every run since Run 6). No new evidence against Run 6's SERP name-collision root-cause finding — not re-litigated further.
+
+**Indexing bucket held completely flat and identical to Run 13** (8 not-indexed, same 4-reason breakdown) — confirms Run 13's read that this is a settled state, not actively resolving or regressing. No live re-checks needed.
+
+**Sitemap last-read unchanged at Sep 15** — expected, no new URL was added this run to trigger a fresh read. Cadence otherwise healthy since it came unstuck in Run 9.
+
+### Priority-order check
+1. **Striking-distance keywords (pos 8–20, real impressions):** Brand term "ireflect" sits here as always (pos 8.3–8.5) — no new lever. Checked the full 90-day query list (172 rows) sorted by position ascending: no non-brand query clears the bar. Closest negligible entries unchanged from prior runs: "irefully" (pos 10.0, 1 impr), "ai self reflection" (pos 16.0, 1 impr).
+   - **`brain-dump-vs-journaling` — pos 11.6 (90d, 42 impressions), up again from Run 13's 12.0/37 impr.** This is the **6th consecutive run of improvement** (16.8 → 15.3 → 14.1 → 12.5 → 12.0 → **11.6**), the longest-running positive signal in the log. Its 3rd inbound link (from `how-to-journal`, added Run 13) is confirmed live. Did not add a 4th link this run — this page is already the most well-evidenced lever available; piling on a 4th link now would be exactly the batching the protocol warns against, especially with a newer, less-linked candidate available (see next item).
+   - **New this run: `journaling-vs-self-reflection` — pos 13.5 (90d, 19 impressions), a sharp jump from Run 13's 17.4/10 impr** (18.4 → 17.4 → **13.5** across Runs 12–14). This is now a real, repeat-run, page-level signal that has crossed into the 8–20 band for the first time. Checked inbound links via script: only 2 (`ai-journaling-vs-traditional-journaling`, `why-journaling-alone-doesnt-help`) — the same under-linked state `brain-dump-vs-journaling` was in before its own improvement streak began. This is the strongest available lever this run.
+   - Attempted to pull this page's individual query breakdown to check the "specific query + number" bar for a possible title/meta rewrite, but the GSC UI's page-filter view kept returning a stale, sitewide query table rather than the filtered one (a tooling limitation this run, not a finding) — so the disclosed-query state for this specific page is **unconfirmed**, not "checked and redacted" as it was for `brain-dump-vs-journaling`. Not claiming that lever is closed; flagging it as unverified and worth a clean re-check next run.
+2. **High-impression pos 4–8 low-CTR pages:** None outside the homepage/brand case, still Run 6's SERP-collision finding, not re-litigated.
+3. **Indexing/crawl issues:** Flat and identical to Run 13 — no action needed.
+4. **Core Web Vitals:** still no CrUX data, still not actionable.
+5. **Content gaps:** `gratitude-journal-prompts` (90d): 4 impressions, pos 87.0 — flat vs Run 13, still no traction after ~7 weeks. `shadow-work-journal-prompts`: confirmed absent from the full 90-day pages-with-impressions list (51 pages) — **still 0 impressions at ~40 days old (5.7 weeks)**, not yet at the 8-week checkpoint set in Run 11 (due ~Oct 7, around Run 16). Held again, same reasoning as Runs 9, 11, 12, 13 — neither post's traction (or lack of it) justifies a 3rd content addition yet, and no new evidence-backed gap was researched this run since the content-gap lever isn't due for reconsideration until indexing health or existing-post traction changes.
+
+### Decision: UPDATE (internal linking only) — 1 file
+Per protocol step 3, chose to strengthen `journaling-vs-self-reflection` because it just crossed into striking distance with a real 2-run improvement trend, it's under-linked (2 inbound, same starting point `brain-dump-vs-journaling` had), and picking this newer candidate rather than adding a 4th link to the already-well-evidenced `brain-dump-vs-journaling` keeps the run to one clear, non-duplicative increment.
+
+### Changes shipped this run (1 file, 1 new internal link)
+1. `blog/self-reflection-vs-rumination/index.html` — added a link to `journaling-vs-self-reflection` in the existing "keep exploring" sentence. Natural fit: this post already distinguishes self-reflection from rumination and has an FAQ entry ("Can journaling become rumination?") directly adjacent to the journaling-vs-self-reflection distinction — a logical topical neighbor, and it did not already link to this target. Raises `journaling-vs-self-reflection`'s inbound count from 2 to 3.
+
+Validated with Python's `html.parser`: 0 parse errors. Confirmed all three link targets in the edited sentence (`why-journaling-alone-doesnt-help`, `journaling-vs-self-reflection`, `how-to-stop-overthinking-at-night`) resolve to real `index.html` files on disk (scripted check).
+
+### Deliberately NOT done
+- No title/meta rewrite on `journaling-vs-self-reflection` or `brain-dump-vs-journaling` — the former's per-page query disclosure is unconfirmed this run (tooling issue, not a clean "checked and redacted" finding — flagged above for a re-check), and the latter has never cleared the bar in 6 runs of checking.
+- No 4th link to `brain-dump-vs-journaling` — already the best-evidenced lever in the log; adding more would be batching rather than incremental.
+- No new content — neither recent post has hit its traction checkpoint (`shadow-work-journal-prompts` is ~2 weeks short of the 8-week mark).
+- No reaction to the brand-term 28d impressions (16) beyond confirming it's settled in the same low range as Run 13, not a fresh decline.
+- No sitemap action — cadence is healthy, no new URL this run.
+- Did not stage `CLAUDE.md` — still shows deleted locally, not this run's doing (8th consecutive run).
+
+### Post-deploy actions (for the user)
+- [ ] Push this run's 1 file (commands below).
+- [ ] URL Inspection → Request Indexing on `self-reflection-vs-rumination` once the push lands (its content changed with the new link).
+- [ ] No sitemap resubmission needed — cadence is healthy, no new URL added.
+
+```
+cd "REFLECT LANDING"
+git add blog/self-reflection-vs-rumination/index.html seo-log.md
+git commit -m "SEO: add 3rd inbound link to journaling-vs-self-reflection from self-reflection-vs-rumination; log Run 14 (stabilization holds 4th run, new striking-distance candidate identified)"
+git push origin main
+```
+
+### What to check NEXT run
+1. Did `journaling-vs-self-reflection` continue improving (13.5 this run) with its 3rd inbound link now live? One more run of data is needed before treating this as a durable trend like `brain-dump-vs-journaling`'s.
+2. Did `brain-dump-vs-journaling` extend its streak past 11.6? A 7th consecutive improving run would make it an exceptionally clean signal.
+3. Is the 4-run stabilization (Run 11→14) holding into a 5th run?
+4. **Re-attempt a clean per-page query breakdown for `journaling-vs-self-reflection`** — this run's attempt returned a stale/unfiltered table (tooling issue). If a specific disclosed query with real impressions turns up, that would clear the bar for a title/meta rewrite the page-level data alone can't justify.
+5. Is `shadow-work-journal-prompts` still at 0 impressions as it crosses the 8-week mark (~Oct 7, around Run 16)? First run it's fair to treat continued zero as worth a dedicated look rather than patience.
+6. Any new striking-distance query at the individual query level? None in 14 runs — worth periodically checking but not a dedicated pass every time.
