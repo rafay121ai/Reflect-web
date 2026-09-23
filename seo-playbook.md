@@ -48,7 +48,7 @@ Verify each target's SERP before writing: if the top 10 is all DR 70+ publishers
 | 8 | NEW use-case page | AI journal for overthinking / anxiety (product-led, not a generic blog post) | queued (verify SERP) |
 
 ## 4. Waiting on Rafay (do not do these without his OK)
-- [ ] Human author entity: approve using Rafay (founder) as author with a real bio + About page. No invented credentials.
+- [x] Author (decided 2026-09-23): Rafay does not want his name used. Use the byline "iReflect Editorial Team" (Organization) with an About/editorial standards page describing how posts are written, sourced and reviewed. Never invent a person, bio, photo or credentials. If a real, qualified reviewer agrees to be named later, add a Reviewed by line.
 - [ ] Linkable asset (needs app code, out of routine scope): free "AI journal prompt generator" or "reflection question generator" page.
 - [ ] Add `sameAs` to the Organization schema once profiles in section 5 exist (send the URLs).
 
