@@ -915,3 +915,21 @@ git push origin main
 4. **Re-attempt a clean per-page query breakdown for `journaling-vs-self-reflection`** — this run's attempt returned a stale/unfiltered table (tooling issue). If a specific disclosed query with real impressions turns up, that would clear the bar for a title/meta rewrite the page-level data alone can't justify.
 5. Is `shadow-work-journal-prompts` still at 0 impressions as it crosses the 8-week mark (~Oct 7, around Run 16)? First run it's fair to treat continued zero as worth a dedicated look rather than patience.
 6. Any new striking-distance query at the individual query level? None in 14 runs — worth periodically checking but not a dedicated pass every time.
+
+---
+
+## 2026-09-23 — Run 15 (strategy reset: v2 playbook)
+
+GSC (90d): 5 clicks, 1.36K impressions, avg position 51.7 (same as Run 14). **GSC Links: 7 external links, all from reddit.com, all to the homepage.**
+
+Finding: 14 runs of internal-link tuning could not move rankings because the site has one linking domain and targets head terms owned by high-authority sites. Strategy moved to `seo-playbook.md` (v2): bottom-of-funnel comparison/alternative pages, substantial refreshes, consolidation, E-E-A-T, and an off-page authority track executed by Rafay.
+
+### Shipped this run (local, awaiting push)
+- `index.html`: removed the WebSite SearchAction (Google retired the sitelinks search box; it also created the `?q=` alternate-canonical URL in the indexing report). Added Organization JSON-LD (`#organization`) and linked WebSite.publisher to it. html.parser 0 errors, JSON-LD parses.
+- New `seo-playbook.md`.
+
+### What to check next run
+1. Push landed? (`git log origin/main`)
+2. Start primary move #1 in `seo-playbook.md` (Rosebud alternatives page) after verifying its SERP and competitor facts.
+3. GSC Links: referring domains count vs 1.
+4. Authority tracker: ask which listings Rafay completed; record URLs.
