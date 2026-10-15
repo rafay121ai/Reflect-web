@@ -933,3 +933,36 @@ Finding: 14 runs of internal-link tuning could not move rankings because the sit
 2. Start primary move #1 in `seo-playbook.md` (Rosebud alternatives page) after verifying its SERP and competitor facts.
 3. GSC Links: referring domains count vs 1.
 4. Authority tracker: ask which listings Rafay completed; record URLs.
+
+## 2026-10-13 — Run 16 (first v2 primary move: Rosebud alternatives page; GSC and push blocked)
+
+Access: the `add_repo` tool was not available. Reflect-web cloned (public) but push returned 403 (repo not in the session's authorized set). seo-secrets clone failed (private), so **GSC was skipped this run**. Change delivered as a local branch plus a patch for Rafay.
+
+| KPI | Run 15 (2026-09-23) | Run 16 |
+|---|---|---|
+| Referring domains | 1 (reddit.com, GSC Links) | est. 1; ireflect.app not in Common Crawl graph (cc-main-2026-jan-feb-mar); no web mentions found |
+| Non-brand clicks 28d | n/a | not measured (GSC skipped) |
+| Non-brand queries top 20 | 0 | not measured |
+| Brand query position | ~8-14 | not measured |
+| Pages with impressions | n/a | not measured |
+
+Run 15 landed on main (Organization JSON-LD present, SearchAction removed). No seo/* branches on origin.
+
+### Shipped this run (branch seo/ireflect-2026-10-13, not pushed)
+- NEW `/blog/rosebud-alternatives/` (~2,200 words): 6 alternatives (Reflection, Mindsera, Life Note, Day One, Stoic, iReflect), comparison table, per-app "where Rosebud is better", export section, FAQ, disclosure, not-a-substitute line, BlogPosting (author iReflect Editorial Team, publisher #organization) + ItemList JSON-LD, "Last checked October 13, 2026".
+- Evidence: SERP for "rosebud alternatives" / "apps like rosebud" is small app blogs (mylifenote ~3.5k words, 7 apps), AlternativeTo, aichief, aiapps, so it is winnable. Hook: Rosebud's help center says the free plan was retired 2026-09-30 (help.rosebud.app/account/changes-to-the-free-plan); switching intent is fresh.
+- Facts checked on each vendor's own site today: Rosebud (home + help center), Reflection (/pricing), Mindsera (home), Life Note (home; Premium price not listed), Day One (/pricing), Stoic (home). Reflectly left out (site redirected; not verified).
+- iReflect described as early access via waitlist, 7-day trial then $7.99/$71.99, no voice/habits/frameworks.
+- Internal links in from best-ai-journaling-apps-2026, ai-journaling-privacy, how-to-choose-a-self-reflection-app and the /blog/ index. Sitemap entry added (62 URLs).
+- blog.css: added `.table-wrap` / `.compare-table` using existing colors and fonts only.
+- Validation: html.parser 0 errors on 5 changed HTML files, 3 JSON-LD blocks parse, all internal hrefs resolve, sitemap parses, no invisible chars, no dashes in new copy, 390px viewport has no page overflow.
+
+### Not done
+- GSC pull, URL inspect, sitemap resubmit (no secrets access). Push / PR (403).
+
+### What to check next run
+1. Was seo/ireflect-2026-10-13 applied and merged? If not, lead with it.
+2. Fix access: the task must include Reflect-web (push) and seo-secrets (read).
+3. GSC: inspect /blog/rosebud-alternatives/, queries containing "rosebud", full KPI table vs Run 15.
+4. Next primary move: verify SERP for #2 reflectly alternatives and #3 mindsera alternatives; else #5 refresh best-ai-journaling-apps-2026 reusing Run 16 facts.
+5. Authority tracker: ask Rafay which listings went live; record URLs.

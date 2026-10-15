@@ -38,11 +38,11 @@ Verify each target's SERP before writing: if the top 10 is all DR 70+ publishers
 
 | # | Move | Target query cluster | Status |
 |---|---|---|---|
-| 1 | NEW `/blog/rosebud-alternatives/` | rosebud alternative(s), apps like rosebud | queued |
+| 1 | NEW `/blog/rosebud-alternatives/` | rosebud alternative(s), apps like rosebud, rosebud free alternative | DONE 2026-10-13 (Run 16). Re-check facts by 2027-01; hook is Rosebud retiring its free plan 2026-09-30 |
 | 2 | NEW `/blog/reflectly-alternatives/` | reflectly alternative(s) | queued (verify SERP) |
 | 3 | NEW `/blog/mindsera-alternatives/` | mindsera alternative, mindsera vs rosebud | queued (verify SERP) |
 | 4 | NEW `/blog/day-one-vs-ireflect/` or `day-one-alternatives-ai` | day one alternative with AI | queued (verify SERP) |
-| 5 | REFRESH `best-ai-journaling-apps-2026` | best AI journaling apps 2026 | queued: must name and fairly compare real apps with checked facts, include iReflect honestly |
+| 5 | REFRESH `best-ai-journaling-apps-2026` (reuse facts checked in Run 16) | best AI journaling apps 2026 | queued: must name and fairly compare real apps with checked facts, include iReflect honestly |
 | 6 | REFRESH `self-reflection-questions` (pos ~77, top impressions) | self reflection questions | queued: competitors run 100+ questions with categories + printable; 40 now |
 | 7 | CONSOLIDATION review | overlapping pairs e.g. `cant-figure-out-how-i-feel` + `cant-understand-my-feelings`; `how-to-understand-your-emotions` + `how-to-process-emotions`; `self-reflection-journal-prompts` + `how-to-start-a-self-reflection-journal` | queued: check GSC for cannibalization first |
 | 8 | NEW use-case page | AI journal for overthinking / anxiety (product-led, not a generic blog post) | queued (verify SERP) |
@@ -56,13 +56,15 @@ Verify each target's SERP before writing: if the top 10 is all DR 70+ publishers
 
 | Channel | Action | Status | Live URL |
 |---|---|---|---|
-| AlternativeTo | list iReflect as alternative to Rosebud, Reflectly, Day One | todo | |
-| SaaSHub | submit iReflect | todo | |
+| AlternativeTo | list iReflect as alternative to Rosebud, Reflectly, Day One (copy prepared Run 16) | todo | |
+| SaaSHub | submit iReflect (copy prepared Run 16) | todo | |
 | Product Hunt | launch (plan a date, prep assets) | todo | |
 | AI directories | There's An AI For That, Futurepedia, Toolify | todo | |
 | BetaList / Indie Hackers | product page + founder build story | todo | |
 | LinkedIn company page / X profile | create, link to site (also feeds sameAs) | todo | |
-| Reddit | genuine answers in r/Journaling, r/selfimprovement per sub rules, no link spam | ongoing | |
+| Reddit | genuine answers in r/Journaling, r/selfimprovement per sub rules, no link spam (Rosebud free plan thread draft, Run 16) | ongoing | |
 | Guest posts / podcasts | pitch 2 wellness or indie-founder outlets per month | todo | |
+
+Run 16 note: no GitHub push access and no seo-secrets (GSC) access; add_repo tool was absent. The scheduled task's repo set must include Reflect-web (push) and seo-secrets (read).
 
 KPIs checked every run: referring domains (GSC Links), non-brand clicks (28d), # non-brand queries in top 20, brand query position, pages with impressions.
